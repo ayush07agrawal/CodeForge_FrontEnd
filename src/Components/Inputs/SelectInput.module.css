@@ -1,0 +1,15 @@
+.select{
+    height: 60%;
+    width: fit-content;
+    margin: 0.25rem;
+    padding: 0.1rem;
+    border-top-left-radius: 5% 15%;
+    border-top-right-radius: 5% 15%;
+    border-bottom-left-radius: 5% 15%;
+    border-bottom-right-radius: 5% 15%;
+    border: 0px;
+    font-size: 1rem;
+    background-color: #313332;
+    color: white;
+    box-shadow: 2px 2px 1px black inset, -2px -2px 1px black inset;
+}
