@@ -1,5 +1,3 @@
-I'd be glad to create a comprehensive README file for your CodeForge project on GitHub:
-
 **Project Name:** CodeForge
 
 **Description:**
