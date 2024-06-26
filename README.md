@@ -1,8 +1,11 @@
 **Project Name:** CodeForge
 
+(project in progress)
+
 **Description:**
 
-CodeForge is a web application designed to streamline the management and execution of computer science labs, particularly for Data Structures and Algorithms (DSA) courses in colleges, with a focus on institutions like IITs. It empowers instructors to create and assign DSA problems, track student progress, and analyze their performance.
+CodeForge is a web application designed to streamline the management and execution of computer science labs, particularly for Data Structures and Algorithms (DSA) courses in colleges, with a focus on institutions like IITs. It aims to empower instructors to create and assign DSA problems, 
+track student progress, and analyze their performance.
 
 **Technologies:**
 
