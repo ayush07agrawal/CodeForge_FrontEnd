@@ -10,7 +10,14 @@ export default function NavBar() {
         <ul className={classes.links}>
           <li><NavLink to="/" className={({isActive}) => (isActive ? classes.active : undefined)}>Practice</NavLink></li>
           <li><NavLink to="lab" className={({isActive}) => (isActive ? classes.active : undefined)}>Lab</NavLink></li>
-          <li><NavLink to="21" className={({isActive}) => (isActive ? classes.active : undefined)}><img src="" alt="Profile" /></NavLink></li>
+          <li>
+            {/* <NavLink to="/:userid" className={({isActive}) => (isActive ? classes.active : undefined)}>
+              <img src="" alt="Profile" />
+            </NavLink> */}
+            <NavLink to="/auth/verifyEmail">
+              Sign Up / Login
+            </NavLink>
+          </li>
         </ul>    
     </div>
   )
