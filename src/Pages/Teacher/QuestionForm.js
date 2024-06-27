@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import TextInput from "../../Components/Inputs/TextInput";
 import classes from "./QuestionForm.module.css";
-import SelectInput from "../../Components/Inputs/SelectInput";
 
 function QuestionForm() {
   const params = useParams();
@@ -43,6 +42,7 @@ function QuestionForm() {
             onChange={(event) => setDifficulty(event.target.value)}
             size="3"
             className={classes.select}
+            value={difficulty}
           >
             {["easy", "medium", "hard"].map((val, index) => (
               <option key={val} value={val}>
