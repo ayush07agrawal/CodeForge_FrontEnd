@@ -1,4 +1,10 @@
 .wrapper{
     padding: 20px;
-    font-family: 'Calibri','Arial', sans-serif;
+    background-color: rgba(0, 0, 0, 0.9);
+    height: 86vh;
+}
+
+.wrapper a{
+    text-decoration: none;
+    color: inherit;
 }

@@ -1,10 +1,10 @@
 import React from 'react';
 import classes from "./SelectInput.module.css";
 
-export default function SelectInput({name, values, handleChange}) {
+export default function SelectInput({name, values, handleChange, size="1"}) {
   return (
     <div>
-      <select name={name} id={name} onChange={(event) => handleChange(event)} size={1} className={classes.select}>
+      <select name={name} id={name} onChange={(event) => handleChange(event)} size={size} className={classes.select}>
         {values.map((val, index) => <option key={val} value={val}>{val}</option>)}
       </select>
     </div>

@@ -4,28 +4,28 @@ import easyimg from "../Assests/greensolve.png";
 import hardimg from "../Assests/redsolve.png";
 import mediumimg from "../Assests/yellowsolve.png";
 
-const QuestionList = ({ question,num }) => {
-  return (
-    <div className={classes.wrapper}>
-        <div className={classes.first}>
-            <div>
-                <p className={classes.num}><span className={(question.tags[0]==='easy')?classes.easycolor:
-                                                            (question.tags[0]==='medium')?classes.mediumcolor:classes.hardcolor}>{num}</span></p>
-            </div>
-            <div>
-                <p className={classes.title}>{question.title}</p>    
-                <div className={classes.tags}>
-                    {question.tags.map((tag, idx) => (
-                    <span key={idx} className={classes.tag}>{tag}</span>
-                    ))}
+const QuestionList = ({ question, num }) => {
+    return (
+        <div className={classes.wrapper}>
+            <div className={classes.first}>
+                <div>
+                    <p className={classes.num}><span className={(question.tags[0] === 'easy') ? classes.easycolor :
+                        (question.tags[0] === 'medium') ? classes.mediumcolor : classes.hardcolor}>{num}</span></p>
+                </div>
+                <div>
+                    <p className={classes.title}>{question.title}</p>
+                    <div className={classes.tags}>
+                        {question.tags.map((tag, idx) => (
+                            <span key={idx} className={classes.tag}>{tag}</span>
+                        ))}
+                    </div>
                 </div>
             </div>
+            <div className={classes.second}>
+                <img src={(question.tags[0] === 'easy') ? easyimg : (question.tags[0] === 'medium') ? mediumimg : hardimg} alt="" />
+            </div>
         </div>
-        <div className={classes.second}>
-            <img src={(question.tags[0]==='easy')?easyimg:(question.tags[0]==='medium')?mediumimg:hardimg} alt="" />
-        </div>
-    </div>
-  );
+    );
 };
 
 export default QuestionList;

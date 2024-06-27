@@ -29,7 +29,10 @@ const router = createBrowserRouter([
     element: <RootPage />,
     errorElement: <ErrorPage />,
     children: [
-      { index: "home", element: <HomePage /> },
+      { 
+        index: true, 
+        element: <HomePage /> 
+      },
       {
         path: "question/:questionId",
         element: <SolveQuestion />,

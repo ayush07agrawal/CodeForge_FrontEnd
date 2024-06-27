@@ -6,16 +6,21 @@ import img1 from "../Assests/Frame1.jpg";
 export default function NavBar() {
   return (
     <div className={classes.wrapper}>
-        <NavLink to="/" className={classes.brand}><img src={img1} alt="Logo" /></NavLink>
+        <NavLink to="/home" className={classes.brand}><img src={img1} alt="Logo" /></NavLink>
         <ul className={classes.links}>
-          <li><NavLink to="/" className={({isActive}) => (isActive ? classes.active : undefined)}>Practice</NavLink></li>
-          <li><NavLink to="lab" className={({isActive}) => (isActive ? classes.active : undefined)}>Lab</NavLink></li>
           <li>
-            {/* <NavLink to="/:userid" className={({isActive}) => (isActive ? classes.active : undefined)}>
+            <NavLink to="/home" className={({isActive}) => (isActive ? classes.active : undefined)}>
+              PRACTICE
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="lab" className={({isActive}) => (isActive ? classes.active : undefined)}>
+              LAB
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/user/:userid" className={({isActive}) => (isActive ? classes.active : undefined)}>
               <img src="" alt="Profile" />
-            </NavLink> */}
-            <NavLink to="/auth/verifyEmail">
-              Sign Up / Login
             </NavLink>
           </li>
         </ul>    

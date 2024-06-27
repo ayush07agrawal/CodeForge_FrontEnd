@@ -72,20 +72,35 @@ export default function Authentication() {
     <>
       <img className={classes.image} src={image} alt="Logo" />
       <div className={classes.wrapper}>
-        <form onSubmit={handleSubmit} className={signUp ? classes.form2 : classes.form}>
+        <form
+          onSubmit={handleSubmit}
+          className={signUp ? classes.form2 : classes.form}
+        >
           {mailVerify && <h1>Mail Verification</h1>}
           {login && <h1>Welcome Back!!</h1>}
           {signUp && <h1>SetUp your Account</h1>}
 
           <div className={classes.input}>
             {signUp && (
-              <TextInput name="name" type="text" label="name" required>
+              <TextInput
+                width="small"
+                name="name"
+                type="text"
+                label="name"
+                required
+              >
                 Enter your Name...
               </TextInput>
             )}
 
             {(mailVerify || otpVerify || signUp) && (
-              <TextInput name="email" type="email" label="Email" required>
+              <TextInput
+                width="small"
+                name="email"
+                type="email"
+                label="Email"
+                required
+              >
                 Enter your mail id...
               </TextInput>
             )}
@@ -109,6 +124,7 @@ export default function Authentication() {
                 name="rollNumber"
                 type="text"
                 label="Roll Number"
+                width="small"
                 required
               >
                 Enter your Roll Number...
@@ -120,6 +136,7 @@ export default function Authentication() {
                 name="password"
                 type="password"
                 label="Password"
+                width="small"
                 required
               >
                 Enter your password...
@@ -132,6 +149,7 @@ export default function Authentication() {
                   name="confirmPassword"
                   type="password"
                   label="Confirm Password"
+                  width="small"
                   required
                 >
                   Retype your password...
@@ -160,7 +178,9 @@ export default function Authentication() {
                 Enter the answer to the secret question..
               </TextInput>
             )}
-            <button className={(otpVerify || mailVerify) ? classes.btn : classes.btn2}>
+            <button
+              className={otpVerify || mailVerify ? classes.btn : classes.btn2}
+            >
               {(signUp && "Sign Up") ||
                 (login && "Login") ||
                 ((mailVerify || otpVerify) && "Verify")}
@@ -176,6 +196,8 @@ export default function Authentication() {
             <p>
               Want to create an account ?{" "}
               <Link to="/auth/verifyEmail">SignUp</Link>
+              <br />
+              <Link to="/auth/verifyEmail">Forgot Password ?</Link>
             </p>
           )}
 
