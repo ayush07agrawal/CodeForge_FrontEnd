@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+.wrapper{
+    width:inherit;
+}
+.cover{
+    content:"";
+    width:inherit;
+    height:15vw;
+    border:1px solid black;
+    box-shadow:-1px 2px 5px -2px black;
+    position:relative;
+}
+.cover img{
+    width:100%;
+    height:15vw;
+    object-fit: cover;
+}
+.profilephoto{
+    content:"";
+    height:15vw;
+    width:15vw;
+    border-radius:100%;
+    background-color: aquamarine;
+    border:1px solid #000;
+    box-shadow:0 0 4px 2px rgb(78, 78, 78),0 0 0 1.3vw #fff;
+    margin-top:-8vw;
+    margin-left:10vw;
+    position:relative;
+    z-index: 2;
+}
+.profilephoto img{
+    height:100%;
+    width:100%;
+    border-radius:100%;
+}
+.downcover{
+    width:inherit;
+    height:15vw;
+    background-color: #54e1fd;
+    padding-left:29vw;
+    box-shadow:-1px 2px 5px -2px black;
+}
+.profilename{
+    font-size:4vw;
+    font-weight:900;
+    color:#ff5757;
+    font-family: 'Montserrat', sans-serif;
+    padding-top:5px;
+    text-shadow:1px 0 #000,0 1px #000,-1px 0 #000,0 -1px #000;
+}
+.profileroll{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size:2vw;
+    color:#484545;
+}
+
+.profilelinks{
+    margin-top: 2vw;
+    display:flex;
+    gap:0.5vw;
+}
+.iconlinks{
+    width: 3vw;
+    height: 3vw; 
+    margin-right: 8px;
+    transition:0.5s;
+}
+.iconlinks:hover{
+    width:3.5vw;
+    height: 3.5vw;
+}
