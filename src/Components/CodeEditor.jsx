@@ -3,6 +3,7 @@ import Editor from '@monaco-editor/react';
 import classes from "./CodeEditor.module.css";
 import SelectInput from './Inputs/SelectInput';
 import { Form, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const sizeValues = [8, 9, 10, 12, 14, 16, 18, 20, 22, 24, 26];
 const languages = ["cpp", "c"];
@@ -12,6 +13,7 @@ const themes = ["vs-dark", "vs-light"];
 
 export default function CodeEditor({ testCase }) {
     const params = useParams();
+    const { user } = useSelector((state) => state.auth);
     const [editor, setEditor] = useState({
         language: "cpp",
         languageVersion: "GCC 11.1.0",
@@ -51,6 +53,7 @@ export default function CodeEditor({ testCase }) {
         setOutput(true);
         try {
             const request = {
+                userId: user._id,
                 language: editor.language,
                 versionIndex: (editor.languageVersion === "GCC 11.1.0" ? 5 : 6),
                 script: editor.code.replace(/\\r\\/g, "\\"),
