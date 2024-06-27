@@ -35,37 +35,37 @@ export default function Authentication() {
     if (otpVerify === true) return navigate("/auth/new");
     if (signUp === true) return navigate("/home");
     if (login === true) return navigate("/home");
-    try {
-      const response = await fetch(
-        "http://localhost:4173/api/v1/user/" + params.mode,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
-      if (!response.ok) {
-        throw json(
-          { message: "Error while loading the data..." },
-          { status: 500 }
-        );
-      } else {
-        const resData = await response.json();
-        if (resData.success) {
-          if (mailVerify === true) return navigate("/auth/verifyOTP");
-          if (otpVerify === true) return navigate("/auth/new");
-          if (signUp === true) return navigate("/");
-          if (login === true) return navigate("/");
-        } else {
-          setError(resData.message);
-        }
-      }
-    } catch (error) {
-      console.error("Error submitting code:", error);
-      navigate("/");
-    }
+    // try {
+    //   const response = await fetch(
+    //     "http://localhost:4173/api/v1/user/" + params.mode,
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(data),
+    //     }
+    //   );
+    //   if (!response.ok) {
+    //     throw json(
+    //       { message: "Error while loading the data..." },
+    //       { status: 500 }
+    //     );
+    //   } else {
+    //     const resData = await response.json();
+    //     if (resData.success) {
+    //       if (mailVerify === true) return navigate("/auth/verifyOTP");
+    //       if (otpVerify === true) return navigate("/auth/new");
+    //       if (signUp === true) return navigate("/");
+    //       if (login === true) return navigate("/");
+    //     } else {
+    //       setError(resData.message);
+    //     }
+    //   }
+    // } catch (error) {
+    //   console.error("Error submitting code:", error);
+    //   navigate("/");
+    // }
   }
 
   return (
