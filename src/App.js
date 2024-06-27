@@ -1,57 +1,69 @@
-import React from "react";
+import React, { Suspense, lazy, useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import RootPage from "./Pages/RootPage";
-import ErrorPage from "./Pages/ErrorPage";
-import HomePage from "./Pages/HomePage";
-import FrontPage from "./Pages/FrontPage";
-import Lab from "./Pages/Lab";
-import Profile from "./Pages/Profile";
-import SolveQuestion, { loader as questionLoader } from "./Pages/SolveQuestion";
-import Authentication from "./Pages/Authentication";
+import { useDispatch, useSelector } from "react-redux";
+import { server } from './Assests/config.js';
+import axios from 'axios';
+import { Toaster } from 'react-hot-toast';
+import { userExists, userNotExists } from './redux/reducers/auth.js';
+import { LayoutLoader } from './Components/Loaders.jsx'
+import ProtectRoute from './Components/Auth/ProtectRoute.jsx'
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        index:true,
-        element: <FrontPage />,
-      },
-      { 
-        path: "auth/:mode", 
-        element: <Authentication /> 
-      },
-    ],
-  },
-  {
-    path: "/home",
-    element: <RootPage />,
-    errorElement: <ErrorPage />,
-    children: [
-      { 
-        index: true, 
-        element: <HomePage /> 
-      },
-      {
-        path: "question/:questionId",
-        element: <SolveQuestion />,
-        loader: questionLoader,
-      },
-      {
-        path: "lab",
-        element: <Lab />,
-      },
-      {
-        path: "user/:userId",
-        element: <Profile />,
-      },
-    ],
-  },
-]);
+const FrontPage = lazy(() => import("./Pages/FrontPage.js"));
+const RootPage = lazy(() => import("./Pages/RootPage.js"));
+const ErrorPage = lazy(() => import("./Pages/ErrorPage.js"));
+const HomePage = lazy(() => import("./Pages/HomePage.js"));
+const Lab = lazy(() => import("./Pages/Lab.js"));
+const Profile = lazy(() => import("./Pages/Profile.js"));
+const SolveQuestion = lazy(() => import("./Pages/SolveQuestion.js"));
+const Authentication = lazy(() => import("./Pages/Authentication.js"));
 
 function App() {
-  return <RouterProvider router={router} />;
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    axios
+      .get(`${server}/api/v1/user/me`, { withCredentials: true })
+      .then(({ data }) => dispatch(userExists(data.user)))
+      .catch((err) => dispatch(userNotExists()))
+  }, [dispatch])
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <ProtectRoute user = {!user} redirect = '/app' />,
+      errorElement: <ErrorPage />,
+      children: [
+        { index: true, element: <FrontPage />, },
+        { path: "auth/:mode",  element: <Authentication /> },
+      ],
+    },
+    {
+      path: "/app",
+      element: <ProtectRoute user = {user} />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          element: <RootPage />,
+          children: [
+            { index: true, element: <HomePage /> },
+            { path: "question/:questionId", element: <SolveQuestion /> },
+            { path: "lab", element: <Lab /> },
+            { path: "user/:userId", element: <Profile /> },
+          ]
+        },
+      ],
+    },
+  ]);
+
+  return (
+    <>
+      <Suspense fallback = {<LayoutLoader />}>
+        <RouterProvider router={router}/>
+      </Suspense>
+      <Toaster position = 'bottom-center' />
+    </>
+  );
 }
 
 export default App;
