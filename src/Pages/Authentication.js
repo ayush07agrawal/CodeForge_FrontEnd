@@ -5,12 +5,18 @@ import OtpInput from "react-otp-input";
 import image from "../Assests/Frame1.jpg";
 import { json, useParams, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import {server} from '../Assests/config'
+import { useDispatch } from "react-redux";
+import { userExists } from "../redux/reducers/auth";
 
 export default function Authentication() {
   const params = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [otp, setOtp] = useState("");
   const [error, setError] = useState(undefined);
+
   const signUp = params.mode === "new";
   const login = params.mode === "login";
   const mailVerify = params.mode === "verifyEmail";
@@ -18,54 +24,51 @@ export default function Authentication() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+
     const fd = new FormData(event.target);
     let data = Object.fromEntries(fd.entries());
+
     if (signUp && data.password !== data.confirmPassword) {
       setError("Passwords do not match");
       return;
     }
-    if (otpVerify) {
-      data = {
-        ...data,
-        otp: otp,
-      };
+
+    if (otpVerify) data = { ...data, otp: otp } 
+
+    try {
+      const response = await fetch(
+        `${server}/api/v1/user/` + params.mode,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        throw json(
+          { message: "Error while loading the data..." },
+          { status: 500 }
+        );
+      } 
+      else {
+        const resData = await response.json();
+        console.log(resData);
+        if (resData.success) {
+          if (mailVerify === true) return navigate("/auth/verifyOTP");
+          if (otpVerify === true) return navigate("/auth/new");
+          if (signUp === true) dispatch(userExists(resData.user));
+          if (login === true) {console.log(resData.user); dispatch(userExists(resData.user))};
+        } else {
+          setError(resData.message);
+        }
+      }
+    } catch (error) {
+      console.error("Error submitting code:", error);
+      navigate("/");
     }
-    console.log(data);
-    if (mailVerify === true) return navigate("/auth/verifyOTP");
-    if (otpVerify === true) return navigate("/auth/new");
-    if (signUp === true) return navigate("/home");
-    if (login === true) return navigate("/home");
-    // try {
-    //   const response = await fetch(
-    //     "http://localhost:4173/api/v1/user/" + params.mode,
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(data),
-    //     }
-    //   );
-    //   if (!response.ok) {
-    //     throw json(
-    //       { message: "Error while loading the data..." },
-    //       { status: 500 }
-    //     );
-    //   } else {
-    //     const resData = await response.json();
-    //     if (resData.success) {
-    //       if (mailVerify === true) return navigate("/auth/verifyOTP");
-    //       if (otpVerify === true) return navigate("/auth/new");
-    //       if (signUp === true) return navigate("/");
-    //       if (login === true) return navigate("/");
-    //     } else {
-    //       setError(resData.message);
-    //     }
-    //   }
-    // } catch (error) {
-    //   console.error("Error submitting code:", error);
-    //   navigate("/");
-    // }
   }
 
   return (
