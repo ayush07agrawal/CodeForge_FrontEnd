@@ -3,8 +3,9 @@ import classes from "./QuestionList.module.css";
 import easyimg from "../Assests/greensolve.png";
 import hardimg from "../Assests/redsolve.png";
 import mediumimg from "../Assests/yellowsolve.png";
+import solvedimg from "../Assests/solved.png";
 
-const QuestionList = ({ question, num }) => {
+const QuestionList = ({ question, num, solved = false }) => {
     return (
         <div className={classes.wrapper}>
             <div className={classes.first}>
@@ -22,7 +23,7 @@ const QuestionList = ({ question, num }) => {
                 </div>
             </div>
             <div className={classes.second}>
-                <img src={(question.tags[0] === 'easy') ? easyimg : (question.tags[0] === 'medium') ? mediumimg : hardimg} alt="" />
+                <img src={(solved === true) ? solvedimg : (question.tags[0] === 'easy') ? easyimg : (question.tags[0] === 'medium') ? mediumimg : hardimg} alt="" />
             </div>
         </div>
     );
