@@ -50,6 +50,7 @@ export default function CodeEditor({ testCase }) {
 
     async function handleSubmit(event) {
         event.preventDefault();
+        setResponse(undefined);
         setOutput(true);
         try {
             const request = {
@@ -77,6 +78,38 @@ export default function CodeEditor({ testCase }) {
         }
     }
 
+
+    async function handleRun(event){
+        event.preventDefault();
+        setOutput(true);
+        try {
+            const request = {
+                userId: user._id,
+                language: editor.language,
+                versionIndex: (editor.languageVersion === "GCC 11.1.0" ? 5 : 6),
+                script: editor.code.replace(/\\r\\/g, "\\"),
+                stdin: stdin.replace(/\n/g, ' '),
+            };
+            // TODO:
+            const response = await fetch(`http://localhost:4173/api/v1/question/runCode/${params.questionId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(request),
+            });
+            if (!response.ok) {
+                throw new Error("Error submitting code.");
+            }
+            const resData = await response.json();
+            console.log(resData.data);
+            setResponse(resData.data);
+        } catch (error) {
+            console.error("Error submitting code:", error);
+            setResponse({ message: "Error submitting code." });
+        }
+    }
+
     return (
         <Form onSubmit={handleSubmit} className={classes.wrapper}>
             <div className={classes.controls}>
@@ -93,7 +126,7 @@ export default function CodeEditor({ testCase }) {
             <main>
                 {customInput &&
                     <div className={classes.textArea}>
-                        <h2>Custom Input:</h2>
+                        <h2 className={classes.textAreaH2}>CUSTOM INPUT</h2>
                         <textarea
                             value={stdin}
                             onChange={handleStdin}
@@ -104,7 +137,7 @@ export default function CodeEditor({ testCase }) {
                 {output &&
                     <div className={classes.textArea}>
                         {response ? (
-                            <h2>{response.success? "Submission Successful" : "Failed"}<br/> {response.message}</h2>
+                            <h2 className={classes.textAreaH2}>{response.success? "Submission Successful" : "Failed"}<br/> {response.message}</h2>
                         ) : "Submitting..."}
                         <div style = {{ display: "flex", flexDirection: "column", flexGrow: 0.5}} />
                         <button onClick={() => setOutput(false)}>Back</button>
@@ -136,8 +169,8 @@ export default function CodeEditor({ testCase }) {
                 />
             </main>
             <div className={classes.submission}>
-                <button onClick={() => setCustomInput((prev) => !prev)} type="button"> Custom Input</button>
-                <button type="button"> Run </button>
+                <button onClick={() => setCustomInput((prev) => !prev)} type="button">{customInput ? "Editor" : "Custom Input"}</button>
+                <button type="button" onClick={handleRun}> Run </button>
                 <button >Submit</button>
             </div>
         </Form>

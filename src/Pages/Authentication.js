@@ -5,14 +5,18 @@ import OtpInput from "react-otp-input";
 import image from "../Assests/Frame1.jpg";
 import { json, useParams, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {server} from '../Assests/config'
-import { useDispatch } from "react-redux";
+import { server } from "../Assests/config";
+import { useDispatch, useSelector } from "react-redux";
 import { userExists } from "../redux/reducers/auth";
+import { setIsResettingPassword, setSecretQuestion } from "../redux/reducers/misc";
+import toast from "react-hot-toast";
 
 export default function Authentication() {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const resetPassword = useSelector((state) => state.misc.isResettingPassword);
+  const secretQuestion = useSelector((state) => state.misc.secretQuestion);
 
   const [otp, setOtp] = useState("");
   const [error, setError] = useState(undefined);
@@ -21,6 +25,7 @@ export default function Authentication() {
   const login = params.mode === "login";
   const mailVerify = params.mode === "verifyEmail";
   const otpVerify = params.mode === "verifyOTP";
+  const updatePassword = params.mode === "setPassword";
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -33,39 +38,64 @@ export default function Authentication() {
       return;
     }
 
-    if (otpVerify) data = { ...data, otp: otp } 
+    if (otpVerify) data = { ...data, otp: otp };
+    data = {...data, resetting: resetPassword };
 
     try {
-      const response = await fetch(
-        `${server}/api/v1/user/` + params.mode,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-          credentials: "include",
-        }
-      );
+      console.log(data);
+      const response = await fetch(`${server}/api/v1/user/` + params.mode, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+        credentials: "include",
+      });
       if (!response.ok) {
         throw json(
           { message: "Error while loading the data..." },
           { status: 500 }
         );
-      } 
-      else {
+      } else {
         const resData = await response.json();
         console.log(resData);
         if (resData.success) {
-          if (mailVerify === true) return navigate("/auth/verifyOTP");
-          if (otpVerify === true) return navigate("/auth/new");
-          if (signUp === true) dispatch(userExists(resData.user));
-          if (login === true) {console.log(resData.user); dispatch(userExists(resData.user))};
+          if (mailVerify === true){
+            if(resetPassword) dispatch(setSecretQuestion(resData.secretQuestion));
+            console.log(secretQuestion);
+            toast.success(resData.message);
+            return navigate("/auth/verifyOTP");
+          }
+          if (otpVerify === true){
+            toast.success(resData.message);
+            if(resetPassword) return navigate("/auth/setPassword");
+            else return navigate("/auth/new");
+          }
+          if (signUp === true){
+            dispatch(userExists(resData.user));
+          }
+          if (login === true) {
+            toast.success(resData.message);
+            // console.log(resData.user);
+            dispatch(userExists(resData.user));
+            navigate("/app");
+          }
+          if(updatePassword === true){
+            dispatch(setSecretQuestion(undefined));
+            dispatch(setIsResettingPassword(false));
+            toast.success(resData.message);
+            navigate("/auth/login");
+          }
+        } else if(resetPassword && !resData.success){
+          toast.error("Mail Not Found...");
+          dispatch(setIsResettingPassword(false));
+          navigate("/auth/login");
         } else {
           setError(resData.message);
         }
       }
     } catch (error) {
+      toast.error(error.message);
       console.error("Error submitting code:", error);
       navigate("/");
     }
@@ -96,7 +126,7 @@ export default function Authentication() {
               </TextInput>
             )}
 
-            {(mailVerify || otpVerify || signUp) && (
+            {(mailVerify || otpVerify || signUp || updatePassword) && (
               <TextInput
                 width="small"
                 name="email"
@@ -110,7 +140,7 @@ export default function Authentication() {
 
             {otpVerify && (
               <>
-                <label htmlFor="otp">Enter the OTP:</label>
+                <label htmlFor="otp">Enter the OTP: </label>
                 <OtpInput
                   id="otp"
                   value={otp}
@@ -119,6 +149,16 @@ export default function Authentication() {
                   renderSeparator={<span>..</span>}
                   renderInput={(props) => <input {...props} />}
                 />
+                {resetPassword && (
+                  <TextInput
+                    name="secretAnswer"
+                    type="text"
+                    label={secretQuestion}
+                    required
+                  >
+                    Enter the answer...
+                  </TextInput>
+                )}
               </>
             )}
 
@@ -134,7 +174,7 @@ export default function Authentication() {
               </TextInput>
             )}
 
-            {(login || signUp) && (
+            {(login || signUp || updatePassword) && (
               <TextInput
                 name="password"
                 type="password"
@@ -146,7 +186,7 @@ export default function Authentication() {
               </TextInput>
             )}
 
-            {signUp && (
+            {(signUp || updatePassword) && (
               <>
                 <TextInput
                   name="confirmPassword"
@@ -200,7 +240,13 @@ export default function Authentication() {
               Want to create an account ?{" "}
               <Link to="/auth/verifyEmail">SignUp</Link>
               <br />
-              <Link to="/auth/verifyEmail">Forgot Password ?</Link>
+              <Link
+                to="/auth/verifyEmail"
+                onClick={() => dispatch(setIsResettingPassword(true))}
+                style = {{ textDecoration: "none" }}
+              >
+                Forgot Password ?
+              </Link>
             </p>
           )}
 
