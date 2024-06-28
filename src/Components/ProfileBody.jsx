@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from "./ProfileBody.module.css";
 import QuestionList from "./QuestionList";
-import Progressbar from "./ProgressBar";
+import ProgressBar from "./ProgressBar";
 
 const ProfileBody = ({ questions, solved_data }) => {
     return(
@@ -13,7 +13,7 @@ const ProfileBody = ({ questions, solved_data }) => {
                 ))} 
             </div> */}
             <div className={classes.wrapper2}>
-                <Progressbar solved = {solved_data?.length} total = {questions?.length}></Progressbar>
+                <ProgressBar solved = {solved_data?.length} total = {questions?.length}></ProgressBar>
             </div>
         </div>
     );

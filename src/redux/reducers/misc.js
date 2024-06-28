@@ -16,7 +16,7 @@ const miscSlice = createSlice({
         setIsResettingPassword:(state, action)=>{
             state.isResettingPassword = action.payload;
         },
-        setsecretQ:(state,action)=>{
+        setSecretQuestion:(state,action)=>{
             state.secretQ = action.payload;
         }
     }
@@ -26,5 +26,5 @@ export default miscSlice;
 export const { 
     setIsProfile,
     setIsResettingPassword,
-    setsecretQ
+    setSecretQuestion
 } = miscSlice.actions;
