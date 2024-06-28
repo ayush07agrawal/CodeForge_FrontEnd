@@ -5,25 +5,25 @@
 .cover{
     content:"";
     width:inherit;
-    height:15vw;
+    height:8vw;
     border:1px solid black;
     box-shadow:-1px 2px 5px -2px black;
     position:relative;
 }
 .cover img{
     width:100%;
-    height:15vw;
+    height:8vw;
     object-fit: cover;
 }
 .profilephoto{
     content:"";
-    height:15vw;
-    width:15vw;
+    height:10vw;
+    width:10vw;
     border-radius:100%;
     background-color: aquamarine;
     border:1px solid #000;
-    box-shadow:0 0 4px 2px rgb(78, 78, 78),0 0 0 1.3vw #fff;
-    margin-top:-8vw;
+    box-shadow:0 0 4px 2px rgb(78, 78, 78),0 0 0 1vw #fff;
+    margin-top:-5vw;
     margin-left:10vw;
     position:relative;
     z-index: 2;
@@ -35,13 +35,16 @@
 }
 .downcover{
     width:inherit;
-    height:15vw;
+    height:8vw;
     background-color: #54e1fd;
-    padding-left:29vw;
+    padding-left:23vw;
     box-shadow:-1px 2px 5px -2px black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 .profilename{
-    font-size:4vw;
+    font-size:3vw;
     font-weight:900;
     color:#ff5757;
     font-family: 'Montserrat', sans-serif;
@@ -55,7 +58,7 @@
 }
 
 .profilelinks{
-    margin-top: 2vw;
+    margin: 2vw;
     display:flex;
     gap:0.5vw;
 }

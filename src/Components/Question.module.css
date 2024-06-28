@@ -8,6 +8,7 @@
   text-align: left;
   overflow-y: auto;
   overflow-x: hidden;
+  border-right: 4px solid black;
 }
 
 .title {

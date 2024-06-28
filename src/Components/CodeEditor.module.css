@@ -73,6 +73,11 @@ main{
     background-color: white;
 }
 
+.textAreaH2{
+    margin: 40px 0px 20px 0px;
+    border-bottom: 2px solid black;
+}
+
 .textArea textarea{
     width: 50%;
     height: 50%;

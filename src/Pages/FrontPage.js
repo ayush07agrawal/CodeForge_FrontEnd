@@ -9,12 +9,9 @@ function FrontPage() {
         <div className={classes.heading}>
           <img className={classes.img} src={image} alt="Logo" />
           <p className={classes.desc}>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat
-            reprehenderit, hic recusandae repudiandae nostrum laudantium, autem
-            sed obcaecati dolor facilis cumque consequatur error nobis iusto
-            veritatis iste consectetur? Nam, error?
+          Unleash the full potential of your CS lab! Empower students to hone their skills through a vast bank of past year questions, allowing them to practice, test, and track their progress.  Instructors can elevate teaching by crafting engaging curricula with a user-friendly platform that streamlines question bank management, online lab execution, and real-time student progress monitoring - all in one place.
           </p>
-          <Link to="auth/verifyEmail">
+          <Link to="auth/login">
             <button className={classes.btn}>Get Started</button>
           </Link>
         </div>
