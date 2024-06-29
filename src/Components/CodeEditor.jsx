@@ -59,6 +59,7 @@ export default function CodeEditor({ testCase }) {
                 versionIndex: (editor.languageVersion === "GCC 11.1.0" ? 5 : 6),
                 script: editor.code.replace(/\\r\\/g, "\\"),
             };
+            console.log(request);
             const response = await fetch(`http://localhost:4173/api/v1/question/submitCode/${params.questionId}`, {
                 method: "POST",
                 headers: {
@@ -90,6 +91,7 @@ export default function CodeEditor({ testCase }) {
                 script: editor.code.replace(/\\r\\/g, "\\"),
                 stdin: stdin.replace(/\n/g, ' '),
             };
+            console.log(request);
             // TODO:
             const response = await fetch(`http://localhost:4173/api/v1/question/runCode/${params.questionId}`, {
                 method: "POST",
@@ -137,10 +139,35 @@ export default function CodeEditor({ testCase }) {
                 {output &&
                     <div className={classes.textArea}>
                         {response ? (
-                            <h2 className={classes.textAreaH2}>{response.success? "Submission Successful" : "Failed"}<br/> {response.message}</h2>
+                            <>
+                                {
+                                    !response.output &&
+                                    <h2 className={classes.textAreaH2}>
+                                        {response.success ? "Submission Successful" : "Failed"}<br /> {response.message}
+                                    </h2>
+                                }
+                                {
+                                    response.output &&
+                                    <h2 className={classes.textAreaH2}>
+                                        OUTPUT
+                                    </h2>
+                                }
+                                {response.output &&
+                                    <p>
+                                        {response.output}
+                                        <br />
+                                        Time Taken : {response.cpuTime}
+                                        <br />
+                                        Memory Used : {response.memory}
+                                    </p>
+                                }
+                            </>
                         ) : "Submitting..."}
-                        <div style = {{ display: "flex", flexDirection: "column", flexGrow: 0.5}} />
-                        <button onClick={() => setOutput(false)}>Back</button>
+                        <div style={{ display: "flex", flexDirection: "column", flexGrow: 0.5 }} />
+                        <button onClick={() =>{
+                            setOutput(false);
+                            setResponse(undefined);
+                        }}>Back</button>
                     </div>
                 }
                 <Editor
