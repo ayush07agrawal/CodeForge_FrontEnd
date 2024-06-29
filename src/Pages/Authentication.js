@@ -8,7 +8,7 @@ import { useState } from "react";
 import { server } from "../Assests/config";
 import { useDispatch, useSelector } from "react-redux";
 import { userExists } from "../redux/reducers/auth";
-import { setIsResettingPassword, setSecretQuestion } from "../redux/reducers/misc";
+import { setEmail, setIsResettingPassword, setSecretQuestion } from "../redux/reducers/misc";
 import toast from "react-hot-toast";
 
 export default function Authentication() {
@@ -17,7 +17,9 @@ export default function Authentication() {
   const dispatch = useDispatch();
   const resetPassword = useSelector((state) => state.misc.isResettingPassword);
   const secretQuestion = useSelector((state) => state.misc.secretQuestion);
+  const email = useSelector((state) => state.misc.email);
 
+  let userEmail = undefined;
   const [otp, setOtp] = useState("");
   const [error, setError] = useState(undefined);
 
@@ -37,10 +39,11 @@ export default function Authentication() {
       setError("Passwords do not match");
       return;
     }
-
-    if (otpVerify) data = { ...data, otp: otp };
+    if(mailVerify) userEmail = data.email;
+    if (otpVerify || signUp || updatePassword) data = {...data, email:email };
+    if (otpVerify){data = { ...data, otp: otp };}
     data = {...data, resetting: resetPassword };
-
+    console.log(data);
     try {
       console.log(data);
       const response = await fetch(`${server}/api/v1/user/` + params.mode, {
@@ -62,6 +65,7 @@ export default function Authentication() {
         if (resData.success) {
           if (mailVerify === true){
             if(resetPassword) dispatch(setSecretQuestion(resData.secretQuestion));
+            dispatch(setEmail(userEmail));
             console.log(secretQuestion);
             toast.success(resData.message);
             return navigate("/auth/verifyOTP");
@@ -72,15 +76,18 @@ export default function Authentication() {
             else return navigate("/auth/new");
           }
           if (signUp === true){
+            dispatch(setEmail(undefined));
             dispatch(userExists(resData.user));
           }
           if (login === true) {
             toast.success(resData.message);
             // console.log(resData.user);
+            dispatch(setEmail(undefined));
             dispatch(userExists(resData.user));
             navigate("/app");
           }
           if(updatePassword === true){
+            dispatch(setEmail(undefined));
             dispatch(setSecretQuestion(undefined));
             dispatch(setIsResettingPassword(false));
             toast.success(resData.message);
@@ -109,9 +116,10 @@ export default function Authentication() {
           onSubmit={handleSubmit}
           className={signUp ? classes.form2 : classes.form}
         >
-          {mailVerify && <h1>Mail Verification</h1>}
-          {login && <h1>Welcome Back!!</h1>}
-          {signUp && <h1>SetUp your Account</h1>}
+          {mailVerify && <h1><u>Mail Verification</u></h1>}
+          {otpVerify && <h1><u>OTP Confirmation</u></h1>}
+          {login && <h1><u>Welcome Back!!</u></h1>}
+          {signUp && <h1><u>SET UP YOUR ACCOUNT</u></h1>}
 
           <div className={classes.input}>
             {signUp && (
@@ -126,7 +134,7 @@ export default function Authentication() {
               </TextInput>
             )}
 
-            {(mailVerify || otpVerify || signUp || updatePassword) && (
+            {(mailVerify) && (
               <TextInput
                 width="small"
                 name="email"
@@ -140,6 +148,7 @@ export default function Authentication() {
 
             {otpVerify && (
               <>
+                <div className={classes.otpInput}>
                 <label htmlFor="otp">Enter the OTP: </label>
                 <OtpInput
                   id="otp"
@@ -147,8 +156,9 @@ export default function Authentication() {
                   onChange={setOtp}
                   numInputs={6}
                   renderSeparator={<span>..</span>}
-                  renderInput={(props) => <input {...props} />}
+                  renderInput={(props) => <input {...props} className={classes.otpBox} />}
                 />
+                </div>
                 {resetPassword && (
                   <TextInput
                     name="secretAnswer"
@@ -224,9 +234,7 @@ export default function Authentication() {
             <button
               className={otpVerify || mailVerify ? classes.btn : classes.btn2}
             >
-              {(signUp && "Sign Up") ||
-                (login && "Login") ||
-                ((mailVerify || otpVerify) && "Verify")}
+              {(signUp && "Sign Up") || (login && "Login") || ((mailVerify || otpVerify) && "Verify") || (updatePassword && "Update Password")}
             </button>
           </div>
           {(signUp || mailVerify) && (
