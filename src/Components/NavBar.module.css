@@ -48,3 +48,19 @@
     color: white;
     margin-right: 20px;
 }
+
+.btn{
+    height: 80%;
+    border-radius: 5%;
+    background-color: transparent;
+    border: 2px solid white;
+    padding: 5px;
+    font-size: large;
+    color: white;
+}
+
+.btn:hover{
+    background-color: white;
+    color: black;
+    cursor: "pointer";
+}
