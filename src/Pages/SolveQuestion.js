@@ -9,13 +9,14 @@ import { useErrors } from "../hooks/hooks";
 export default function SolveQuestion() {
   const params = useParams();
   const id = params.questionId;
-  const {data, isError, error} = useGetParticularQuestionQuery(id);
+  const {data, isLoading, isError, error} = useGetParticularQuestionQuery(id);
   useErrors([{isError, error}]);
+
   return (
     <div className={classes.wrapper}>
       <div className={classes.QuestionNCode}>
         <Question details={data?.question} />
-        <CodeEditor testCase={data?.question.testCase} />
+        {!isLoading && <CodeEditor testCase={data?.question.testCase} />}
       </div>
     </div>
   );
