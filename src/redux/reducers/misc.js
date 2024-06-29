@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     isProfile: false,
     isResettingPassword : false,
-    secretQ:undefined,
+    secretQuestion: undefined,
+    email: undefined,
 }
 
 const miscSlice = createSlice({
@@ -17,7 +18,10 @@ const miscSlice = createSlice({
             state.isResettingPassword = action.payload;
         },
         setSecretQuestion:(state,action)=>{
-            state.secretQ = action.payload;
+            state.secretQuestion = action.payload;
+        },
+        setEmail:(state, action)=>{
+            state.email = action.payload;
         }
     }
 });
@@ -26,5 +30,6 @@ export default miscSlice;
 export const { 
     setIsProfile,
     setIsResettingPassword,
-    setSecretQuestion
+    setSecretQuestion,
+    setEmail,
 } = miscSlice.actions;
