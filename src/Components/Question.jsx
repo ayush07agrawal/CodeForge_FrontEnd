@@ -8,6 +8,18 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 
+
+function formatDate(timestamp) {
+  const date = new Date(timestamp);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hrs = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  return (hrs + ":" + minutes + " " + day + "/" + month + "/" + year);
+}
+
+
 export default function Question({ details }) {
   const params = useParams();
   const [content, setContent] = useState("Question");
@@ -49,7 +61,7 @@ export default function Question({ details }) {
     return () => {
       abortController.abort();
     };
-  }, [questionId, user._id]); 
+  }, [questionId, user._id]);
 
   return (
     <div>
@@ -64,8 +76,8 @@ export default function Question({ details }) {
             {details?.tags?.map((topic) => <li key={topic}>{topic}</li>)}
           </ul>
           <p className={classes.desc}>
-            {details?.description} 
-            <br /><br /> 
+            {details?.description}
+            <br /><br />
             <i><strong>[Note] - The first input must always be the number of testcases...</strong></i>
             <br /><br />
           </p>
@@ -89,19 +101,28 @@ export default function Question({ details }) {
       }
       {(content === "Hints") &&
         <div className={classes.wrapper}>
-          {details.hints.map((item, idx) => <DropdownHint number={idx+1} data={item}/>)}
+          {details.hints.map((item, idx) => <DropdownHint heading={"Hint " + idx + 1}>{item}</DropdownHint>)}
         </div>
       }
       {(content === "Submissions") &&
         <div className={classes.wrapper}>
           {
-          (submissions.length !== 0)
-          ? 
-          submissions.map((item, idx) => <DropdownSubmission details={item} number={submissions.length-idx} key = {uuid()}/>) 
-          : 
-          <h3 className={classes.desc}>
-            <strong><i>No Submissions Found</i></strong>
-          </h3>
+            (submissions.length !== 0)
+              ?
+              submissions.map((item, idx) => <DropdownSubmission heading={"Submission " + (submissions.length - idx)} key={uuid()} date={formatDate(item.timestamp)}>
+                <p><strong>Time taken: </strong> {item.time + " s"}</p>
+                <br /><p><strong>Memory used: </strong> {item.space + " kb"}</p>
+                <br />
+                <pre className={classes.codeArea}>
+                  <code>
+                    {item.script}
+                  </code>
+                </pre>
+              </DropdownSubmission>)
+              :
+              <h3 className={classes.desc}>
+                <strong><i>No Submissions Found</i></strong>
+              </h3>
           }
         </div>
       }

@@ -208,7 +208,7 @@ export default function CodeEditor({ testCase }) {
           className={classes["monaco-editor"]}
           value={editor.code}
           onChange={(value) => handleCode(value)}
-          height="80vh"
+          height="84vh"
           width="60vw"
           theme={editor.theme}
           options={{

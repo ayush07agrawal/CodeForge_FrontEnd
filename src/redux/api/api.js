@@ -4,7 +4,7 @@ import { server } from "../../Assests/config.js";
 const api = createApi({
     reducerPath: "api", 
     baseQuery: fetchBaseQuery({ baseUrl: `${server}/api/v1/` }),
-    tagTypes: ["Question", "User"], 
+    tagTypes: ["Question", "User", "Lab"], 
 
     endpoints: (builder) => ({
         getQuestions:builder.query({
@@ -22,11 +22,20 @@ const api = createApi({
             }),
             invalidatesTags: ["Question"],
         }),
+
+        getLabs: builder.query({
+            query: (batch) => ({
+                url: `lab/${batch}`,
+                credentials: "include",
+            }),
+            invalidatesTags: ["Lab"],
+        })
     })
 })
 
 export default api;
 export const { 
     useGetQuestionsQuery,
-    useGetParticularQuestionQuery
+    useGetParticularQuestionQuery,
+    useGetLabsQuery,  
 } = api;

@@ -97,6 +97,13 @@
   margin: 2px;
 }
 
+.codeArea{
+  background-color: lightgray;
+  padding: 8px;
+  border-radius: 5px;
+  overflow: auto;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }

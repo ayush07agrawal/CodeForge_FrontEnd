@@ -25,10 +25,3 @@
     margin: 20px;
     word-wrap: break-word;
 }
-
-.codeArea{
-    background-color: lightgray;
-    padding: 8px;
-    border-radius: 5px;
-    overflow: auto;
-}
