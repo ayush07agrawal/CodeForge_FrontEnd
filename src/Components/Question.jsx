@@ -49,7 +49,7 @@ export default function Question({ details }) {
     return () => {
       abortController.abort();
     };
-  }, []); 
+  }, [questionId, user._id]); 
 
   return (
     <div>
