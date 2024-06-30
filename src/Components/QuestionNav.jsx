@@ -1,14 +1,24 @@
 import React from 'react';
 import classes from "./QuestionNav.module.css"
-import { Link } from 'react-router-dom';
 
-function QuestionNav() {
+function QuestionNav({ content, handleChange }) {
+
+  const handleReturn = () => {
+    window.history.back();
+  }
+
   return (
     <div className={classes.wrapper}>
-      <h3><Link to="..">Back</Link></h3>
-      <h3>Description</h3>
-      <h3>Hint</h3>
-      <h3>Submissions</h3>
+      <h3 onClick={handleReturn} className={classes.headings}>&lt;Back</h3>
+      <h3 onClick={() => handleChange("Question")} className={classes.headings}>
+        {content === "Question" ? <u>Description</u> : "Description"}
+      </h3>
+      <h3 onClick={() => handleChange("Hints")} className={classes.headings}>
+        {content === "Hints" ? <u>Hints</u> : "Hints"}
+      </h3>
+      <h3 onClick={() => handleChange("Submissions")} className={classes.headings}>
+        {content === "Submissions" ? <u>Submissions</u> : "Submissions"}
+      </h3>
     </div>
   )
 }

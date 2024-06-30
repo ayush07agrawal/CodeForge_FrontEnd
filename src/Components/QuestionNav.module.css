@@ -8,3 +8,7 @@
     background-color: lightgreen;
     box-shadow: 2px 2px 2px black inset, -2px -2px 2px black inset;
 }
+
+.headings:hover{
+    cursor: pointer;
+}
