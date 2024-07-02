@@ -5,6 +5,7 @@ const initialState = {
     isResettingPassword : false,
     secretQuestion: undefined,
     email: undefined,
+    role: undefined
 }
 
 const miscSlice = createSlice({
@@ -22,6 +23,9 @@ const miscSlice = createSlice({
         },
         setEmail:(state, action)=>{
             state.email = action.payload;
+        },
+        setRole: (state, action) => {
+            state.role = action.payload;
         }
     }
 });
@@ -32,4 +36,5 @@ export const {
     setIsResettingPassword,
     setSecretQuestion,
     setEmail,
+    setRole
 } = miscSlice.actions;
