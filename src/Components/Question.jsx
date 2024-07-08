@@ -5,7 +5,7 @@ import DropdownHint from './DropdownHint';
 import DropdownSubmission from './DropdownSubmission';
 import { server } from '../Assests/config';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 
 
@@ -26,6 +26,7 @@ export default function Question({ details }) {
   const [submissions, setSubmissions] = useState([]);
   const { user } = useSelector((state) => state.auth);
   const questionId = params.questionId;
+  const navigate = useNavigate();
 
   const handleChange = (value) => {
     setContent(value);
@@ -33,9 +34,10 @@ export default function Question({ details }) {
 
   useEffect(() => {
     const abortController = new AbortController();
-    const questionName = `${questionId}+${user._id}`;
+    const questionName = `${questionId}${user._id}`;
     const fetchSubmissions = async () => {
       try {
+        console.log(questionName);
         const response = await fetch(`${server}/api/v1/submission/getThisSubmission/${questionName}`, {
           method: 'GET',
           headers: {
@@ -50,6 +52,7 @@ export default function Question({ details }) {
 
         const data = await response.json();
         setSubmissions(data.submission);
+        console.log(data);
       } catch (error) {
         if (error.name !== 'AbortError') {
           console.error('Error fetching submissions:', error);
@@ -70,7 +73,10 @@ export default function Question({ details }) {
         <div className={classes.wrapper}>
           <span className={classes.title}>
             <h1><u>{details?.title}</u></h1>
-            {details?.status && <h2>Solved</h2>}
+
+            {(user.role === "teacher") && <button onClick={() =>navigate(`/app/questionform/edit`, { state: {question:details, questionId:questionId} })} className={classes.editBtn}>
+              Edit Question
+            </button>}
           </span>
           <ul className={classes.tags}>
             {details?.tags?.map((topic) => <li key={topic}>{topic}</li>)}
@@ -101,7 +107,9 @@ export default function Question({ details }) {
       }
       {(content === "Hints") &&
         <div className={classes.wrapper}>
-          {details.hints.map((item, idx) => <DropdownHint heading={"Hint " + idx + 1}>{item}</DropdownHint>)}
+        {details.hints.length !== 0 ? 
+          details.hints.map((item, idx) => <DropdownHint heading={"Hint " + (idx + 1)}>{item}</DropdownHint>)
+        : <h1>No hints available</h1>}
         </div>
       }
       {(content === "Submissions") &&
