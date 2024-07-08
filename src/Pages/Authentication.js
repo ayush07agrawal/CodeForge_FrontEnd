@@ -8,7 +8,7 @@ import { useState } from "react";
 import { server } from "../Assests/config";
 import { useDispatch, useSelector } from "react-redux";
 import { userExists } from "../redux/reducers/auth";
-import { setEmail, setIsResettingPassword, setSecretQuestion } from "../redux/reducers/misc";
+import { setEmail, setIsResettingPassword, setSecretQuestion, setRole } from "../redux/reducers/misc";
 import toast from "react-hot-toast";
 
 export default function Authentication() {
@@ -39,13 +39,14 @@ export default function Authentication() {
       setError("Passwords do not match");
       return;
     }
+    if(signUp) data = {...data};
     if(mailVerify) userEmail = data.email;
     if (otpVerify || signUp || updatePassword) data = {...data, email:email };
     if (otpVerify){data = { ...data, otp: otp };}
     data = {...data, resetting: resetPassword };
     console.log(data);
     try {
-      console.log(data);
+      console.log(params.mode);
       const response = await fetch(`${server}/api/v1/user/` + params.mode, {
         method: "POST",
         headers: {
@@ -66,6 +67,7 @@ export default function Authentication() {
           if (mailVerify === true){
             if(resetPassword) dispatch(setSecretQuestion(resData.secretQuestion));
             dispatch(setEmail(userEmail));
+            dispatch(setRole(resData.role));
             console.log(secretQuestion);
             toast.success(resData.message);
             return navigate("/auth/verifyOTP");
@@ -76,13 +78,10 @@ export default function Authentication() {
             else return navigate("/auth/new");
           }
           if (signUp === true){
-            dispatch(setEmail(undefined));
             dispatch(userExists(resData.user));
           }
           if (login === true) {
             toast.success(resData.message);
-            // console.log(resData.user);
-            dispatch(setEmail(undefined));
             dispatch(userExists(resData.user));
             navigate("/app");
           }
@@ -101,7 +100,8 @@ export default function Authentication() {
           setError(resData.message);
         }
       }
-    } catch (error) {
+    } 
+    catch (error) {
       toast.error(error.message);
       console.error("Error submitting code:", error);
       navigate("/");
@@ -174,13 +174,13 @@ export default function Authentication() {
 
             {(login || signUp) && (
               <TextInput
-                name="rollNumber"
-                type="text"
-                label="Roll Number"
+                name="email"
+                type="email"
+                label="Email"
                 width="small"
                 required
               >
-                Enter your Roll Number...
+                Enter your institute email id...
               </TextInput>
             )}
 
