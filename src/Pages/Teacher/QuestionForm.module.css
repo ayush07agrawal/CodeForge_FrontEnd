@@ -5,9 +5,9 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: rgb(154, 154, 154);
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 .form {
@@ -19,7 +19,7 @@ h1 {
   font-size: 24px;
   margin-bottom: 20px;
   text-align: center;
-  color: #333;
+  color: black;
 }
 
 .input {
@@ -32,9 +32,9 @@ h1 {
 }
 
 .label {
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 8px;
-  color: #555;
+  color: black;
 }
 
 .select {
@@ -168,4 +168,28 @@ h1 {
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+.btn3 {
+  padding: 12px 24px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #2ecc71;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  align-self: center;
+}
+
+.btn3:hover {
+  background-color: #27ae60;
+}
+.hiddenMessage{
+  display:none;
+}
+
+.btn3:hover + .hiddenMessage{
+  display:block;
+  color: red;
 }
