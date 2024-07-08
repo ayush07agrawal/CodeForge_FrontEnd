@@ -123,9 +123,9 @@
 
 .editBtn{
   padding: 8px;
-  background-color: lightgreen;
+  background-color: lightsalmon;
   position:absolute;
-  bottom:1rem;
+  top: 1rem;
   right: 1rem;
   border-radius: 2px;
   border: 0px;
