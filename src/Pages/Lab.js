@@ -3,13 +3,15 @@ import classes from "./Lab.module.css";
 import { useSelector } from "react-redux";
 import DropdownSubmission from "../Components/DropdownSubmission";
 import { v4 as uuid } from "uuid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useErrors } from "../hooks/hooks";
 import { useGetLabsQuery } from "../redux/api/api";
 
 export default function Lab() {
+  const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const batch = user.batch;
+  console.log(batch);
   const { data, isLoading, isError, error } = useGetLabsQuery(batch);
   useErrors([{ isError, error }]);
   console.log(data);
@@ -21,13 +23,16 @@ export default function Lab() {
           <strong>Batch: </strong>
           <i>{user.batch}</i>
         </h2>
+        {user.role === "teacher" && <button className={classes.createLab} onClick={() => navigate("/app/createlab", {state:{batch:batch}})}>
+          Create Lab
+        </button>}
       </div>
       <div className={classes.labs}>
         {isLoading
           ? "Loading..."
           : labs?.map((item, idx) => (
               <DropdownSubmission
-                heading={item.topic + " " + item.duration}
+                heading={item.topic + " (" + item.duration + ")"}
                 date={item.date}
                 key={uuid()}
               >
@@ -35,7 +40,7 @@ export default function Lab() {
                   {item.questions.map((problem, idx) => (
                     <li key={idx} className={classes.listItem}>
                       <Link
-                        to={"/app/question/" + problem}
+                        to={{ pathname: `/app/question/${problem}`, state: {labId: labs._id} }}
                         className={classes.quesLinks}
                       >
                         Question {idx + 1}
