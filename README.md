@@ -76,6 +76,43 @@ The server-side code for CodeForge, utilizing Express.js and MongoDB, resides in
 
 * Once both frontend and backend are running, instructors and students can access the application to create/assign problems, submit solutions, and view performance metrics.
 
+**Site Images**
+* Here are some screenshots taken while testing. We will be updating these as and when we update the concerned part of the site.
+
+* Login - 
+![Login Page](SiteImages/LoginPage.jpg)
+
+* Student Home Screen (List of PYQs) 
+![Student Home Page](SiteImages/StudentHomeScreen.jpg)
+
+* Code Editor (Question Solving Screen)
+![Question Solving](SiteImages/QueSolvingEnvironment.jpg)
+
+* Hints Screen
+![Hints](SiteImages/Hints.jpg)
+
+* Past Submissions
+![Past Submissions](SiteImages/PastSubmissions.jpg)
+
+* Attend Lab - 
+![Attend Lab](SiteImages/AttendLab.jpg)
+
+* Profile Section 
+![Profile](SiteImages/StudentProfile.jpg)
+
+* Teacher Home Screen
+![Teacher Home Screen](SiteImages/TeacherHomeScreen.jpg)
+
+* Question Form
+![Question Form](SiteImages/UpdateOrAddQuestion.jpg)
+
+* User Friendly Input Method
+![Test Case Input](SiteImages/EfficientInputOfTestCases.jpg)
+
+* Create Lab - 
+![Create Lab](SiteImages/CreateLab.jpg)
+
+
 **Contributing:**
 
 We welcome contributions to improve CodeForge! Feel free to fork this repository, create a branch for your changes, and submit a pull request. 
