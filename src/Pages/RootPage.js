@@ -4,7 +4,7 @@ import NavBar from "../Components/NavBar";
 
 export default function Rootpage() {
   return (
-    <div>
+    <div stlye={{backgroundColor:"black"}}>
       <NavBar />
       <Outlet />
     </div>
