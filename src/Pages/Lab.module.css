@@ -1,23 +1,40 @@
 .wrapper {
-  width: 100vw;
-  height: 90vh;
-  background-color: black;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+    width: 100vw;
+    height: 90vh;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .header {
-  width: 90%;
-  margin: 3%;
-  color: white;
-  border-bottom: 2px solid white;
+    width: 90%;
+    margin: 3%;
+    color: white;
+    border-bottom: 2px solid white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.createLab {
+    padding: 5px;
+    background-color: lightcoral;
+    border: none;
+    font-size: larger;
+    border-radius: 10px;
+    margin: 5px 0px 5px 0px;
+}
+
+.createLab:hover {
+    border: 2px solid white;
 }
 
 .labs {
-  width: 100%;
-  margin-left: 7%;
+    width: 100%;
+    margin-left: 7%;
 }
 
 .queList {
@@ -30,12 +47,12 @@
     align-items: baseline;
 }
 
-.listItem{
+.listItem {
     margin: 5px 0px 5px 0px;
 }
 
 .quesLinks {
-  text-decoration: none;
-  color: black;
-  font-style: italic;
+    text-decoration: none;
+    color: black;
+    font-style: italic;
 }
