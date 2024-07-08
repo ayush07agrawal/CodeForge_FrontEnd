@@ -14,12 +14,12 @@ export default function NavBar() {
 
   const handleLogOut = async () => {
     try {
-        const { data } = await axios.get(`${server}/api/v1/user/logOut`, { withCredentials: true });
-        dispatch(userNotExists());
-        toast.success(data.message);
+      const { data } = await axios.get(`${server}/api/v1/user/logOut`, { withCredentials: true });
+      dispatch(userNotExists());
+      toast.success(data.message);
     }
     catch(error) {
-        toast.error(error?.response?.data?.message || "Something went wrong")
+      toast.error(error?.response?.data?.message || "Something went wrong")
     }
   }
 
