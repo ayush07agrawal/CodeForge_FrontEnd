@@ -15,6 +15,14 @@ const api = createApi({
             invalidatesTags: ["Question"],
         }),
 
+        getQuestionsFromTeacher:builder.query({
+            query: (id) => ({
+                url: `question/getQuestions/${id}`,
+                credentials: "include",
+            }),
+            invalidatesTags: ["Question"],
+        }),
+
         getParticularQuestion: builder.query({
             query: (id) => ({
                 url: `question/${id}`,
@@ -36,6 +44,7 @@ const api = createApi({
 export default api;
 export const { 
     useGetQuestionsQuery,
+    useGetQuestionsFromTeacherQuery,
     useGetParticularQuestionQuery,
     useGetLabsQuery,  
 } = api;
