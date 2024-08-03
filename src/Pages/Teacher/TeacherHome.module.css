@@ -1,44 +1,49 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
 .wrapper1 {
-  background-color: black;
-  padding: 2vw;
-  width: 60vw;
-  width: 96vw;
-  height: 91vh;
-  overflow-y: auto;
+	background-color: black;
+	padding: 2vw;
+	width: 60vw;
+	width: 96vw;
+	height: 91vh;
+	overflow-y: auto;
 }
 .wrapper1 h1 {
-  font-family: "Montserrat", sans-serif;
-  margin: 0 30px;
-  color: white;
+	font-family: "Montserrat", sans-serif;
+	margin: 0 30px;
+	color: white;
+}
+
+.wrapper1 a {
+	text-decoration: none;
+	color: inherit;
 }
 
 .fixedBtn {
-  position: fixed;
-  bottom: 1rem;
-  right: 1rem;
-  background-color: lightgreen;
-  color: black;
-  border: none;
-  padding: 10px;
-  font-size: larger;
-  border-radius: 7px;
+	position: fixed;
+	bottom: 1rem;
+	right: 1rem;
+	background-color: lightgreen;
+	color: black;
+	border: none;
+	padding: 10px;
+	font-size: larger;
+	border-radius: 7px;
 }
 
 .fixedBtn:hover {
-  cursor: pointer;
-  box-shadow: 0px 0px 20px lightgreen;
+	cursor: pointer;
+	box-shadow: 0px 0px 20px lightgreen;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+	width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: black;
+	background: black;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: lightgreen;
-  border-radius: 5px;
+	background-color: lightgreen;
+	border-radius: 5px;
 }

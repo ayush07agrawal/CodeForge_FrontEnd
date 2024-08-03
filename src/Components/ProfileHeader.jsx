@@ -10,12 +10,14 @@ import codeforcesicon from "../Assests/codeforces.svg";
 import leetcodeicon from "../Assests/leetcode.png";
 
 const ProfileHeader = ({ profile }) => {
+    console.log(profile.photo);
     return (
         <div className={classes.wrapper}>
             <div className={classes.cover}>
                 <img src={profile.coverimg === "" ? cover : profile.coverimg} alt=""></img>
                 <div className={classes.profilephoto}>
-                    <img src={profile.photo === "" ? pphoto : profile.photo} alt=""></img>
+                    <img src={pphoto} alt=""></img>
+                    {/* <img src={profile.photo === "" ? pphoto : profile.photo} alt=""></img> */}
                 </div>
             </div>
             <div className={classes.downcover}>

@@ -1,123 +1,70 @@
-**Project Name:** CodeForge
+# Getting Started with Create React App
 
-(project in progress)
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-**Description:**
+## Available Scripts
 
-CodeForge is a web application designed to streamline the management and execution of computer science labs, particularly for Data Structures and Algorithms (DSA) courses in colleges, with a focus on institutions like IITs. It aims to empower instructors to create and assign DSA problems, 
-track student progress, and analyze their performance.
+In the project directory, you can run:
 
-**Technologies:**
+### `npm start`
 
-* **MERN Stack:**
-    * **MongoDB:** NoSQL database for flexible data storage (server-side)
-    * **Express.js:** Web framework for building the backend API (server-side)
-    * **React.js:** JavaScript library for creating the user interface (client-side)
-    * **Node.js:** JavaScript runtime environment for server-side execution
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-**Frontend Repository:**
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-This repository ([https://github.com/ayush07agrawal/CodeForge_FrontEnd](https://github.com/ayush07agrawal/CodeForge_FrontEnd)) houses the client-side code for CodeForge, built with React.js. 
+### `npm test`
 
-**Backend Repository:**
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-The server-side code for CodeForge, utilizing Express.js and MongoDB, resides in a separate repository accessible here: [https://github.com/sauravatgithub-web/CodeForge_server](https://github.com/sauravatgithub-web/CodeForge_server)
+### `npm run build`
 
-**Installation:**
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-**Prerequisites:**
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-* Node.js and npm (or yarn) installed on your system.
-* A MongoDB database instance running locally or on a cloud provider.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-**Frontend Installation:**
+### `npm run eject`
 
-1. Clone this repository:
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-   ```bash
-   git clone https://github.com/ayush07agrawal/CodeForge_FrontEnd.git
-   ```
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-2. Navigate to the project directory:
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-   ```bash
-   cd CodeForge_FrontEnd
-   ```
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-3. Install dependencies:
+## Learn More
 
-   ```bash
-   npm install  # or yarn install
-   ```
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-**Backend Installation (refer to [https://github.com/sauravatgithub-web/CodeForge_server](https://github.com/sauravatgithub-web/CodeForge_server) for specific instructions):**
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-1. Clone the server-side repository from the provided link.
-2. Install dependencies within the server-side repository.
-3. Configure the database connection details in the server-side code.
+### Code Splitting
 
-**Running the Application:**
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-**Frontend:**
+### Analyzing the Bundle Size
 
-1. Start the development server:
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-   ```bash
-   npm start  # or yarn start
-   ```
+### Making a Progressive Web App
 
-2. The application will typically run on `http://localhost:3000` (adjust the port if necessary).
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-**Backend (refer to [https://github.com/sauravatgithub-web/CodeForge_server](https://github.com/sauravatgithub-web/CodeForge_server) for specific instructions):**
+### Advanced Configuration
 
-1. Start the backend server in the server-side repository according to its documentation.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-**Usage:**
+### Deployment
 
-* Once both frontend and backend are running, instructors and students can access the application to create/assign problems, submit solutions, and view performance metrics.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-**Site Images**
-* Here are some screenshots taken while testing. We will be updating these as and when we update the concerned part of the site.
+### `npm run build` fails to minify
 
-* Login - 
-![Login Page](SiteImages/LoginPage.jpg)
-
-* Student Home Screen (List of PYQs) 
-![Student Home Page](SiteImages/StudentHomeScreen.jpg)
-
-* Code Editor (Question Solving Screen)
-![Question Solving](SiteImages/QueSolvingEnvironment.jpg)
-
-* Hints Screen
-![Hints](SiteImages/Hints.jpg)
-
-* Past Submissions
-![Past Submissions](SiteImages/PastSubmissions.jpg)
-
-* Attend Lab - 
-![Attend Lab](SiteImages/AttendLab.jpg)
-
-* Profile Section 
-![Profile](SiteImages/StudentProfile.jpg)
-
-* Teacher Home Screen
-![Teacher Home Screen](SiteImages/TeacherHomeScreen.jpg)
-
-* Question Form
-![Question Form](SiteImages/UpdateOrAddQuestion.jpg)
-
-* User Friendly Input Method
-![Test Case Input](SiteImages/EfficientInputOfTestCases.jpg)
-
-* Create Lab - 
-![Create Lab](SiteImages/CreateLab.jpg)
-
-
-**Contributing:**
-
-We welcome contributions to improve CodeForge! Feel free to fork this repository, create a branch for your changes, and submit a pull request. 
-
-
-**Disclaimer:**
-
-This project is provided for educational purposes only. While we strive to ensure its functionality, we do not guarantee its suitability for any specific use case.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

@@ -1,5 +1,6 @@
 .select{
     height: 60%;
+    width: -moz-fit-content;
     width: fit-content;
     margin: 0.25rem;
     padding: 0.1rem;

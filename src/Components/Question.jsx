@@ -74,7 +74,7 @@ export default function Question({ details }) {
           <span className={classes.title}>
             <h1><u>{details?.title}</u></h1>
 
-            {(user.role === "teacher") && <button onClick={() =>navigate(`/app/questionform/edit`, { state: {question:details, questionId:questionId} })} className={classes.editBtn}>
+            {(user.role === "teacher") && <button onClick={() => navigate(`/app/questionform/edit`, { state: { question: details, questionId: questionId } })} className={classes.editBtn}>
               Edit Question
             </button>}
           </span>
@@ -107,9 +107,9 @@ export default function Question({ details }) {
       }
       {(content === "Hints") &&
         <div className={classes.wrapper}>
-        {details.hints.length !== 0 ? 
-          details.hints.map((item, idx) => <DropdownHint heading={"Hint " + (idx + 1)}>{item}</DropdownHint>)
-        : <h1>No hints available</h1>}
+          {details.hints.length !== 0 ?
+            details.hints.map((item, idx) => <DropdownHint heading={"Hint " + (idx + 1)}>{item}</DropdownHint>)
+            : <h1>No hints available</h1>}
         </div>
       }
       {(content === "Submissions") &&
