@@ -2,7 +2,7 @@ import React from 'react';
 import classes from "./ProgressBar.module.css";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
-const Progressbar = ({ solved, total }) => {
+const ProgressBar = ({ solved, total }) => {
     const value = solved / (total * 2) * 100;
     return (
         <div>
@@ -28,4 +28,4 @@ const Progressbar = ({ solved, total }) => {
     );
 };
 
-export default Progressbar;
+export default ProgressBar;
