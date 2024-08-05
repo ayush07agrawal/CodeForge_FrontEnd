@@ -10,11 +10,11 @@ import { useGetLabsQuery } from "../redux/api/api";
 export default function Lab() {
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.auth.user);
-	const batch = user.batch;
+	console.log(user);
+	const batch = user.role === "teacher" ? user.batch[0] : user.batch;
 	console.log(batch);
 	const { data, isLoading, isError, error } = useGetLabsQuery(batch);
 	useErrors([{ isError, error }]);
-	console.log(data);
 	const labs = data?.lab;
 	return (
 		<div className={classes.wrapper}>
@@ -42,9 +42,25 @@ export default function Lab() {
 					: labs?.map((item, idx) => (
 							<DropdownSubmission
 								heading={
-									item.topic + " (" + item.duration + ")"
+									item.topic +
+									" " +
+									(item.isEnd ? (
+										"(Completed)"
+									) : item.isStart ? (
+										""
+									) : (
+										"( " +
+										Math.floor(item.duration / 3600) +
+										":" +
+										(Math.floor(item.duration / 60) % 60) +
+										":" +
+										(item.duration % 60) +
+										")"
+									))
 								}
+								timeLeft={(item.isStart && !item.isEnd) ? item.duration : undefined}
 								date={item.date}
+								labId={item._id}
 								key={uuid()}
 							>
 								<ul className={classes.queList}>

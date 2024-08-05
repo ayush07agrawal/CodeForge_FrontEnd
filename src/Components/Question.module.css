@@ -1,137 +1,138 @@
 .wrapper {
-	height: 86vh;
-	width: 40vw;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: baseline;
-	text-align: left;
-	overflow-y: auto;
-	overflow-x: hidden;
-	border-right: 4px solid black;
-	padding-top: 30px;
-	position: relative;
+  height: 86vh;
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: baseline;
+  text-align: left;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-right: 4px solid black;
+  padding-top: 30px;
+  position: relative;
 }
 
 .title {
-	margin-top: 0.5rem;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	padding-left: 10px;
-	padding-right: 90px;
-	width: 90%;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 90px;
+  width: 90%;
 }
 
 .wrapper ul {
-	margin-top: 0.5rem;
-	list-style: none;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: flex-start;
-	align-items: center;
-	padding: 0.5rem;
-	width: 100%;
+  margin-top: 0.5rem;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.5rem;
+  width: 100%;
 }
 
 .tags li {
-	text-decoration: none;
-	border: 2px solid black;
-	border-top-left-radius: 15px 50%;
-	border-top-right-radius: 15px 50%;
-	border-bottom-left-radius: 15px 50%;
-	border-bottom-right-radius: 15px 50%;
-	text-align: center;
-	padding: 0.2rem;
-	padding-left: 0.4rem;
-	padding-right: 0.4rem;
-	margin-left: 3px;
-	margin-right: 3px;
-	background-color: lightgray;
-	color: black;
-	font-size: large;
-	font-weight: 300;
+  text-decoration: none;
+  border: 2px solid black;
+  border-top-left-radius: 15px 50%;
+  border-top-right-radius: 15px 50%;
+  border-bottom-left-radius: 15px 50%;
+  border-bottom-right-radius: 15px 50%;
+  text-align: center;
+  padding: 0.2rem;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  margin-left: 3px;
+  margin-right: 3px;
+  background-color: lightgray;
+  color: black;
+  font-size: large;
+  font-weight: 300;
 }
 
 .wrapper .desc {
-	margin: 1rem;
+  margin: 1rem;
 }
 
-.desc {
-	font-size: larger;
-	margin: 1rem;
+.desc{
+  font-size: larger;
+  margin: 1rem;
 }
 
-.testcases {
-	display: flex;
-	max-width: 90%;
-	height: fit-content;
-	flex-direction: row;
-	align-items: baseline;
-	justify-content: center;
-	background-color: lightgray;
-	border-radius: 3%;
-	border: 2px solid black;
-	margin: 1rem;
+
+.testcases{
+  display: flex;
+  max-width: 90%;
+  height: fit-content;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: center;
+  background-color: lightgray;
+  border-radius: 3%;
+  border: 2px solid black;
+  margin: 1rem;
 }
 
-.test {
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: baseline;
-	margin: 1rem;
+.test{
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: baseline;
+  margin: 1rem;
 }
 
-.test .values {
-	display: flex;
-	flex-direction: column;
-	justify-content: end;
-	align-items: baseline;
+.test .values{
+  display:flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: baseline;
 }
 
-.values li {
-	margin: 2px;
+.values li{
+  margin: 2px;
 }
 
-.codeArea {
-	background-color: lightgray;
-	padding: 8px;
-	border-radius: 5px;
-	overflow: auto;
+.codeArea{
+  background-color: lightgray;
+  padding: 8px;
+  border-radius: 5px;
+  overflow: auto;
 }
 
 ::-webkit-scrollbar {
-	width: 8px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-	background: #f1f1f1;
+  background: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: #888;
-	border-radius: 5px;
+  background-color: #888;
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	background-color: #555;
+  background-color: #555;
 }
 
-.editBtn {
-	padding: 8px;
-	background-color: lightsalmon;
-	position: absolute;
-	top: 1rem;
-	right: 1rem;
-	border-radius: 2px;
-	border: 0px;
-	font-size: larger;
+.editBtn{
+  padding: 8px;
+  background-color: lightsalmon;
+  position:absolute;
+  top: 1rem;
+  right: 1rem;
+  border-radius: 2px;
+  border: 0px;
+  font-size: larger;
 }
 
-.editBtn:hover {
-	cursor: pointer;
-	border: 2px solid black;
+.editBtn:hover{
+  cursor: pointer;
+  border: 2px solid black;
 }

@@ -9,6 +9,9 @@ import axios from 'axios';
 import { server } from '../Assests/config';
 import toast from 'react-hot-toast';
 
+import DropDownBatch from './DropdownBatch';
+import { setIsDropDown, setIsPopUp } from '../redux/reducers/misc';
+
 export default function NavBar() {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -19,36 +22,65 @@ export default function NavBar() {
       dispatch(userNotExists());
       toast.success(data.message);
     }
-    catch (error) {
+    catch(error) {
       toast.error(error?.response?.data?.message || "Something went wrong")
     }
   }
 
+  const isDropDownShow = useSelector((state) => state.misc.isDropDown);
+  const toggleDropdown = () => {
+    dispatch(setIsDropDown(!isDropDownShow));
+  };
+
+  const showPopup = () => dispatch(setIsPopUp(true));
+
+  const toggleAndShowPopup = () => {
+    toggleDropdown();
+    showPopup();
+  }
+
   return (
-    <div className={classes.wrapper}>
-      <NavLink to="/" className={classes.brand}><img src={img1} alt="Logo" /></NavLink>
-      <ul className={classes.links}>
-        <li>
-          <NavLink to="/" className={({ isActive }) => (isActive ? classes.active : undefined)}>
-            PRACTICE
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="lab" className={({ isActive }) => (isActive ? classes.active : undefined)}>
-            LAB
-          </NavLink>
-        </li>
-        <li className={classes.pimage}>
-          <NavLink to={`user/${user._id}`} className={({ isActive }) => (isActive ? classes.active : undefined)}>
-            <img src={pphoto} alt="Profile" />
-          </NavLink>
-        </li>
-        <li>
-          <button className={classes.btn} onClick={handleLogOut}>
-            LogOut
-          </button>
-        </li>
-      </ul>
+    <div>
+      <div className={classes.wrapper}>
+          <NavLink to="/" className={classes.brand}><img src={img1} alt="Logo" /></NavLink>
+          <ul className={classes.links}>
+            {user.role === "student" && <li>
+              <NavLink to="/" className={({isActive}) => (isActive ? classes.active : undefined)}>
+                PRACTICE
+              </NavLink>
+            </li>}
+            {user.role === "student" && <li>
+              <NavLink to="lab" className={({isActive}) => (isActive ? classes.active : undefined)}>
+                LAB
+              </NavLink>
+            </li>}
+            {user.role === "teacher" && <li>            
+              <NavLink onClick={toggleDropdown}  className={({isActive}) => (isActive ? classes.active : undefined)}> BATCH </NavLink>
+            </li>}
+            <li className={classes.pimage}>
+              <NavLink to={`user/${user._id}`} className={({isActive}) => (isActive ? classes.active : undefined)}>
+                <img src = {pphoto} alt = "Profile" />
+              </NavLink>
+            </li>
+            <li>
+              <button className = {classes.btn} onClick={handleLogOut}>
+                LogOut
+              </button>
+            </li>
+          </ul> 
+      </div>
+
+      {user.role === "teacher" && <div className = {classes.dropDownList}>
+        {user.batch && user.batch.map(( batch, index ) => (
+          isDropDownShow && <DropDownBatch btnkey={index} key = {index}>{batch}</DropDownBatch>
+        ))}
+        {isDropDownShow && 
+          <DropDownBatch 
+            btnUpdate = {1} 
+            btnkey = { (user.batch?.length === 0) ? 0 : -1 } 
+            onClick = { toggleAndShowPopup }
+          >UPDATE</DropDownBatch>}
+      </div>  }    
     </div>
   )
 }

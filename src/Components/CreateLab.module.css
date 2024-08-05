@@ -35,7 +35,8 @@ h1 {
   
 .inputField input[type="text"],
 .inputField input[type="date"],
-.inputField input[type="time"] {
+.inputField input[type="time"],
+.inputField input[type="number"] {
     padding: 8px;
     font-size: 16px;
     border: 1px solid #acacac;
@@ -45,13 +46,15 @@ h1 {
   
 .inputField input[type="text"]::placeholder,
 .inputField input[type="date"]::placeholder,
-.inputField input[type="time"]::placeholder {
+.inputField input[type="time"]::placeholder,
+.inputField input[type="number"]::placeholder{
     color: #ccc;
 }
   
 .inputField input[type="text"]:focus,
 .inputField input[type="date"]:focus,
-.inputField input[type="time"]:focus {
+.inputField input[type="time"]:focus,
+.inputField input[type="number"]:focus{
     outline: none;
     border-color: #5fca63;
     box-shadow: 0 0 5px rgba(45, 104, 47, 0.5);
@@ -67,4 +70,16 @@ h1 {
     cursor: pointer;
     margin-top: 20px;
     align-self: center;
+}
+.durationInput{
+    display:flex;
+    width:200px;
+}
+.durationInput span{
+    width:80px;
+    display:flex;
+    align-items: center;
+    justify-content:center;
+    font-size: 30px;
+    transform: translateY(-10%);
 }

@@ -1,0 +1,52 @@
+.wrapper{
+    position : relative;
+    color:rgb(4, 4, 4);
+    background:rgba(168, 168, 168, 0.923);
+    margin:3px;
+    padding:10px;
+    width:150px;  
+    cursor: pointer; 
+}
+.wrapper h2{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-items: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.updateButton{
+    background: #ff2d2dd1;
+    color:rgb(255, 255, 255);
+    border-end-end-radius: 10px;
+    border-end-start-radius: 10px;
+    text-shadow:2px 0 #000,0 2px #000,-2px 0 #000,0 -2px #000;
+}
+.firstButton{
+    border-start-end-radius: 10px;
+    border-start-start-radius: 10px;
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.wrapper{
+    animation: fadeSlideIn 0.5s;
+}
+
+.dropDownLink {
+    text-decoration: none;
+    color: black;
+}
+
+.updateButton .dropDownLink{
+    color: white;
+}

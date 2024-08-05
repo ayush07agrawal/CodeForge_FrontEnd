@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 const QuestionList = ({ question, num, solved = false }) => {
     return (
-        <Link to={"/app/question/" + question?._id} className={classes.wrapper}>
+        <Link to = {"/app/question/"+question?._id} className={classes.wrapper}>
             <div className={classes.first}>
                 <div>
                     <p className={classes.num}><span className={(question?.tags[0] === 'easy') ? classes.easycolor :

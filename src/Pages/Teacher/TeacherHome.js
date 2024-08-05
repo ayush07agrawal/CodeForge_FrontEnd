@@ -8,28 +8,21 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function TeacherHome() {
-	const { user } = useSelector((state) => state.auth);
-	const allQuestions = useGetQuestionsFromTeacherQuery(user._id);
-	const errors = [
-		{ isError: allQuestions.isError, error: allQuestions.error },
-	];
-	useErrors(errors);
-	const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  const allQuestions = useGetQuestionsFromTeacherQuery(user._id);
+  const errors = [{ isError: allQuestions.isError, error: allQuestions.error }];
+  useErrors(errors);
+  const navigate = useNavigate();
 
-	return (
-		<div>
-			<div className={classes.wrapper1}>
-				<h1>Questions</h1>
-				{allQuestions.data?.questions.map((q, idx) => (
-					<QuestionList question={q} num={idx + 1} key={uuid()} />
-				))}
-			</div>
-			<button
-				onClick={() => navigate("/app/questionform/new")}
-				className={classes.fixedBtn}
-			>
-				ADD NEW QUESTION
-			</button>
-		</div>
-	);
+  return (
+    <div>
+      <div className={classes.wrapper1}>
+        <h1>Questions</h1>
+        {allQuestions.data?.questions.map((q, idx) => (
+          <QuestionList question={q} num={idx + 1} key={uuid()} />
+        ))}
+      </div>
+      <button onClick={() => navigate("/app/questionform/new")} className={classes.fixedBtn}>ADD NEW QUESTION</button>
+    </div>
+  );
 }

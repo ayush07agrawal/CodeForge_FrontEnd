@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     isProfile: false,
     isResettingPassword : false,
+    isDropDown: false,
+    isPopUp: false,
     secretQuestion: undefined,
     email: undefined,
     role: undefined
@@ -26,6 +28,12 @@ const miscSlice = createSlice({
         },
         setRole: (state, action) => {
             state.role = action.payload;
+        },
+        setIsPopUp: (state, action) => {
+            state.isPopUp = action.payload;
+        },
+        setIsDropDown: (state, action) => {
+            state.isDropDown = action.payload;
         }
     }
 });
@@ -36,5 +44,7 @@ export const {
     setIsResettingPassword,
     setSecretQuestion,
     setEmail,
-    setRole
+    setRole,
+    setIsPopUp,
+    setIsDropDown
 } = miscSlice.actions;
