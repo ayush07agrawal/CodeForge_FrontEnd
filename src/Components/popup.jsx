@@ -25,8 +25,7 @@ const BatchAddPopup=({ show }) => {
         }
     }
 
-    const handleClose = (e) => {
-        e.preventDefault();
+    const handleClose = () => {
         if(batches !== user.batch) changeBatches("Updating Baatches...", { userId: user._id, batches });
         else toast.error("Batches are same as before");
 
@@ -49,7 +48,7 @@ const BatchAddPopup=({ show }) => {
                         </button>
                     ))}
                 </div>                
-                <button type='button' onClick = {handleClose} className = {classes.btn}> Update </button>
+                <button type = 'submit' onClick = {handleClose} className = {classes.btn}> Update </button>
             </div>}
         </div>
     );

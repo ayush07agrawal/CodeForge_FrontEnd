@@ -54,9 +54,9 @@ export default function NavBar() {
                 LAB
               </NavLink>
             </li>}
-            {user.role === "teacher" && <li>            
-              <NavLink onClick={toggleDropdown}  className={({isActive}) => (isActive ? classes.active : undefined)}> BATCH </NavLink>
-            </li>}
+            {user.role === "teacher" && 
+              <li onClick = {toggleDropdown} style = {{color : "white", cursor: "pointer"}}> BATCH </li>
+            }
             <li className={classes.pimage}>
               <NavLink to={`user/${user._id}`} className={({isActive}) => (isActive ? classes.active : undefined)}>
                 <img src = {pphoto} alt = "Profile" />
