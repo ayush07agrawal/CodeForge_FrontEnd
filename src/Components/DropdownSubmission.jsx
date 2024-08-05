@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import classes from "./DropdownSubmission.module.css";
 import Timer from "../Components/Timer";
 import { useSelector } from 'react-redux';
