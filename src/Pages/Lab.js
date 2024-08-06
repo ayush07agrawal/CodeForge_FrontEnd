@@ -61,6 +61,8 @@ export default function Lab() {
 								timeLeft={(item.isStart && !item.isEnd) ? item.duration : undefined}
 								date={item.date}
 								labId={item._id}
+								isStart={item.isStart}
+								isEnd={item.isEnd}
 								key={uuid()}
 							>
 								<ul className={classes.queList}>
