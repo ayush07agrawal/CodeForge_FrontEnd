@@ -63,7 +63,7 @@ export default function DropdownSubmission({ heading, date, timeLeft, labId, isS
             // console.error("Error submitting code:", error);
         }
     }
-
+    console.log(date);
     return (
         <div className={classes.wrapper}>
             <div className={classes.head} onClick={() => setVisible((prev) => !prev)}>
@@ -76,7 +76,9 @@ export default function DropdownSubmission({ heading, date, timeLeft, labId, isS
                         user.role === "teacher" &&
                         (
                             (!isStart && !isEnd &&
-                                <button className={classes.createLab} onClick={handleStart}> Start </button>
+                                <button className={classes.timingBtn} onClick={handleStart}> 
+                                    Start 
+                                </button>
                             )
                             ||
                             (isStart && !isEnd && 
@@ -84,11 +86,10 @@ export default function DropdownSubmission({ heading, date, timeLeft, labId, isS
                                     <input
                                         type="number"
                                         ref={time}
-                                        placeholder="In mins.."
-                                        // className={classes.filterInput}
+                                        className={classes.extendInput}
                                     />
                                     <p>Mins </p>
-                                    <button className={classes.createLab} onClick={handleExtend}> Extend </button>
+                                    <button className={classes.timingBtn} onClick={handleExtend}> Extend </button>
                                 </>
                             )
                         )
