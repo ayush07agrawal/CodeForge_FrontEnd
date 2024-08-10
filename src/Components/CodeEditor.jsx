@@ -4,6 +4,7 @@ import classes from "./CodeEditor.module.css";
 import SelectInput from './Inputs/SelectInput';
 import { Form, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { server } from '../Assests/config';
 
 const sizeValues = [8, 9, 10, 12, 14, 16, 18, 20, 22, 24, 26];
 const languages = ["cpp", "c"];
@@ -11,7 +12,7 @@ const langVersions = ["GCC 11.1.0", "GCC 13.2.1"];
 const themes = ["vs-dark", "vs-light"];
 
 
-export default function CodeEditor({ testCase }) {
+export default function CodeEditor({ testCase, labId }) {
     const params = useParams();
     const { user } = useSelector((state) => state.auth);
     const [editor, setEditor] = useState({
@@ -25,7 +26,7 @@ export default function CodeEditor({ testCase }) {
     const [stdin, setStdin] = useState(testCase?.reduce((final, val) => final + val + "\n", testCase.length + "\n"));
     const [customInput, setCustomInput] = useState(false);
     const [output, setOutput] = useState(false);
-    const [response, setResponse] = useState(undefined)
+    const [response, setResponse] = useState(undefined);
 
 
     function handleCode(value) {
@@ -50,17 +51,19 @@ export default function CodeEditor({ testCase }) {
 
     async function handleSubmit(event) {
         event.preventDefault();
+        const destination = (labId) ? "lab" : "question";
         setResponse(undefined);
         setOutput(true);
         try {
             const request = {
+                labId: labId || "",
                 userId: user._id,
                 language: editor.language,
                 versionIndex: (editor.languageVersion === "GCC 11.1.0" ? 5 : 6),
                 script: editor.code.replace(/\\r\\/g, "\\"),
             };
             console.log(request);
-            const response = await fetch(`http://localhost:4173/api/v1/question/submitCode/${params.questionId}`, {
+            const response = await fetch(`${server}/api/v1/${destination}/submitCode/${params.questionId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

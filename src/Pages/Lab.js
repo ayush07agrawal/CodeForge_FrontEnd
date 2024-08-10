@@ -71,10 +71,8 @@ export default function Lab() {
 											className={classes.listItem}
 										>
 											<Link
-												to={{
-													pathname: `/app/question/${problem}`,
-													state: { labId: labs._id },
-												}}
+												to = {`/app/question/${problem}`}
+												state = {{ labId: item._id }}
 												className={classes.quesLinks}
 											>
 												Question {idx + 1}

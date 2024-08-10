@@ -22,11 +22,12 @@ function formatDate(timestamp) {
 
 export default function Question({ details }) {
   const params = useParams();
+  const navigate = useNavigate();
+  
   const [content, setContent] = useState("Question");
   const [submissions, setSubmissions] = useState([]);
   const { user } = useSelector((state) => state.auth);
   const questionId = params.questionId;
-  const navigate = useNavigate();
 
   const handleChange = (value) => {
     setContent(value);
