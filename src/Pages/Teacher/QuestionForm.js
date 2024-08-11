@@ -114,7 +114,7 @@ export default function QuestionForm() {
         if(newQ) newData = { ...data, testCase: [], answer: [], hints: hints, teacherId: user._id };
         if(editing && !labId) newData = { ...data, testCase: [], answer: [], hints: hints, questionId: questionId };
         newData.tags = newData.tags.split(',')
-        newData.tags = newData.tags.filter(( _, index ) => index !== 0)
+        newData.tags = newData.tags.filter(( value, index ) =>(value !== "easy" && value!=="medium" && value!=="hard"))
         const updatedTags = [newData.difficulty, ...newData.tags];
         newData.tags = updatedTags;
         testCases.map((tc, ind) => {
