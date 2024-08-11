@@ -4,20 +4,17 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../../public/background.jpeg");
+    align-items: start;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../../public/background.png");
     background-repeat: no-repeat;
     background-size: cover;
     color: beige;
 }
 
 .heading{
-    height: fit-content;
+    height: 80vh;
     width: 80vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: baseline;
+    margin-left: 100px;
 }
 
 .img{
@@ -27,19 +24,28 @@
 .desc{
     width: 40%;
     text-wrap: wrap;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    font-size: large;
+    margin: -20px 20px 20px 80px;
+    font-size: larger;
+}
+
+.desc>li{
+    margin: 10px;
+    list-style-type: "</>  ";
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .btn{
     padding: 10px;
     font-size: larger;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: turquoise;
     border-radius: 20px;
-    border: 0;
+    margin-left: 80px;
+    color: black;
+    font-weight: 900;
+    font-size: larger;
 }
 
 .btn:hover {
     cursor: pointer;
+    background-color: lightgreen;
 }

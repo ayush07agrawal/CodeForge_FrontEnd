@@ -116,10 +116,13 @@ export default function Authentication() {
           onSubmit={handleSubmit}
           className={signUp ? classes.form2 : classes.form}
         >
-          {mailVerify && <h1><u>Mail Verification</u></h1>}
-          {otpVerify && <h1><u>OTP Confirmation</u></h1>}
-          {login && <h1><u>Welcome Back!!</u></h1>}
-          {signUp && <h1><u>SET UP YOUR ACCOUNT</u></h1>}
+          <div className={classes.heading}>
+            {mailVerify && <h1>Mail Verification 🪪</h1>}
+            {otpVerify && <h1>OTP Confirmation 🔐</h1>}
+            {updatePassword && <h1>NEW PASSWORD 🔑</h1>}
+            {login && <h1>WELCOME BACK😀</h1>}
+            {signUp && <h1>WELCOME NEW JOINEE 🧑🏻‍🎓</h1>}
+          </div>
 
           <div className={classes.input}>
             {signUp && (
@@ -127,7 +130,7 @@ export default function Authentication() {
                 width="small"
                 name="name"
                 type="text"
-                label="name"
+                label="Name"
                 required
               >
                 Enter your Name...
@@ -217,7 +220,7 @@ export default function Authentication() {
                 label="Secret Question"
                 required
               >
-                Enter a secret question...(Eg. Favourite color ?)
+                Enter a secret question...
               </TextInput>
             )}
 
@@ -238,22 +241,25 @@ export default function Authentication() {
             </button>
           </div>
           {(signUp || mailVerify) && (
-            <p>
+            <p className={classes.text}>
               Already have an Account ? <Link to="/auth/login">Login</Link>
             </p>
           )}
 
           {login && (
-            <p>
+            <p className={classes.text}>
               Want to create an account ?{" "}
               <Link to="/auth/verifyEmail">SignUp</Link>
-              <br />
+            </p>
+          )}
+          {login && (
+            <p className={classes.text}>
+              Forgot Password ?{" "}
               <Link
                 to="/auth/verifyEmail"
                 onClick={() => dispatch(setIsResettingPassword(true))}
-                style = {{ textDecoration: "none" }}
               >
-                Forgot Password ?
+                Change Password
               </Link>
             </p>
           )}
