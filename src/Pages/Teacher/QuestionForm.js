@@ -114,6 +114,7 @@ export default function QuestionForm() {
         if(newQ) newData = { ...data, testCase: [], answer: [], hints: hints, teacherId: user._id };
         if(editing && !labId) newData = { ...data, testCase: [], answer: [], hints: hints, questionId: questionId };
         newData.tags = newData.tags.split(',')
+        newData.tags = newData.tags.filter(( _, index ) => index !== 0)
         const updatedTags = [newData.difficulty, ...newData.tags];
         newData.tags = updatedTags;
         testCases.map((tc, ind) => {
@@ -132,7 +133,14 @@ export default function QuestionForm() {
                     else navigate(`/app/question/${questionId}`);
                 }
                 else {
-                    setQuestionArray((prev) => [...prev, response.data.data._id]);
+                    setQuestionArray((prev) => [
+                        ...prev,
+                        { 
+                            id: response.data.data._id, 
+                            tag: response.data.data.tags[0],
+                            numTestCase: response.data.data.testCase.length
+                        }
+                      ]);
                 }
             } 
             else { toast.error("Adding failed"); }

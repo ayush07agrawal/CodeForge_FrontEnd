@@ -1,20 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./Lab.module.css";
 import { useSelector } from "react-redux";
-import DropdownSubmission from "../Components/DropdownSubmission";
 import { v4 as uuid } from "uuid";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useErrors } from "../hooks/hooks";
 import { useGetLabsQuery } from "../redux/api/api";
+import DropdownSubmission from "../Components/DropdownSubmission";
+import Performance from "../Components/Performance";
 
 export default function Lab() {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
+
 	const user = useSelector((state) => state.auth.user);
 	const batch = user.role === "teacher" ? searchParams.get("batch") : user.batch;
+
+	const [showPerformance, setShowPerformance] = useState(false);
+	const [showBatchPerformance, setShowBatchPerformance] = useState(false);
+	const [reportData, setReportData] = useState([]);
+	const [labQuestions, setLabQuestions] = useState([]);
+
 	const { data, isLoading, isError, error } = useGetLabsQuery(batch);
 	useErrors([{ isError, error }]);
 	const labs = data?.lab;
+
 	return (
 		<div className={classes.wrapper}>
 			<div className={classes.header}>
@@ -23,16 +32,19 @@ export default function Lab() {
 					<i>{batch}</i>
 				</h2>
 				{user.role === "teacher" && (
-					<button
-						className={classes.createLab}
-						onClick={() =>
-							navigate("/app/createlab", {
-								state: { batch: batch },
-							})
-						}
-					>
-						Create Lab
-					</button>
+					<div>
+						<button onClick={() => setShowBatchPerformance(true)}>Batch Performance</button>
+						<button
+							className={classes.createLab}
+							onClick={() =>
+								navigate("/app/createlab", {
+									state: { batch: batch },
+								})
+							}
+						>
+							Create Lab
+						</button>
+					</div>
 				)}
 			</div>
 			<div className={classes.labs}>
@@ -57,12 +69,11 @@ export default function Lab() {
 										")"
 									))
 								}
-								timeLeft={(item.isStart && !item.isEnd) ? item.duration : undefined}
-								date={item.date}
-								labId={item._id}
-								isStart={item.isStart}
-								isEnd={item.isEnd}
-								key={uuid()}
+								lab = {item}
+								key = {uuid()}
+								setLabQuestions = {setLabQuestions}
+								setReportData = {setReportData}
+								handleShowPerformance = {setShowPerformance}
 							>
 								<ul className={classes.queList}>
 									{item.questions.map((problem, idx) => (
@@ -71,7 +82,7 @@ export default function Lab() {
 											className={classes.listItem}
 										>
 											<Link
-												to = {`/app/question/${problem}`}
+												to = {`/app/question/${problem.id}`}
 												state = {{ labId: item._id }}
 												className={classes.quesLinks}
 											>
@@ -82,6 +93,23 @@ export default function Lab() {
 								</ul>
 							</DropdownSubmission>
 					  ))}
+			</div>
+			<div>
+				{showPerformance && 
+					<Performance 
+						show = {showPerformance} 
+						handleShowPerformance = {setShowPerformance} 
+						report = {reportData} 
+						labQuestions = {labQuestions}
+					/>
+				}
+				{showBatchPerformance && 
+					<Performance 
+						show={showBatchPerformance} 
+						handleShowPerformance={setShowBatchPerformance} 
+						batch={true}
+					/>
+				}
 			</div>
 		</div>
 	);

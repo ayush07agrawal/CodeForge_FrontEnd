@@ -30,6 +30,7 @@
 
 .createLab:hover {
 	border: 2px solid white;
+	cursor: pointer;
 }
 
 .labs {

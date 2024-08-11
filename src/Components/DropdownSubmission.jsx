@@ -1,17 +1,22 @@
 import React, { useRef, useState } from 'react';
-import classes from "./DropdownSubmission.module.css";
-import Timer from "../Components/Timer";
 import { useSelector } from 'react-redux';
 import { json, useNavigate } from 'react-router-dom';
 import { server } from '../Assests/config';
 import toast from 'react-hot-toast';
+import axios from 'axios';
+import classes from "./DropdownSubmission.module.css";
+import Timer from "../Components/Timer";
 
-
-export default function DropdownSubmission({ heading, date, timeLeft, labId, isStart, isEnd, children }){
+export default function DropdownSubmission({ heading, lab, children, setLabQuestions, setReportData, handleShowPerformance }) {
     const time = useRef();
-    const user = useSelector((state) => state.auth.user);
-    const [visible, setVisible] = useState(false);
     const navigate = useNavigate();
+    const user = useSelector((state) => state.auth.user);
+
+    const { date, _id: labId, isStart, isEnd, duration, report } = lab;
+    const timeLeft = (isStart && !isEnd) ? duration : undefined;
+
+    const [visible, setVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     async function handleStart() {
         try {
@@ -63,6 +68,27 @@ export default function DropdownSubmission({ heading, date, timeLeft, labId, isS
             // console.error("Error submitting code:", error);
         }
     }
+
+    const createPerformance = async() => {
+        const toastId = toast.loading("Creating performance report .... ");
+        setIsLoading(true);
+
+        try {
+            const { data } = await axios.post(`${server}/api/v1/lab/createReport/${labId}`,);
+            toast.success(data.message, { id: toastId });
+        }
+        catch (error) {
+            toast.error(error?.response?.data?.message || "Something went wrong", { id: toastId });
+        }
+        finally { setIsLoading(false) }
+    }
+
+    const handlePerformanceClick = () => {
+        setReportData(report);
+        setLabQuestions(lab.questions);
+        handleShowPerformance(true)
+    }
+
     console.log(date);
     return (
         <div className={classes.wrapper}>
@@ -75,23 +101,31 @@ export default function DropdownSubmission({ heading, date, timeLeft, labId, isS
                     {
                         user.role === "teacher" &&
                         (
-                            (!isStart && !isEnd &&
-                                <button className={classes.timingBtn} onClick={handleStart}> 
-                                    Start 
+                            <div>
+                                <button onClick={(e)=>{
+                                    if(report.length !== 0) e.stopPropagation();
+                                    (report.length === 0) ? createPerformance() : handlePerformanceClick();
+                                }}>
+                                    {(report.length === 0) ? "Create Performance" : "View Performance"}
                                 </button>
-                            )
-                            ||
-                            (isStart && !isEnd && 
-                                <>
-                                    <input
-                                        type="number"
-                                        ref={time}
-                                        className={classes.extendInput}
-                                    />
-                                    <p>Mins </p>
-                                    <button className={classes.timingBtn} onClick={handleExtend}> Extend </button>
-                                </>
-                            )
+                                {(!isStart && !isEnd &&
+                                    <button className={classes.timingBtn} onClick={handleStart}> 
+                                        Start 
+                                    </button>
+                                )
+                                ||
+                                (isStart && !isEnd && 
+                                    <>
+                                        <input
+                                            type="number"
+                                            ref={time}
+                                            className={classes.extendInput}
+                                        />
+                                        <p>Mins </p>
+                                        <button className={classes.timingBtn} onClick={handleExtend}> Extend </button>
+                                    </>
+                                )}
+                            </div>
                         )
                     }
                 </span>
