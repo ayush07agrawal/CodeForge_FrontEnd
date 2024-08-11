@@ -119,9 +119,6 @@ const Performance = ({ show, handleShowPerformance, report, labQuestions, batch 
                                 <tr key = {sind}>
                                     {labQuestions?.map(( question, index ) => { 
                                         const questionKey = `question${index + 1}`;
-                                        {/* if((questionKey in student) === false){
-                                            student[questionKey] = 0;
-                                        } */}
                                         const width = student[questionKey]/question.numTestCase*100;                                 
                                         return  <td key={index} 
                                                     onClick={()=>{
