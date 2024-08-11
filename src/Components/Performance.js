@@ -119,9 +119,9 @@ const Performance = ({ show, handleShowPerformance, report, labQuestions, batch 
                                 <tr key = {sind}>
                                     {labQuestions?.map(( question, index ) => { 
                                         const questionKey = `question${index + 1}`;
-                                        if((questionKey in student) == false){
+                                        {/* if((questionKey in student) === false){
                                             student[questionKey] = 0;
-                                        }
+                                        } */}
                                         const width = student[questionKey]/question.numTestCase*100;                                 
                                         return  <td key={index} 
                                                     onClick={()=>{
@@ -130,7 +130,7 @@ const Performance = ({ show, handleShowPerformance, report, labQuestions, batch 
                                                     }} 
                                                     className={classes.codeShowtd}
                                                 >                                                       
-                                                    <div>{student[questionKey]}</div>
+                                                    <div>{student[questionKey]===undefined?"Not Attempted":student[questionKey]}</div>
                                                     <div className={classes.bar}>                                                        
                                                         <div className={classes.fill} style={{width:`${width}%`, backgroundColor:`rgb(${150-width/100*150}, 227, 227)`}}></div>
                                                         <div className={classes.ball} style={{left:`${width-3}%`}}></div>
@@ -162,8 +162,7 @@ const Performance = ({ show, handleShowPerformance, report, labQuestions, batch 
                                     }
                                 </tr>
                             )}         
-                        </tbody>
-                        
+                        </tbody>                        
                     </table>
                 </div>                
                 <div className = {classes.btnSection}>
@@ -185,7 +184,7 @@ const ScoreUpdate = ({ student, labQuestions }) => {
 
     labQuestions?.map((question,index)=>{       
         const questionKey = `question${index + 1}`;
-        let temp = student[questionKey]/question.numTestCase;        
+        let temp = (student[questionKey]===undefined?0:student[questionKey])/question.numTestCase;        
 
         if(question.tag === 'easy'){
             temp*=easyRatio;
@@ -234,7 +233,7 @@ const codePopUp = ({ student })=>{
     console.log(student.code1);
     return(
         <div className={classes.codeWrapper}>
-            code
+            {student.code2}
         </div>        
     );
 }
