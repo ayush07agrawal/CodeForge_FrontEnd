@@ -4,41 +4,13 @@ import easyimg from "../Assests/greensolve.png";
 import hardimg from "../Assests/redsolve.png";
 import mediumimg from "../Assests/yellowsolve.png";
 
-const totalLabs = 2;
-const batchReport = [
-    {
-      "rollNumber" : "22CS01001",
-      "name" : "Ayush Agrawal",
-      "lab1" : 20,
-      "lab2" : 40,
-      "totalScore" : 60
-    },
-    {
-      "rollNumber" : "22CS01002",
-      "name" : "Legend Makarandh",
-      "lab1" : 50,
-      "lab2" : 50,
-      "totalScore" : 100
-    },
-    {
-      "rollNumber" : "22CS01002",
-      "name" : "Saurav",
-      "lab1" : 30,
-      "lab2" : 40,
-      "totalScore" : 70
-    },
-    {
-      "rollNumber" : "22CS01002",
-      "name" : "Ishan Kinger",
-      "lab1" : 10,
-      "lab2" : 20,
-      "totalScore" : 30
-    }
-]
-
-const Performance = ({ show, handleShowPerformance, report, labQuestions, batch }) => {
+const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, labQuestions, batch }) => {
     const [studentIndex, setStudentIndex] = useState(-1);
     const [questionIndex, setQuestionIndex] = useState(-1);
+
+    const submitScoreHandler = () => {
+        console.log(labId);
+    }
 
     return(
         <div 
@@ -60,7 +32,7 @@ const Performance = ({ show, handleShowPerformance, report, labQuestions, batch 
                         </thead>
 
                         <tbody>
-                            {(batch ? batchReport : report)?.map(( student, index )=>                             
+                            {report?.map(( student, index )=>                             
                                 <tr key={index}>
                                     <td>{index+1}</td>
                                     <td>{student.rollNumber}</td>
@@ -97,7 +69,7 @@ const Performance = ({ show, handleShowPerformance, report, labQuestions, batch 
 
                         <tbody>
                             {batch ?
-                            batchReport.map((student,index)=>
+                            report?.map((student,index)=>
                                 <tr key={index}>
                                     {[...Array(totalLabs)].map((_,index)=>{
                                         const labKey = `lab${index + 1}`;
@@ -148,7 +120,7 @@ const Performance = ({ show, handleShowPerformance, report, labQuestions, batch 
                         </thead>
 
                         <tbody>
-                            {(batch ? batchReport : report)?.map(( student, i )=>                             
+                            {report?.map(( student, i )=>                             
                                 <tr key={i}>
                                     {batch ?
                                         <td className={classes.scoreUpdateWrapper}>
@@ -164,7 +136,7 @@ const Performance = ({ show, handleShowPerformance, report, labQuestions, batch 
                 </div>                
                 <div className = {classes.btnSection}>
                     <button className = {classes.btn}>Create Report</button>
-                    <button className = {`${classes.btn} ${classes.submitButton}`}>Submit Score</button>
+                    {!batch && <button className = {`${classes.btn} ${classes.submitButton}`} onClick = {submitScoreHandler}>Submit Score</button>}
                 </div>
             </div>
         </div>
@@ -200,8 +172,8 @@ const ScoreUpdate = ({ student, labQuestions }) => {
 
     defaultScore = Math.round(defaultScore/count*100);
 
-    const [score,setScore]  = useState(defaultScore);
-    const [update,setUpdate] = useState(false);
+    const [score, setScore]  = useState(defaultScore);
+    const [update, setUpdate] = useState(false);
 
     const toggleClick=()=>{
         setUpdate(!update);

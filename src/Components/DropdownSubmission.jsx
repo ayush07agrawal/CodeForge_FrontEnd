@@ -7,7 +7,7 @@ import axios from 'axios';
 import classes from "./DropdownSubmission.module.css";
 import Timer from "../Components/Timer";
 
-export default function DropdownSubmission({ heading, lab, children, setLabQuestions, setReportData, handleShowPerformance }) {
+export default function DropdownSubmission({ heading, lab, children, setLab, handleShowPerformance }) {
     const time = useRef();
     const navigate = useNavigate();
     const user = useSelector((state) => state.auth.user);
@@ -69,24 +69,23 @@ export default function DropdownSubmission({ heading, lab, children, setLabQuest
         }
     }
 
-    const createPerformance = async() => {
-        const toastId = toast.loading("Creating performance report .... ");
-        setIsLoading(true);
+    // const createPerformance = async() => {
+    //     const toastId = toast.loading("Creating performance report .... ");
+    //     setIsLoading(true);
 
-        try {
-            const { data } = await axios.post(`${server}/api/v1/lab/createReport/${labId}`,);
-            toast.success(data.message, { id: toastId });
-        }
-        catch (error) {
-            toast.error(error?.response?.data?.message || "Something went wrong", { id: toastId });
-        }
-        finally { setIsLoading(false) }
-    }
+    //     try {
+    //         const { data } = await axios.post(`${server}/api/v1/lab/createReport/${labId}`,);
+    //         toast.success(data.message, { id: toastId });
+    //     }
+    //     catch (error) {
+    //         toast.error(error?.response?.data?.message || "Something went wrong", { id: toastId });
+    //     }
+    //     finally { setIsLoading(false) }
+    // }
 
     const handlePerformanceClick = () => {
-        setReportData(report);
-        setLabQuestions(lab.questions);
-        handleShowPerformance(true)
+        setLab(lab);
+        handleShowPerformance(true);
     }
 
     console.log(date);
@@ -103,10 +102,10 @@ export default function DropdownSubmission({ heading, lab, children, setLabQuest
                         (
                             <div>
                                 <button onClick={(e)=>{
-                                    if(report.length !== 0) e.stopPropagation();
-                                    (report.length === 0) ? createPerformance() : handlePerformanceClick();
+                                    e.stopPropagation();
+                                    handlePerformanceClick();
                                 }}>
-                                    {(report.length === 0) ? "Create Performance" : "View Performance"}
+                                    View Performance
                                 </button>
                                 {(!isStart && !isEnd &&
                                     <button className={classes.timingBtn} onClick={handleStart}> 

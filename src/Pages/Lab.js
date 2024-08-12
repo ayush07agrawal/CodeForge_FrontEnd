@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { v4 as uuid } from "uuid";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useErrors } from "../hooks/hooks";
-import { useGetLabsQuery } from "../redux/api/api";
+import { useGetBatchQuery, useGetLabsQuery } from "../redux/api/api";
 import DropdownSubmission from "../Components/DropdownSubmission";
 import Performance from "../Components/Performance";
 
@@ -17,12 +17,15 @@ export default function Lab() {
 
 	const [showPerformance, setShowPerformance] = useState(false);
 	const [showBatchPerformance, setShowBatchPerformance] = useState(false);
-	const [reportData, setReportData] = useState([]);
-	const [labQuestions, setLabQuestions] = useState([]);
+	const [lab, setLab] = useState({});
 
-	const { data, isLoading, isError, error } = useGetLabsQuery(batch);
-	useErrors([{ isError, error }]);
-	const labs = data?.lab;
+	const { data: bdata, isError: isBatchError, error: batchError } = useGetBatchQuery(batch);
+	const { data: ldata, isLoading, isError: isLabError, error: labError } = useGetLabsQuery(batch);
+	useErrors([{ isBatchError, batchError }]);
+	useErrors([{ isLabError, labError }]);
+
+	const labs = ldata?.lab;
+	const batchReport = bdata?.batch.report;
 
 	return (
 		<div className={classes.wrapper}>
@@ -71,8 +74,7 @@ export default function Lab() {
 								}
 								lab = {item}
 								key = {uuid()}
-								setLabQuestions = {setLabQuestions}
-								setReportData = {setReportData}
+								setLab = {setLab}
 								handleShowPerformance = {setShowPerformance}
 							>
 								<ul className={classes.queList}>
@@ -99,15 +101,18 @@ export default function Lab() {
 					<Performance 
 						show = {showPerformance} 
 						handleShowPerformance = {setShowPerformance} 
-						report = {reportData} 
-						labQuestions = {labQuestions}
+						labId = {lab._id}
+						report = {lab.report} 
+						labQuestions = {lab.questions}
 					/>
 				}
 				{showBatchPerformance && 
 					<Performance 
-						show={showBatchPerformance} 
-						handleShowPerformance={setShowBatchPerformance} 
-						batch={true}
+						show = {showBatchPerformance} 
+						handleShowPerformance = {setShowBatchPerformance} 
+						report = {batchReport}
+						totalLabs = {bdata?.batch.labs.length}
+						batch = {true}
 					/>
 				}
 			</div>

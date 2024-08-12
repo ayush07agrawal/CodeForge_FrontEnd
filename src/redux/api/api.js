@@ -47,6 +47,14 @@ const api = createApi({
             invalidatesTags: ["Batch"],
         }),
 
+        getBatch: builder.query({
+            query: (batch) => ({
+                url: `batch/${batch}`,
+                credentials: "include",
+            }),
+            invalidatesTags: ["Batch"],
+        }),
+
         updateBatches: builder.mutation({
             query: ({ userId, batches }) => ({
                 url: "user/updateBatch",
@@ -66,5 +74,6 @@ export const {
     useGetParticularQuestionQuery,
     useGetLabsQuery,  
     useGetBatchesQuery,
+    useGetBatchQuery,
     useUpdateBatchesMutation
 } = api;
