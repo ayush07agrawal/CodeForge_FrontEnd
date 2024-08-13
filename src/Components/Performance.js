@@ -10,6 +10,7 @@ const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, la
 
     const submitScoreHandler = () => {
         console.log(labId);
+        console.log(report);
     }
 
     return(
@@ -180,6 +181,7 @@ const ScoreUpdate = ({ student, labQuestions }) => {
     }
     const handleChangeInput=(e)=>{
         setScore(e.target.value);
+        student.score = score;
     }
 
     return(
