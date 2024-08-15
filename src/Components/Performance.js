@@ -11,8 +11,11 @@ const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, la
     const [questionIndex, setQuestionIndex] = useState(-1);
     const [scores, setScores] = useState(report.map((student) => student.score));
     const [updateScore, isLoadingUpdateSciore] = useAsyncMutation(useUpdateScoreMutation);
+    console.log(scores);
+    console.log(report);
 
     const submitScoreHandler = () => {
+        console.log(scores);
         updateScore("Updating scores....", { labId, scores });
     }
 
