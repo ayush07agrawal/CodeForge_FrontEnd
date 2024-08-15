@@ -20,7 +20,7 @@ function formatDate(timestamp) {
 }
 
 
-export default function Question({ details }) {
+export default function Question({ details, labId }) {
   const params = useParams();
   const navigate = useNavigate();
   
@@ -75,7 +75,8 @@ export default function Question({ details }) {
           <span className={classes.title}>
             <h1><u>{details?.title}</u></h1>
 
-            {(user.role === "teacher") && <button onClick={() =>navigate(`/app/questionform/edit`, { state: {question:details, questionId:questionId} })} className={classes.editBtn}>
+            {(user.role === "teacher") && 
+              <button onClick={() =>navigate(`/app/questionform/edit`, { state: {question:details, questionId:questionId, labId:labId} })} className={classes.editBtn}>
               Edit Question
             </button>}
           </span>

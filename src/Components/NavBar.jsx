@@ -71,7 +71,7 @@ export default function NavBar() {
       </div>
 
       {user.role === "teacher" && <div className = {classes.dropDownList}>
-        {user.batch && user.batch.map(( batch, index ) => (
+        {user.batch.length !== 0 && user.batch.map(( batch, index ) => (
           isDropDownShow && <DropDownBatch btnkey={index} key = {index}>{batch}</DropDownBatch>
         ))}
         {isDropDownShow && 

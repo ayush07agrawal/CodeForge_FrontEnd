@@ -17,7 +17,7 @@ export default function SolveQuestion() {
   return (
     <div className={classes.wrapper}>
       <div className={classes.QuestionNCode}>
-        <Question details={data?.question} />
+        <Question details={data?.question} labId = {labId} />
         {!isLoading && <CodeEditor testCase={data?.question.testCase} labId = {labId} />}
       </div>
     </div>
