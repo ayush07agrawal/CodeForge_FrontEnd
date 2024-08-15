@@ -111,7 +111,7 @@ export default function QuestionForm() {
         const fd = new FormData(event.target);
         const data = Object.fromEntries(fd.entries());
         let newData; 
-        if(newQ) newData = { ...data, testCase: [], answer: [], hints: hints, teacherId: user._id };
+        if(newQ) newData = { ...data, testCase: [], answer: [], hints: hints, teacherId: user._id, labId };
         if(editing && !labId) newData = { ...data, testCase: [], answer: [], hints: hints, questionId: questionId };
         newData.tags = newData.tags.split(',')
         newData.tags = newData.tags.filter(( value, index ) =>(value !== "easy" && value!=="medium" && value!=="hard"))
