@@ -3,14 +3,17 @@ import classes from './Performance.module.css';
 import easyimg from "../Assests/greensolve.png";
 import hardimg from "../Assests/redsolve.png";
 import mediumimg from "../Assests/yellowsolve.png";
+import { useAsyncMutation } from '../hooks/hooks';
+import { useUpdateScoreMutation } from '../redux/api/api';
 
 const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, labQuestions, batch }) => {
     const [studentIndex, setStudentIndex] = useState(-1);
     const [questionIndex, setQuestionIndex] = useState(-1);
+    const [scores, setScores] = useState(report.map((student) => student.score));
+    const [updateScore, isLoadingUpdateSciore] = useAsyncMutation(useUpdateScoreMutation);
 
     const submitScoreHandler = () => {
-        console.log(labId);
-        console.log(report);
+        updateScore("Updating scores....", { labId, scores });
     }
 
     return(
@@ -92,6 +95,7 @@ const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, la
                                 <tr key = {sind}>
                                     {labQuestions?.map(( question, index ) => { 
                                         const questionKey = `question${index + 1}`;
+                                        const codeKey = `code${index + 1}`;
                                         const width = student[questionKey]/question.numTestCase*100;                                 
                                         return  <td key={index} 
                                                     onClick={()=>{
@@ -100,7 +104,7 @@ const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, la
                                                     }} 
                                                     className={classes.codeShowtd}
                                                 >                                                       
-                                                    <div>{student[questionKey]===undefined?"Not Attempted":student[questionKey]}</div>
+                                                    <div>{student[codeKey]===""?"Not Attempted":student[questionKey]}</div>
                                                     <div className={classes.bar}>                                                        
                                                         <div className={classes.fill} style={{width:`${width}%`, backgroundColor:`rgb(${150-width/100*150}, 227, 227)`}}></div>
                                                         <div className={classes.ball} style={{left:`${width-3}%`}}></div>
@@ -128,7 +132,13 @@ const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, la
                                             <h3>{student.totalScore}</h3>
                                         </td>
                                     : 
-                                        ScoreUpdate({student, labQuestions})
+                                        // ScoreUpdate({student, labQuestions})
+                                        <ScoreUpdate 
+                                            student = {student}
+                                            labQuestions = {labQuestions}
+                                            setScores = {setScores}
+                                            i = {i}
+                                        />
                                     }
                                 </tr>
                             )}         
@@ -145,7 +155,7 @@ const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, la
 }
 
 
-const ScoreUpdate = ({ student, labQuestions }) => {
+const ScoreUpdate = ({ student, labQuestions, setScores, i }) => {
     const easyRatio = 2;
     const mediumRatio = 5;
     const hardRatio = 7;
@@ -176,12 +186,16 @@ const ScoreUpdate = ({ student, labQuestions }) => {
     const [score, setScore]  = useState(defaultScore);
     const [update, setUpdate] = useState(false);
 
-    const toggleClick=()=>{
+    const toggleClick = () => {
         setUpdate(!update);
     }
-    const handleChangeInput=(e)=>{
+    const handleChangeInput = (e) => {
         setScore(e.target.value);
-        student.score = score;
+        setScores(prevScores => 
+            prevScores.map((score, index) => 
+              index === i ? e.target.value : score
+            )
+        );
     }
 
     return(

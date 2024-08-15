@@ -55,6 +55,16 @@ const api = createApi({
             invalidatesTags: ["Batch"],
         }),
 
+        updateScore: builder.mutation({
+            query: ({ labId, scores }) => ({
+                url: "lab/updateScore",
+                method: "PUT",
+                credentials: "include",
+                body: { labId, scores },
+            }),
+            invalidatesTags: ["Lab"],
+        }),
+
         updateBatches: builder.mutation({
             query: ({ userId, batches }) => ({
                 url: "user/updateBatch",
@@ -75,5 +85,6 @@ export const {
     useGetLabsQuery,  
     useGetBatchesQuery,
     useGetBatchQuery,
+    useUpdateScoreMutation,
     useUpdateBatchesMutation
 } = api;
