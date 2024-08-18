@@ -10,7 +10,7 @@ const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, la
     const [studentIndex, setStudentIndex] = useState(-1);
     const [questionIndex, setQuestionIndex] = useState(-1);
     const [scores, setScores] = useState(report.map((student) => student.score));
-    const [updateScore, isLoadingUpdateSciore] = useAsyncMutation(useUpdateScoreMutation);
+    const [updateScore] = useAsyncMutation(useUpdateScoreMutation);
     console.log(scores);
     console.log(report);
 
@@ -165,7 +165,7 @@ const ScoreUpdate = ({ student, labQuestions, setScores, i }) => {
     let defaultScore = 0;
     let count = 0;
 
-    labQuestions?.map((question,index)=>{       
+    labQuestions?.map((question,index) => {       
         const questionKey = `question${index + 1}`;
         let temp = (student[questionKey]===undefined?0:student[questionKey])/question.numTestCase;        
 

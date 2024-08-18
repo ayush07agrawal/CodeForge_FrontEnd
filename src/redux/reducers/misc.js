@@ -7,7 +7,8 @@ const initialState = {
     isPopUp: false,
     secretQuestion: undefined,
     email: undefined,
-    role: undefined
+    role: undefined,
+    url: ""
 }
 
 const miscSlice = createSlice({
@@ -34,6 +35,9 @@ const miscSlice = createSlice({
         },
         setIsDropDown: (state, action) => {
             state.isDropDown = action.payload;
+        },
+        setURL: (state, action) => {
+            state.url = action.payload;
         }
     }
 });
@@ -46,5 +50,6 @@ export const {
     setEmail,
     setRole,
     setIsPopUp,
-    setIsDropDown
+    setIsDropDown,
+    setURL
 } = miscSlice.actions;

@@ -1,12 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import QuestionList from "../Components/QuestionList";
 import classes from "./HomePage.module.css";
 import { v4 as uuid } from "uuid";
 import { useGetQuestionsQuery } from "../redux/api/api";
 import { useErrors } from "../hooks/hooks";
 import TagItem from "../Components/TagItem";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { setURL } from "../redux/reducers/misc";
 
 export default function HomePage() {
+	const dispatch = useDispatch();
+	const location = useLocation();
 	const [filterTags, setFilterTags] = useState([]);
 	const tag = useRef();
 	const allQuestions = useGetQuestionsQuery();
@@ -14,6 +19,10 @@ export default function HomePage() {
 		{ isError: allQuestions.isError, error: allQuestions.error },
 	];
 	useErrors(errors);
+
+	useEffect(() => {
+		dispatch(setURL(location.pathname));
+	}, [dispatch, location])
 
 	return (
 		<div className={classes.container}>

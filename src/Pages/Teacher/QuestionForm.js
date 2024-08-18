@@ -1,29 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import TextInput from "../../Components/Inputs/TextInput";
 import classes from "./QuestionForm.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
 import { server } from '../../Assests/config';
 import toast from 'react-hot-toast';
-
-
-const queDetails = {
-    title: "hello",
-    description: "lbvbvlwkg",
-    difficulty: "hard",
-    tags: ["array", "hksjfb"],
-    testCase: ["sfdb", "bdfb", "bsdfb"],
-    answer: ["bfdb", "sdbs", "fsdbs"],
-    hints: ["wfbb", "wrwhhreh"],
-    Time: "sdb",
-    space: "dsbff",
-    constraint: "sdbbe"
-};
+import { setURL } from "../../redux/reducers/misc";
 
 export default function QuestionForm() {
     const params = useParams();
     const location = useLocation();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.auth.user);
     const queDetails = location.state?.question;
@@ -147,6 +135,10 @@ export default function QuestionForm() {
         } 
         catch (error) { toast.error("Adding failed"); }
     }
+
+    useEffect(() => {
+		dispatch(setURL(location.pathname));
+	}, [dispatch, location])
 
     return (
         <div className={classes.wrapper}>

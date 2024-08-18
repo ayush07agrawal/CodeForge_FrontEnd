@@ -6,8 +6,8 @@ const DropDownBatch=({ children, btnkey, btnUpdate, onClick }) => {
     return(
         <div 
             className = {
-                `${classes.wrapper} ${(btnUpdate===1) ? 
-                    classes.updateButton:""} ${(btnkey===0) ? classes.firstButton:""}` 
+                `${classes.wrapper} ${(btnUpdate === 1) ? 
+                    classes.updateButton:""} ${(btnkey === 0) ? classes.firstButton:""}` 
             } 
             onClick = {onClick}
         >

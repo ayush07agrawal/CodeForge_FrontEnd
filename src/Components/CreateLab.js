@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classes from './CreateLab.module.css';
 import { json, useLocation, useNavigate } from 'react-router-dom';
 import { server } from "../Assests/config";
 import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { setURL } from '../redux/reducers/misc';
 
 const CreateLab = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const batch = location.state?.batch;
   const navigate = useNavigate();
@@ -57,6 +60,10 @@ const CreateLab = () => {
       navigate("..");
     }
   };
+
+  useEffect(() => {
+    dispatch(setURL(location.pathname));
+  })
 
   return (
     <div className={classes.wrapper}>

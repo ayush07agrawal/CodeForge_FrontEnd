@@ -1,18 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classes from "./TeacherHome.module.css";
 import QuestionList from "../../Components/QuestionList.jsx";
 import { v4 as uuid } from "uuid";
 import { useGetQuestionsFromTeacherQuery } from "../../redux/api/api";
 import { useErrors } from "../../hooks/hooks.jsx";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setURL } from "../../redux/reducers/misc.js";
 
 export default function TeacherHome() {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const { user } = useSelector((state) => state.auth);
   const allQuestions = useGetQuestionsFromTeacherQuery(user._id);
   const errors = [{ isError: allQuestions.isError, error: allQuestions.error }];
   useErrors(errors);
-  const navigate = useNavigate();
+
+  useEffect(() => {
+		dispatch(setURL(location.pathname));
+	}, [dispatch, location])
 
   return (
     <div>

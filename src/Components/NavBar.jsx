@@ -42,23 +42,23 @@ export default function NavBar() {
   return (
     <div>
       <div className={classes.wrapper}>
-          <NavLink to="/" className={classes.brand}><img src={img1} alt="Logo" /></NavLink>
+          <NavLink to = "/" className={classes.brand}><img src={img1} alt="Logo" /></NavLink>
           <ul className={classes.links}>
-            {user.role === "student" && <li>
-              <NavLink to="/" className={({isActive}) => (isActive ? classes.active : undefined)}>
+            {user?.role === "student" && <li>
+              <NavLink to = "/" className={({isActive}) => (isActive ? classes.active : undefined)}>
                 PRACTICE
               </NavLink>
             </li>}
-            {user.role === "student" && <li>
-              <NavLink to="lab" className={({isActive}) => (isActive ? classes.active : undefined)}>
+            {user?.role === "student" && <li>
+              <NavLink to = "lab" className={({isActive}) => (isActive ? classes.active : undefined)}>
                 LAB
               </NavLink>
             </li>}
-            {user.role === "teacher" && 
+            {user?.role === "teacher" && 
               <li onClick = {toggleDropdown} style = {{color : "white", cursor: "pointer"}}> BATCH </li>
             }
             <li className={classes.pimage}>
-              <NavLink to={`user/${user._id}`} className={({isActive}) => (isActive ? classes.active : undefined)}>
+              <NavLink to = {`user/${user?._id}`} className={({isActive}) => (isActive ? classes.active : undefined)}>
                 <img src = {pphoto} alt = "Profile" />
               </NavLink>
             </li>
@@ -70,14 +70,14 @@ export default function NavBar() {
           </ul> 
       </div>
 
-      {user.role === "teacher" && <div className = {classes.dropDownList}>
-        {user.batch.length !== 0 && user.batch.map(( batch, index ) => (
+      {user?.role === "teacher" && <div className = {classes.dropDownList}>
+        {user?.batch.length !== 0 && user?.batch.map(( batch, index ) => (
           isDropDownShow && <DropDownBatch btnkey={index} key = {index}>{batch}</DropDownBatch>
         ))}
         {isDropDownShow && 
           <DropDownBatch 
             btnUpdate = {1} 
-            btnkey = { (user.batch?.length === 0) ? 0 : -1 } 
+            btnkey = { (user?.batch?.length === 0) ? 0 : -1 } 
             onClick = { toggleAndShowPopup }
           >UPDATE</DropDownBatch>}
       </div>  }    
