@@ -9,7 +9,7 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     color:white;
-    font-family: Verdana, sans-serif;
+    font-family: Verdana, sans-serif;    
 }
 
 .displayNone{
@@ -38,6 +38,9 @@
     justify-content: center;
     border-radius:20px;
     margin:20px auto;    
+    width: 100%;
+    height:400px;
+    overflow-y: auto;
 }
 
 
@@ -95,9 +98,20 @@ th.name, td.name{
 }
 .tableQuestion{
     width:40%;
+    min-width:400px;
 }
 .tableScore{
     width:15%;
+}
+.scrollableTable{
+    overflow-x:auto;
+    white-space: nowrap;
+    overflow-y: hidden;
+    height:fit-content;
+}
+.scrollableTable::-webkit-scrollbar{
+    position:fixed;
+    bottom:0;
 }
 
 .bar{
@@ -199,4 +213,81 @@ th.name, td.name{
     display:flex;
     gap:2vw;
     justify-content:center;
+}
+
+/* CodePopUp CSS */
+
+.wholeCodeWrapper{
+    content:'';
+    width:200vw;
+    height:200vh;
+    background-color: #0000008d;
+    position:absolute;
+    top:-100%;
+    z-index:15;
+    left:-100%;
+}
+
+.codeWrapper{
+    padding:20px;
+    width:70%;
+    height:fit-content;
+    background-color: #050428f2;
+    position:absolute;
+    z-index:20;
+    top:0;
+    left:15vw;
+    border-radius:20px;
+    border:2px solid rgba(0, 229, 255, 0.613)
+}
+
+.codeGrid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));;
+}
+.codeGrid > div{
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.codeGrid div:nth-child(1){    
+    grid-row: span 2;
+}
+.codeQuestion div{
+    font-size: 50px;
+}
+
+.codePersonal, .codeMarksArea{
+    display:flex;
+    flex-direction: column;
+    gap:5px;
+}
+.codeComponent{
+    border:3px solid white;
+    height: fit-content;
+    width: 230px;
+    border-radius: 10px;
+    display:flex;
+    justify-content:space-around;
+    padding:2px;
+}
+.codeComponent>div{
+    text-overflow: ellipsis;
+}
+
+.codeArea{
+    background-color: black;
+    margin-top:1vw;
+    border:2px solid white;
+    padding:20px;
+    border-radius:10px;
+    height:50vh;
+    overflow-y:auto;
+    overflow-x: auto;
+    text-align:left;
+}
+
+.codeArea>code{
+    text-align:left;
 }

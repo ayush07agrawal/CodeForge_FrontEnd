@@ -13,12 +13,18 @@ const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, la
     const [updateScore] = useAsyncMutation(useUpdateScoreMutation);
     console.log(scores);
     console.log(report);
+    console.log(labQuestions);
 
     const submitScoreHandler = () => {
         console.log(scores);
         updateScore("Updating scores....", { labId, scores });
     }
 
+    const closeCodePopUp = ()=>{
+        setStudentIndex(-1);
+        setQuestionIndex(-1);
+    }
+    console.log(studentIndex,questionIndex);
     return(
         <div 
             className = {show ? classes.displayBlock : classes.displayNone} 
@@ -49,8 +55,9 @@ const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, la
                         </tbody>
                     
                     </table>
-
-                    <table className = {`${classes.table} ${classes.tableQuestion} ${batch ? classes.tableBatchlab:''}`}>
+                    
+                    <div className={classes.scrollableTable}>
+                        <table className = {`${classes.table} ${classes.tableQuestion} ${batch ? classes.tableBatchlab:''}`}>
                         <thead>
                             {batch ?
                                 <tr>
@@ -112,13 +119,14 @@ const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, la
                                                         <div className={classes.fill} style={{width:`${width}%`, backgroundColor:`rgb(${150-width/100*150}, 227, 227)`}}></div>
                                                         <div className={classes.ball} style={{left:`${width-3}%`}}></div>
                                                     </div>
-                                                    {sind===studentIndex && questionIndex===index && codePopUp({ student })}                                                    
+                                                    {sind===studentIndex && questionIndex===index && codePopUp( student,index,closeCodePopUp,labQuestions[index].tag,labQuestions[index].numTestCase )}                                               
                                                 </td>
                                     })}
                                 </tr>
                             )}         
                         </tbody>
-                    </table>
+                        </table>
+                    </div>
 
                     <table className = {`${classes.table} ${classes.tableScore}`}>
                         <thead>
@@ -217,12 +225,54 @@ const ScoreUpdate = ({ student, labQuestions, setScores, i }) => {
     );
 }
 
-const codePopUp = ({ student })=>{
-    console.log(student.code1);
+const codePopUp = ( student,questionIndex,closeCodePopUp,tag,numTestCase )=>{
+    const codeKey = `code${questionIndex + 1}`;
+    const questionKey = `question${questionIndex + 1}`;
+    console.log(student);
+    console.log(tag);
     return(
-        <div className={classes.codeWrapper}>
-            {student.code2}
-        </div>        
+        <>
+            <div className={classes.codeWrapper}>
+                <div className={classes.codeGrid}>
+                    <div className={classes.codeQuestion}>
+                        <img src={(tag === 'easy') ? easyimg : (tag === 'medium') ? mediumimg : hardimg} alt="" />
+                        <div className={(tag === 'easy') ? classes.greenTextShade : (tag === 'medium') ? classes.yellowTextShade : classes.redTextShade}>
+                            Q{questionIndex+1}
+                        </div>
+                    </div>
+                    <div className={classes.codePersonal}>
+                        <div className={classes.codeComponent}>
+                            <div>NAME : </div>  
+                            <div>{student.name}</div>
+                        </div>
+                        <div className={classes.codeComponent}> 
+                            <div>ROLL NO. : </div>
+                            <div>{student.rollNumber}</div>
+                        </div>
+                    </div>
+                    <div className={classes.codeMarksArea}>
+                        <div className={classes.codeComponent}>
+                            <div>TEST CASES PASSED : </div>  
+                            <div>{student[questionKey]}/{numTestCase}</div>
+                        </div>
+                        <div className={classes.codeComponent}> 
+                            <div>MARKS OBTAINED : </div>
+                            <div>{(tag==="easy")?student[questionKey]*2:(tag==="medium")?student[questionKey]*5:student[questionKey]*7}</div>
+                        </div>
+                    </div>
+                </div>
+                <pre className={classes.codeArea}>
+                    <code>{student[codeKey]}</code>
+                </pre>
+            </div>
+            <div 
+                className={classes.wholeCodeWrapper} 
+                onClick={(e)=>{
+                        e.stopPropagation();
+                        closeCodePopUp();
+                    }
+            }></div>  
+        </>
     );
 }
 
