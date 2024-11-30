@@ -20,9 +20,9 @@ export default function HomePage() {
 	];
 	useErrors(errors);
 
-	useEffect(() => {
-		dispatch(setURL(location.pathname));
-	}, [dispatch, location])
+	// useEffect(() => {
+	// 	dispatch(setURL(location.pathname));
+	// }, [dispatch, location])
 
 	return (
 		<div className={classes.container}>

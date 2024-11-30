@@ -61,9 +61,9 @@ const CreateLab = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(setURL(location.pathname));
-  })
+  // useEffect(() => {
+  //   dispatch(setURL(location.pathname));
+  // })
 
   return (
     <div className={classes.wrapper}>

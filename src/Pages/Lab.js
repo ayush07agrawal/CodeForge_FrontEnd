@@ -19,9 +19,9 @@ export default function Lab() {
 	const user = useSelector((state) => state.auth.user);
 	const batch = user.role === "teacher" ? searchParams.get("batch") : user.batch;
 
-	useEffect(() => {
-		dispatch(setURL(`${location.pathname}${location.search}`));
-	}, [dispatch, location])
+	// useEffect(() => {
+	// 	dispatch(setURL(`${location.pathname}${location.search}`));
+	// }, [dispatch, location])
 
 	const [showPerformance, setShowPerformance] = useState(false);
 	const [showBatchPerformance, setShowBatchPerformance] = useState(false);

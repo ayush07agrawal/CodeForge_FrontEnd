@@ -136,9 +136,9 @@ export default function QuestionForm() {
         catch (error) { toast.error("Adding failed"); }
     }
 
-    useEffect(() => {
-		dispatch(setURL(location.pathname));
-	}, [dispatch, location])
+    // useEffect(() => {
+	// 	dispatch(setURL(location.pathname));
+	// }, [dispatch, location])
 
     return (
         <div className={classes.wrapper}>

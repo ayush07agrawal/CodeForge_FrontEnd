@@ -52,6 +52,7 @@ export default function CodeEditor({ testCase, labId }) {
     async function handleSubmit(event) {
         event.preventDefault();
         const destination = (labId) ? "lab" : "question";
+        console.log(destination);
         setResponse(undefined);
         setOutput(true);
         try {

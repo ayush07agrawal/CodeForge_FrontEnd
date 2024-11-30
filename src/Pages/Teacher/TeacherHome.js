@@ -18,9 +18,9 @@ export default function TeacherHome() {
   const errors = [{ isError: allQuestions.isError, error: allQuestions.error }];
   useErrors(errors);
 
-  useEffect(() => {
-		dispatch(setURL(location.pathname));
-	}, [dispatch, location])
+  // useEffect(() => {
+	// 	dispatch(setURL(location.pathname));
+	// }, [dispatch, location])
 
   return (
     <div>

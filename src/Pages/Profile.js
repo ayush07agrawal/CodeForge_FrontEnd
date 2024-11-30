@@ -21,9 +21,9 @@ export default function Profile() {
   ]);
   const questions = data?.questions;
 
-  useEffect(() => {
-		dispatch(setURL(location.pathname));
-	}, [dispatch, location])
+  // useEffect(() => {
+	// 	dispatch(setURL(location.pathname));
+	// }, [dispatch, location])
 
   return (
     <div className={classes.wrapper}>

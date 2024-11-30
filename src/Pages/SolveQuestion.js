@@ -15,12 +15,13 @@ export default function SolveQuestion() {
 
   const id = params.questionId;
   const { labId } = location.state || "right";
+  console.log(labId);
   const {data, isLoading, isError, error} = useGetParticularQuestionQuery(id);
   useErrors([{isError, error}]);
 
-  useEffect(() => {
-    dispatch(setURL(location.pathname));
-  }, [dispatch, location])
+  // useEffect(() => {
+  //   dispatch(setURL(location.pathname));
+  // }, [dispatch, location])
 
   return (
     <div className={classes.wrapper}>
