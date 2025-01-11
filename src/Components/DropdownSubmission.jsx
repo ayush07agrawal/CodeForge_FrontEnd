@@ -7,12 +7,16 @@ import axios from 'axios';
 import classes from "./DropdownSubmission.module.css";
 import Timer from "../Components/Timer";
 
-export default function DropdownSubmission({ heading, lab, children, setLab, handleShowPerformance }) {
+export default function DropdownSubmission({ heading, date, lab, children, setLab, handleShowPerformance }) {
     const time = useRef();
     const navigate = useNavigate();
     const user = useSelector((state) => state.auth.user);
+    let labId, isStart, isEnd, duration;
 
-    const { date, _id: labId, isStart, isEnd, duration, report } = lab;
+    if(lab) {
+        ({ labId, isStart, isEnd, duration } = lab);
+    }
+    
     const timeLeft = (isStart && !isEnd) ? duration : undefined;
 
     const [visible, setVisible] = useState(false);
@@ -88,7 +92,7 @@ export default function DropdownSubmission({ heading, lab, children, setLab, han
         handleShowPerformance(true);
     }
 
-    console.log(date);
+    // console.log(date);
     return (
         <div className={classes.wrapper}>
             <div className={classes.head} onClick={() => setVisible((prev) => !prev)}>

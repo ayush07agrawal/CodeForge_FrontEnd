@@ -38,7 +38,7 @@ export default function Question({ details, labId }) {
     const questionName = `${questionId}${user._id}`;
     const fetchSubmissions = async () => {
       try {
-        console.log(questionName);
+        // console.log(questionName);
         const response = await fetch(`${server}/api/v1/submission/getThisSubmission/${questionName}`, {
           method: 'GET',
           headers: {
@@ -52,8 +52,9 @@ export default function Question({ details, labId }) {
         }
 
         const data = await response.json();
+        // console.log(data);
         setSubmissions(data.submission);
-        console.log(data);
+        // console.log(data);
       } catch (error) {
         if (error.name !== 'AbortError') {
           console.error('Error fetching submissions:', error);
@@ -110,7 +111,7 @@ export default function Question({ details, labId }) {
       {(content === "Hints") &&
         <div className={classes.wrapper}>
         {details.hints.length !== 0 ? 
-          details.hints.map((item, idx) => <DropdownHint heading={"Hint " + (idx + 1)}>{item}</DropdownHint>)
+          details.hints.map((item, idx) => <DropdownHint heading={"Hint " + (idx + 1)} key = {uuid()}>{item}</DropdownHint>)
         : <h1>No hints available</h1>}
         </div>
       }
@@ -119,7 +120,7 @@ export default function Question({ details, labId }) {
           {
             (submissions.length !== 0)
               ?
-              submissions.map((item, idx) => <DropdownSubmission heading={"Submission " + (submissions.length - idx)} key={uuid()} date={formatDate(item.timestamp)}>
+              submissions.map((item, idx) => <DropdownSubmission heading={"Submission " + (submissions.length - idx)} key={uuid()} date={formatDate(item?.timestamp)}>
                 <p><strong>Time taken: </strong> {item.time + " s"}</p>
                 <br /><p><strong>Memory used: </strong> {item.space + " kb"}</p>
                 <br />

@@ -12,9 +12,10 @@ export default function SolveQuestion() {
   const params = useParams();
   const location = useLocation();
   const dispatch = useDispatch();
+  console.log(location);
 
   const id = params.questionId;
-  const { labId } = location.state || "right";
+  const labId = (location.state) ? location.state.labId : "";
   console.log(labId);
   const {data, isLoading, isError, error} = useGetParticularQuestionQuery(id);
   useErrors([{isError, error}]);

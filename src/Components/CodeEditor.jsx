@@ -51,7 +51,7 @@ export default function CodeEditor({ testCase, labId }) {
 
     async function handleSubmit(event) {
         event.preventDefault();
-        const destination = (labId) ? "lab" : "question";
+        const destination = (labId.length > 0) ? "lab" : "question";
         console.log(destination);
         setResponse(undefined);
         setOutput(true);
@@ -72,6 +72,7 @@ export default function CodeEditor({ testCase, labId }) {
                 body: JSON.stringify(request),
             });
             if (!response.ok) {
+                console.log(response);
                 throw new Error("Error submitting code.");
             }
             const data = await response.json();
