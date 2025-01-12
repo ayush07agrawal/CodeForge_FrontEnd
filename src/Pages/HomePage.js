@@ -8,11 +8,38 @@ import TagItem from "../Components/TagItem";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { setURL } from "../redux/reducers/misc";
+import ProfileCard from "../Components/ProfileCard";
+
+const total = 10;
+const data = {
+	"name" : "Suprit Naik",
+	"email" : "22CS01018@iitbbs.ac.in",
+	"password":"pass@1233",
+	"secretQuestion":"What is this",
+	"secretAnswer":"This is it",
+	"rollNumber":"22CS01018",
+	"photo":"Image1.jpg",
+	"questionsSolved": [1,2,3]
+};
+
+const teacherData = {
+	"name" : "Shreya Ghosh",
+	"email" : "22CS01018@iitbbs.ac.in",
+	"password":"pass@1233",
+	"secretQuestion":"What is this",
+	"secretAnswer":"This is it",
+	"rollNumber":"22CS01018",
+	"photo":"Image1.jpg",
+	"batch":["22Btech","23Btech","24Btech"],
+};
 
 export default function HomePage() {
+	
+	console.log(data);
 	const dispatch = useDispatch();
 	const location = useLocation();
 	const [filterTags, setFilterTags] = useState([]);
+	const [profileCardShow, setProfileCardShow] = useState(0);
 	const tag = useRef();
 	const allQuestions = useGetQuestionsQuery();
 	const errors = [
@@ -41,45 +68,53 @@ export default function HomePage() {
 					))
 				}
 			</div>
-			<div className={classes.filters}>
-				<div className={classes.newFilters}>
-					<h4 className={classes.addFilter}>ADD FILTER:</h4>
-					<input
-						type="text"
-						ref={tag}
-						placeholder="Enter the tag..."
-						className={classes.filterInput}
-					/>
-					<button
-						onClick={() => {
-							const val = filterTags.find(
-								(item) => item === tag.current.value
-							);
-							if (val === undefined && tag.current.value !== "") {
-								setFilterTags((prev) => [
-									...prev,
-									tag.current.value.toLowerCase(),
-								]);
-							}
-						}}
-						className={classes.filterBtn}
-					>
-						Add
-					</button>
-				</div>
-				<div className={classes.filterList}>
-					{filterTags.map((item) => (
-						<TagItem
-							val={item}
-							deleteItem={(val) =>
-								setFilterTags((prev) =>
-									prev.filter((i) => i !== val)
-								)
-							}
+			<div className={classes.misc}>
+				<div className={classes.filters}>
+					<div className={classes.newFilters}>
+						<h4 className={classes.addFilter}>ADD FILTER:</h4>
+						<input
+							type="text"
+							ref={tag}
+							placeholder="Enter the tag..."
+							className={classes.filterInput}
 						/>
-					))}
+						<button
+							onClick={() => {
+								const val = filterTags.find(
+									(item) => item === tag.current.value
+								);
+								if (val === undefined && tag.current.value !== "") {
+									setFilterTags((prev) => [
+										...prev,
+										tag.current.value.toLowerCase(),
+									]);
+								}
+							}}
+							className={classes.filterBtn}
+						>
+							Add
+						</button>
+					</div>
+					<div className={classes.filterList}>
+						{filterTags.map((item) => (
+							<TagItem
+								val={item}
+								deleteItem={(val) =>
+									setFilterTags((prev) =>
+										prev.filter((i) => i !== val)
+									)
+								}
+							/>
+						))}
+					</div>				
 				</div>
+				{/* need to update this in future to search various persons in the future */}
+				<button className={classes.miscButton} onClick={()=>setProfileCardShow((prev)=>!prev)}>Search</button>
+				
 			</div>
+			{profileCardShow && <ProfileCard total={total} data={data} role="student" closeCardFunc = {setProfileCardShow}></ProfileCard>}
+			{/* {profileCardShow && <ProfileCard total={total} data={teacherData} role="teacher" closeCardFunc = {setProfileCardShow}></ProfileCard>} */}
+			
 		</div>
 	);
 }
