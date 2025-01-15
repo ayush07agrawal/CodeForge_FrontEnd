@@ -19,7 +19,9 @@ const data = {
 	"secretAnswer":"This is it",
 	"rollNumber":"22CS01018",
 	"photo":"Image1.jpg",
-	"questionsSolved": [1,2,3]
+	"questionsSolved": [1,2,3],
+	"leetcode": "",
+	"codechef": ""
 };
 
 const teacherData = {
