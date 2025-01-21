@@ -253,63 +253,67 @@ function SignUpPopUp({ signUpPageVisible,showSignUpPage,signVisible,nextPageFunc
                     <div 
                         class={classes.secondPopUpPage1}
                         onClick={(e)=>e.stopPropagation()}
-                    >
-                        <div class={classes.popupHeading}>
-                            <h4>NEW JOINEE</h4>
-                        </div>
-                        <div class={`${classes.popUpInputBlock} ${classes.popUpInputBLockSignUp}`}>
-                            <label for='name'>Name* :</label>   
-                            <div class={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>                                
-                                <input class={classes.popupInput} id="name"></input>
-                                <FontAwesomeIcon icon={faUser} />
+                    >   
+                        <div class={classes.secondPopUpSignUpForm}>
+                            <div class={classes.popupHeading}>
+                                <h4>NEW JOINEE</h4>
                             </div>
-                            <label for='email'>Email ID* :</label> 
-                            <div class={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
-                                <input class={classes.popupInput} id="email"></input>
-                                <FontAwesomeIcon icon={faEnvelope} />
+                            <div class={classes.signUpForm}>
+                                <div class={`${classes.popUpInputBlock} ${classes.popUpInputBLockSignUp}`}>
+                                    <label for='name'>Name* :</label>   
+                                    <div class={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>                                
+                                        <input class={classes.popupInput} id="name"></input>
+                                        <FontAwesomeIcon icon={faUser} />
+                                    </div>
+                                    <label for='email'>Email ID* :</label> 
+                                    <div class={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
+                                        <input class={classes.popupInput} id="email"></input>
+                                        <FontAwesomeIcon icon={faEnvelope} />
+                                    </div>
+                                </div>
+                                <div class={`${classes.popUpInputBlock} ${classes.popUpInputBLockSignUp}`}>
+                                    <label for='password'>Password* :</label> 
+                                    <div class={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
+                                        <input class={classes.popupInput} id="password"></input>
+                                        <FontAwesomeIcon icon={faKey} />
+                                    </div>
+                                    <label for='confirmPassword'>Confirm Password* :</label>
+                                    <div class={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
+                                        <input class={classes.popupInput} id="confirmPassword"></input>
+                                        <FontAwesomeIcon icon={faKey} />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class={`${classes.popUpInputBlock} ${classes.popUpInputBLockSignUp}`}>
-                            <label for='password'>Password* :</label> 
-                            <div class={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
-                                <input class={classes.popupInput} id="password"></input>
-                                <FontAwesomeIcon icon={faKey} />
+                            <div class={`${classes.popUpInputBlock} ${classes.popUpInputBLockSignUp}`}>
+                                <label for='secretQuestion'>Secret Question* :</label>
+                                <div class={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
+                                    <input class={classes.popupInput} id="secretQuestion"></input>
+                                    <FontAwesomeIcon icon={faUser} />
+                                </div>
+                                <label for='secretAnswer'>Secret Answer* :</label>
+                                <div class={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
+                                    <input class={classes.popupInput} id="secretAnswer"></input>
+                                    <FontAwesomeIcon icon={faLock} />
+                                </div>
                             </div>
-                            <label for='confirmPassword'>Confirm Password* :</label>
-                            <div class={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
-                                <input class={classes.popupInput} id="confirmPassword"></input>
-                                <FontAwesomeIcon icon={faKey} />
-                            </div>
-                        </div>
-                        <div class={`${classes.popUpInputBlock} ${classes.popUpInputBLockSignUp}`}>
-                            <label for='secretQuestion'>Secret Question* :</label>
-                            <div class={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
-                                <input class={classes.popupInput} id="secretQuestion"></input>
-                                <FontAwesomeIcon icon={faUser} />
-                            </div>
-                            <label for='secretAnswer'>Secret Answer* :</label>
-                            <div class={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
-                                <input class={classes.popupInput} id="secretAnswer"></input>
-                                <FontAwesomeIcon icon={faLock} />
-                            </div>
-                        </div>
-                        <div class={classes.popUpButtonPlus}>
-                            <button 
-                                class={`${classes.popUpButton} ${classes.secondPopUpButton}`}
-                                onClick={nextPageFunction}
-                            >
-                                Sign Up
-                            </button>
-                            <p>
-                                Already have an Account?
-                                <span> </span>  
-                                <span 
-                                    class={classes.invisibleButton1}
-                                    onClick={showLoginPage}
+                            <div class={classes.popUpButtonPlus}>
+                                <button 
+                                    class={`${classes.popUpButton} ${classes.secondPopUpButton}`}
+                                    onClick={nextPageFunction}
                                 >
-                                        Login
-                                </span>
-                            </p>
+                                    Sign Up
+                                </button>
+                                <p>
+                                    Already have an Account?
+                                    <span> </span>  
+                                    <span 
+                                        class={classes.invisibleButton1}
+                                        onClick={showLoginPage}
+                                    >
+                                            Login
+                                    </span>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

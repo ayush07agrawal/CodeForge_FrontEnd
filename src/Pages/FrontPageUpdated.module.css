@@ -200,9 +200,7 @@ hr{
 }
 .secondPopup{   
     /* for SignUp PopUp */
-    height:625px;
-    top:170px;
-    /* right:100px; */
+    border-top-left-radius: 10px;
     border: 2px solid #7ED957;
     z-index:3;
 }
@@ -224,6 +222,7 @@ hr{
 .secondPopUpWrapper{
     height:100%;
     border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
     overflow-y:hidden;    
 }
 .popUpMainSecond{
@@ -249,6 +248,10 @@ hr{
     align-items: center;
     padding:30px;
     gap:5%;
+}
+.secondPopUpSignUpForm{
+    width:100%;
+    height:100%;
 }
 .signUpPage{
     justify-content:space-around;
@@ -279,7 +282,7 @@ hr{
     font-weight: bold;    
 }
 .secondPopUpSideHeading{
-    top:-2px;
+    top:140px;
     border: 2px solid #7ED957;
     background-color: #7ed95783;
 }
