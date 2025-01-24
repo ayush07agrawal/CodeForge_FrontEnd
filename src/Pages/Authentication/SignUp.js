@@ -25,7 +25,6 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 	const navigate = useNavigate();
 	const email_redux = useSelector((state) => state.misc.email);
 	const dispatch = useDispatch();
-	const [error, setError] = useState(undefined);
 
 	async function handleSubmit(event) {
 		event.preventDefault();
@@ -55,8 +54,9 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 			toast.error("No valid form type to submit!");
 			navigate("/");
 		}
-		console.log(data);
+		// console.log(data);
 		try {
+			console.log("try catch begin");
 			const response = await fetch(`${server}/api/v1/user/${currForm === 0 ? 'verifyEmail' : (currForm === 1 ? 'verifyOTP' : 'new')}`, {
 				method: "POST",
 				headers: {
@@ -65,47 +65,47 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 				body: JSON.stringify(data),
 				credentials: "include",
 			});
+
+			const resData = await response.json();
 			console.log("Here1");
+
 			if (!response.ok) {
-				throw json({ message: "Error while loading the data..." }, { status: 500 });
-			}
-			else {
-				const resData = await response.json();
-				console.log(resData);
-				if (resData.success) {
-					if(currForm === 0) {
-						// if (resetPassword) dispatch(setSecretQuestion(resData.secretQuestion));
-						dispatch(setEmail(data.email));
-						dispatch(setRole(resData.role));
-						toast.success(resData.message);
-						setCurrForm((prev) => (prev+1)%3);
-						nextPageFunction();
-						return;
-					}
-					if (currForm === 1) {
-						toast.success(resData.message);
-						// if (resetPassword) return navigate("/auth/setPassword");
-						setCurrForm((prev) => (prev+1)%3);
-						nextPageFunction();
-                        return;
-					}
-					if(currForm === 2) {
-						dispatch(userExists(resData.user));
-						toast.success("Account Created!");
-						setCurrForm((prev) => (prev+1)%3);
-						return navigate("/app");
-					}
+                throw new Error(resData.message || "Error while loading the data...");
+            }
+				
+			console.log(resData);
+			if (resData.success) {
+				if(currForm === 0) {
+					// if (resetPassword) dispatch(setSecretQuestion(resData.secretQuestion));
+					dispatch(setEmail(data.email));
+					dispatch(setRole(resData.role));
+					toast.success(resData.message);
+					setCurrForm((prev) => (prev+1)%3);
+					nextPageFunction();
+					return;
 				}
-				else {
-					setError(resData.message);
+				if (currForm === 1) {
+					toast.success(resData.message);
+					// if (resetPassword) return navigate("/auth/setPassword");
+					setCurrForm((prev) => (prev+1)%3);
+					nextPageFunction();
+					return;
 				}
+				if(currForm === 2) {
+					dispatch(userExists(resData.user));
+					toast.success("Account Created!");
+					setCurrForm((prev) => (prev+1)%3);
+					return navigate("/app");
+				}
+			} else {
+				// If `resData.success` is false, set an error message
+				toast.error(resData.message);
 			}
-		}
+		}		
 		catch (error) {
-			console.log("Here67");
-			toast.error(error.message);
-			console.error("Error submitting code:", error);
-			navigate("/");
+			console.error("Error during login:", error);
+            toast.error(error.message || "An unexpected error occurred");
+            navigate("/");
 		}
 	}
 

@@ -14,7 +14,7 @@ export default function LoginPopUp({loginVisible,showLoginPage,closeLoginPage,sh
     const dispatch = useDispatch();
     const email = useRef();
     const password = useRef();
-    const [error, setError] = useState();
+    const [rememberMe, setRememberMe] = useState("");
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -24,40 +24,41 @@ export default function LoginPopUp({loginVisible,showLoginPage,closeLoginPage,sh
         };
 
         console.log(data);
+
         try {
             const response = await fetch(`${server}/api/v1/user/login`, {
                 method: "POST",
                 headers: {
-                "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(data),
                 credentials: "include",
             });
+
+            // Parse response JSON
+            const resData = await response.json();
+
+            // If the response is not OK, set the error message and throw an error
             if (!response.ok) {
-                throw json(
-                    { message: "Error while loading the data..." },
-                    { status: 500 }
-                );
+                throw new Error(resData.message || "Error while loading the data...");
             }
-            else {
-                const resData = await response.json();
-                console.log(resData);
-                if (resData.success) {
-                    toast.success(resData.message);
-                    dispatch(userExists(resData.user));
-                    navigate("/app");
-                }
-                else {
-                    setError(resData.message);
-                }
+
+            // If the response is successful and `resData.success` is true
+            if (resData.success) {
+                toast.success(resData.message);
+                dispatch(userExists(resData.user));
+                navigate("/app");
+            } else {
+                // If `resData.success` is false, set an error message
+                toast.error(resData.message);
             }
-        } 
-        catch (error) {
-            toast.error(error.message);
-            console.error("Error submitting code:", error);
+        } catch (error) {
+            console.error("Error during login:", error);
+            toast.error(error.message || "An unexpected error occurred");
             navigate("/");
         }
     }
+
     return(
         <div className={`${classes.popUp} ${loginVisible ? classes.showPopUp : ""}`}>
             <button 
