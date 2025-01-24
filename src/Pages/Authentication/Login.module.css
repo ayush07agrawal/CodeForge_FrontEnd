@@ -25,10 +25,6 @@
     overflow-x:hidden;
 }
 
-.background::-webkit-scrollbar{
-    display:none;
-}
-
 .wrapper1{
     display:flex;
     justify-content: space-around;
@@ -195,6 +191,7 @@ hr{
     border: 2px solid #FF5757;
     background-color: rgba(0, 0, 18, 0.84);
 
+    
     z-index:5;
     transition:right 0.5s ease-in-out;
 }
