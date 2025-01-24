@@ -11,6 +11,7 @@ import ProtectRoute from './Components/Auth/ProtectRoute.jsx'
 const TeacherHome = lazy(()=> import("./Pages/Teacher/TeacherHome.js"))
 const CreateLab = lazy(() => import("./Components/CreateLab.js"));
 const FrontPage = lazy(() => import("./Pages/FrontPage.js"));
+const FrontPageUpdated = lazy(() => import("./Pages/FrontPageUpdated.js"));
 const RootPage = lazy(() => import("./Pages/RootPage.js"));
 const ErrorPage = lazy(() => import("./Pages/ErrorPage.js"));
 const HomePage = lazy(() => import("./Pages/HomePage.js"));
@@ -37,7 +38,8 @@ function App() {
       element: <ProtectRoute user = {!user} redirect = '/app' />,
       errorElement: <ErrorPage />,
       children: [
-        { index: true, element: <FrontPage />, },
+        // { index: true, element: <FrontPage />, },
+        { index: true, element: <FrontPageUpdated />, },
         { path: "auth/:mode",  element: <Authentication /> },
       ],
     },
