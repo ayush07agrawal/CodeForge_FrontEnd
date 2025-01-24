@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from "./Progressbar.module.css";
+import classes from "./ProgressBar.module.css";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
 const Progressbar = ({ solved, total }) =>{

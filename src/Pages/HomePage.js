@@ -1,57 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import QuestionList from "../Components/QuestionList";
 import classes from "./HomePage.module.css";
 import { v4 as uuid } from "uuid";
 import { useGetQuestionsQuery } from "../redux/api/api";
 import { useErrors } from "../hooks/hooks";
 import TagItem from "../Components/TagItem";
-import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { setURL } from "../redux/reducers/misc";
 import ProfileCard from "../Components/ProfileCard";
 
-const total = 10;
-const data = {
-	"name" : "Suprit Naik",
-	"email" : "22CS01018@iitbbs.ac.in",
-	"password":"pass@1233",
-	"secretQuestion":"What is this",
-	"secretAnswer":"This is it",
-	"rollNumber":"22CS01018",
-	"photo":"Image1.jpg",
-	"questionsSolved": [1,2,3],
-	"leetcode": "",
-	"codechef": ""
-};
-
-const teacherData = {
-	"name" : "Shreya Ghosh",
-	"email" : "22CS01018@iitbbs.ac.in",
-	"password":"pass@1233",
-	"secretQuestion":"What is this",
-	"secretAnswer":"This is it",
-	"rollNumber":"22CS01018",
-	"photo":"Image1.jpg",
-	"batch":["22Btech","23Btech","24Btech"],
-};
-
-export default function HomePage() {
-	
-	console.log(data);
-	const dispatch = useDispatch();
-	const location = useLocation();
+export default function HomePage(){
 	const [filterTags, setFilterTags] = useState([]);
-	const [profileCardShow, setProfileCardShow] = useState(0);
+	const [studentProfileCardShow, setStudentProfileCardShow] = useState(0);
+	const [teacherProfileCardShow, setTeacherProfileCardShow] = useState(0);
 	const tag = useRef();
+	const studentUserName = useRef();
+	const teacherUserName = useRef();
 	const allQuestions = useGetQuestionsQuery();
 	const errors = [
 		{ isError: allQuestions.isError, error: allQuestions.error },
 	];
 	useErrors(errors);
-
-	// useEffect(() => {
-	// 	dispatch(setURL(location.pathname));
-	// }, [dispatch, location])
 
 	return (
 		<div className={classes.container}>
@@ -78,7 +45,7 @@ export default function HomePage() {
 							type="text"
 							ref={tag}
 							placeholder="Enter the tag..."
-							className={classes.filterInput}
+							className={classes.userInput}
 						/>
 						<button
 							onClick={() => {
@@ -92,7 +59,7 @@ export default function HomePage() {
 									]);
 								}
 							}}
-							className={classes.filterBtn}
+							className={classes.miscButton}
 						>
 							Add
 						</button>
@@ -110,13 +77,29 @@ export default function HomePage() {
 						))}
 					</div>				
 				</div>
-				{/* need to update this in future to search various persons in the future */}
-				<button className={classes.miscButton} onClick={()=>setProfileCardShow((prev)=>!prev)}>Search</button>
-				
+				<div className={classes.search}>
+					<h4 className={classes.addFilter}>Search Student:</h4>
+					<input
+						type="text"
+						ref={studentUserName}
+						placeholder="Enter the student username..."
+						className={classes.userInput}
+					/>
+					<button className={classes.miscButton} onClick={() => setStudentProfileCardShow((prev) => !prev)}>Search</button>
+				</div> 
+				<div className={classes.search}>
+					<h4 className={classes.addFilter}>Search Faculty:</h4>
+					<input
+						type="text"
+						ref={teacherUserName}
+						placeholder="Enter the teacher username..."
+						className={classes.userInput}
+					/>
+					<button className={classes.miscButton} onClick={() => setTeacherProfileCardShow((prev) => !prev)}>Search</button>
+				</div>
 			</div>
-			{profileCardShow && <ProfileCard total={total} data={data} role="student" closeCardFunc = {setProfileCardShow}></ProfileCard>}
-			{/* {profileCardShow && <ProfileCard total={total} data={teacherData} role="teacher" closeCardFunc = {setProfileCardShow}></ProfileCard>} */}
-			
+			{studentProfileCardShow && <ProfileCard total={allQuestions?.data.questions.length} userName={studentUserName.current.value} role='student' closeCardFunc = {setStudentProfileCardShow}></ProfileCard>}
+			{teacherProfileCardShow && <ProfileCard total={allQuestions?.data.questions.length} userName={teacherUserName.current.value} role='teacher' closeCardFunc = {setTeacherProfileCardShow}></ProfileCard>}
 		</div>
 	);
 }

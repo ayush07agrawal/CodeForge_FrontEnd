@@ -1,7 +1,7 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import classes from "./ProfileCard.module.css";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-
+import { useGetProfileQuery } from "../redux/api/api";
 import pphoto from "../Assests/profilephoto.png";
 import emailicon from "../Assests/email.svg";
 import githubicon from "../Assests/github.svg";
@@ -10,68 +10,89 @@ import codecheficon from "../Assests/codechef.png";
 import codeforcesicon from "../Assests/codeforces.svg";
 import leetcodeicon from "../Assests/leetcode.png";
 
+const ProfileCard = ({ userName, total, role, closeCardFunc }) => {
+    const { data, isLoading, isError, error } = useGetProfileQuery({ userName, role });
+    const [flip, setFlip] = useState(false);
 
-const ProfileCard = ({data,total,role,closeCardFunc}) => {
-    const [flip,setFlip] = useState(false)
-    const toggleFlip = (e) =>{
-        e.stopPropagation()
-        setFlip(prevFlip => !prevFlip)
+    // Handle loading and error states
+    if (isLoading) {
+        return <p>Loading...</p>;
     }
 
-    console.log(data);
-    console.log(total);
-    console.log(role);
+    if (isError) {
+        return <p>Error: {error?.data?.message || "An error occurred."}</p>;
+    }
 
-    const solved = data.questionsSolved?.length
-    const value = solved/(total*2)*100
+    const user = data?.user || {}; // Ensure user is defined
+    const toggleFlip = (e) => {
+        e.stopPropagation();
+        setFlip((prevFlip) => !prevFlip);
+    };
 
-    return(
+    const solved = user?.questionsSolved?.length || 0;
+    const value = (solved / (total * 2)) * 100;
+
+    return (
         <div>
-            <div className={classes.mainWrapper} onClick={()=>closeCardFunc((prev)=>!prev)}>
-                <div className={`${classes.flipCardContainer} ${flip ? classes.flip:""}`} onClick={toggleFlip}>
+            <div className={classes.mainWrapper} onClick={() => closeCardFunc((prev) => !prev)}>
+                <div className={`${classes.flipCardContainer} ${flip ? classes.flip : ""}`} onClick={toggleFlip}>
                     <div className={classes.flipCard}>
                         <div className={classes.flipCardFront}>
                             <div className={classes.profilephoto}>
-                                <img src={pphoto} alt=""></img>
-                                {/* <img src={profile.photo === "" ? pphoto : profile.photo} alt=""></img> */}
+                                <img src={pphoto} alt="" />
                             </div>
                             <div className={classes.profileName}>
-                                <p>{data.name}</p>
+                                <p>{user.name}</p>
                             </div>
                             <div className={classes.rollNumber}>
-                                {role==="student" && <p>{data.rollNumber}</p>}
-                                {role==="teacher" && <p>{"Teacher"}</p>}
+                                {role === "student" && <p>{user.rollNumber}</p>}
+                                {role === "teacher" && <p>{"Teacher"}</p>}
                             </div>
                             <div className={classes.profilelinks}>
-                                <a href={`mailto:${data.email}`} target="_blank" rel="noopener noreferrer" onClick = {(e) => e.stopPropagation()}>
-                                    <img src={emailicon} alt="email" className={classes.iconlinks} style={data.email === "" ? { display: 'none' } : {}} />
-                                </a>
-                                <a href={data.github} target="_blank" rel="noopener noreferrer" onClick = {(e) => e.stopPropagation()}>
-                                    <img src={githubicon} alt="github" className={classes.iconlinks} style={data.github === "" ? { display: 'none' } : {}} />
-                                </a>
-                                <a href={data.linkedin} target="_blank" rel="noopener noreferrer" onClick = {(e) => e.stopPropagation()}>
-                                    <img src={linkednicon} alt="linkedn" className={classes.iconlinks} style={data.linkedin === "" ? { display: 'none' } : {}} />
-                                </a>
-                                <a href={data.codeforces} target="_blank" rel="noopener noreferrer" onClick = {(e) => e.stopPropagation()}>
-                                    <img src={codeforcesicon} alt="codeforces" className={classes.iconlinks} style={data.codeforces === "" ? { display: 'none' } : {}} />
-                                </a>
-                                <a href={data.codechef} target="_blank" rel="noopener noreferrer" onClick = {(e) => e.stopPropagation()}>
-                                    <img src={codecheficon} alt="codechef" className={classes.iconlinks} style={data.codechef === "" ? { display: 'none' } : {}} />
-                                </a>
-                                <a href={data.leetcode} target="_blank" rel="noopener noreferrer" onClick = {(e) => e.stopPropagation()}>
-                                    <img src={leetcodeicon} alt="leetcode" className={classes.iconlinks} style={data.leetcode === "" ? { display: 'none' } : {}} />
-                                </a>
+                                {user.email && (
+                                    <a href={`mailto:${user.email}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                                        <img src={emailicon} alt="email" className={classes.iconlinks} />
+                                    </a>
+                                )}
+                                {user.github && (
+                                    <a href={user.github} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                                        <img src={githubicon} alt="github" className={classes.iconlinks} />
+                                    </a>
+                                )}
+                                {user.linkedin && (
+                                    <a href={user.linkedin} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                                        <img src={linkednicon} alt="linkedin" className={classes.iconlinks} />
+                                    </a>
+                                )}
+                                {user.codeforces && (
+                                    <a href={user.codeforces} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                                        <img src={codeforcesicon} alt="codeforces" className={classes.iconlinks} />
+                                    </a>
+                                )}
+                                {user.codechef && (
+                                    <a href={user.codechef} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                                        <img src={codecheficon} alt="codechef" className={classes.iconlinks} />
+                                    </a>
+                                )}
+                                {user.leetcode && (
+                                    <a href={user.leetcode} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                                        <img src={leetcodeicon} alt="leetcode" className={classes.iconlinks} />
+                                    </a>
+                                )}
                             </div>
                         </div>
                         <div className={classes.flipCardBack}>
-                            <h1 className={classes.progress_title}>{role==="student" && "PROGRESS"}{role==="teacher" && "BATCHES"}</h1>
-                            {role==="student" && 
+                            <h1 className={classes.progress_title}>
+                                {role === "student" && "PROGRESS"}
+                                {role === "teacher" && "BATCHES"}
+                            </h1>
+                            {role === "student" && (
                                 <div className={classes.progress}>
                                     <div className={classes.progress_container}>
                                         <CircularProgressbar
                                             value={value}
                                             styles={buildStyles({
-                                                rotation: 0.75, // Start at the top (0.75 turns, 270 degrees)
+                                                rotation: 0.75,
                                                 strokeLinecap: 'round',
                                                 pathTransitionDuration: 0.5,
                                                 pathColor: `rgba(255, 87, 87)`,
@@ -80,22 +101,26 @@ const ProfileCard = ({data,total,role,closeCardFunc}) => {
                                             })}
                                         />
                                     </div>
-                                    <div className={classes.progress_text}>{solved}/{total}</div>
+                                    <div className={classes.progress_text}>
+                                        {solved}/{total}
+                                    </div>
                                 </div>
-                            }
-                            {role==="teacher" &&
+                            )}
+                            {role === "teacher" && (
                                 <div className={classes.batchTags}>
-                                    {data.batch?.map((batch,index) => (
-                                        <div key={index} className={classes.batchTag}> {batch} </div>
+                                    {user.batch?.map((batch, index) => (
+                                        <div key={index} className={classes.batchTag}>
+                                            {batch}
+                                        </div>
                                     ))}
                                 </div>
-                            }
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default ProfileCard;

@@ -55,6 +55,15 @@ const api = createApi({
             invalidatesTags: ["Batch"],
         }),
 
+        getProfile: builder.query({
+            query: ({userName, role}) => ({
+                url: `user/other?userName=${userName}&role=${role}`, // Query-string-based
+                credentials: "include",
+            }),
+            invalidatesTags: ["User"],
+        }),
+        
+
         updateScore: builder.mutation({
             query: ({ labId, scores }) => ({
                 url: "lab/updateScore",
@@ -86,5 +95,6 @@ export const {
     useGetBatchesQuery,
     useGetBatchQuery,
     useUpdateScoreMutation,
-    useUpdateBatchesMutation
+    useUpdateBatchesMutation,
+    useGetProfileQuery,
 } = api;
