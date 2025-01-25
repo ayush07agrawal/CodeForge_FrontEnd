@@ -30,12 +30,15 @@
 	border-bottom-left-radius: 10px;
 	border: 2px solid #ff5757;
 	background-color: rgba(0, 0, 18, 0.84);
+	box-shadow:0px 0px 0px 0px rgb(0, 0, 18);
 
 	z-index: 5;
-	transition: right 0.5s ease-in-out;
+	transition: right 0.5s ease-in-out,
+				box-shadow 0.5s ease-in-out;
 }
 .popUp.showPopUp {
 	right: 0;
+	box-shadow:0px 0px 100px 90px rgb(0, 0, 18);
 }
 .secondPopup {
 	/* for SignUp PopUp */

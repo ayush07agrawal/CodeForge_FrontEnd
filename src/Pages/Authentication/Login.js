@@ -8,13 +8,26 @@ import { userExists } from "../../redux/reducers/auth";
 import { server } from "../../Assests/config";
 import { useRef, useState } from "react";
 
+import ForgotPasswordComponent from "./ForgotPassword";
 
-export default function LoginPopUp({loginVisible,showLoginPage,closeLoginPage,showSignUpPage}){
+
+export default function LoginPopUp({
+    loginVisible,
+    showLoginPage,
+    showSignUpPage,
+
+    passwordChange,
+	passwordPageScroll,
+	showPasswordChangeFunc,
+	closePasswordChangeFunc,
+	nextPasswordPageFunction,
+}){
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const email = useRef();
     const password = useRef();
     const [rememberMe, setRememberMe] = useState("");
+
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -60,55 +73,75 @@ export default function LoginPopUp({loginVisible,showLoginPage,closeLoginPage,sh
     }
 
     return(
-        <div className={`${classes.popUp} ${loginVisible ? classes.showPopUp : ""}`}>
+        <div className={`${classes.popUp} ${loginVisible ? classes.showPopUp : ""} ${passwordChange && classes.showPopUpPasswordChange}`}>
             <button 
-                className={classes.popUpSideHeading} 
+                className={`${classes.popUpSideHeading} ${passwordChange && classes.popUpSideHeadingPasswordChange}`} 
                 onClick={(e)=>{
                     e.stopPropagation()
                     showLoginPage()
                 }}
             >
-                <div className={classes.sideHeadingText}>Login</div>
+                <div className={classes.sideHeadingText}>
+                    {passwordChange?`Change Password`:`Login`}
+                </div>
             </button>
-            <div 
-                className={classes.popUpMain}
-                onClick={
-                    (e)=>e.stopPropagation()
-                }
-            >
-                <div className={classes.popupHeading}>
-                    <h2>Login</h2>
-                </div>
-                <div className={classes.popUpInputBlock}>
-                    <div className={classes.popUpInputDiv}>
-                        <input className={classes.popupInput} ref={email} placeholder="Enter email..."></input>
-                        <FontAwesomeIcon icon={faUser} />
-                    </div>
-                    <div className={classes.popUpInputDiv}>
-                        <input type="password" className={classes.popupInput} ref={password} placeholder="Enter password..."></input>
-                        <FontAwesomeIcon icon={faKey} />
-                    </div>
-                </div>
-                <div className={classes.signupPopupContent}>
-                    <div style={{display:'flex', gap:'2px'}}>
-                        <input type="checkbox"></input>
-                        <p>Remember Me</p>
-                    </div>
-                    <p className={classes.invisibleButton}>Forgot Password?</p>
-                </div>
-                <div className={classes.popUpButtonPlus}>
-                    <button className={classes.popUpButton} onClick={handleSubmit}>Log in</button>
-                    <p>
-                        Don't have an account?
-                        <span> </span>  
-                        <span 
-                            className={classes.invisibleButton}
-                            onClick={showSignUpPage}
+            <div className={`${classes.popUpWrapper} ${passwordChange && classes.showPasswordpopUpWrapper}`}>
+                <div className = {`${classes.mainWrapper} ${passwordChange && classes.showPasswordMainWrapper}`}>
+                    <div className={classes.loginPage}>
+                        <div 
+                            className={classes.popUpMain}
+                            onClick={
+                                (e)=>e.stopPropagation()
+                            }
                         >
-                                Sign Up
-                        </span>
-                    </p>
-                </div>
+                            <div className={classes.popupHeading}>
+                                <h2>Login</h2>
+                            </div>
+                            <div className={classes.popUpInputBlock}>
+                                <div className={classes.popUpInputDiv}>
+                                    <input className={classes.popupInput} ref={email} placeholder="Enter email..."></input>
+                                    <FontAwesomeIcon icon={faUser} />
+                                </div>
+                                <div className={classes.popUpInputDiv}>
+                                    <input type="password" className={classes.popupInput} ref={password} placeholder="Enter password..."></input>
+                                    <FontAwesomeIcon icon={faKey} />
+                                </div>
+                            </div>
+                            <div className={classes.loginPopupContent}>
+                                <div style={{display:'flex', gap:'2px'}}>
+                                    <input type="checkbox"></input>
+                                    <p>Remember Me</p>
+                                </div>
+                                <p 
+                                    className={classes.invisibleButton}
+                                    onClick = {showPasswordChangeFunc}
+                                >
+                                    Forgot Password?
+                                </p>
+                            </div>
+                            <div className={classes.popUpButtonPlus}>
+                                <button className={classes.popUpButton} onClick={handleSubmit}>Log in</button>
+                                <p>
+                                    Don't have an account?
+                                    <span> </span>  
+                                    <span 
+                                        className={classes.invisibleButton}
+                                        onClick={showSignUpPage}
+                                    >
+                                            Sign Up
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div className={classes.passwordChangePage}>
+                        <ForgotPasswordComponent 
+                            passwordPageScroll={passwordPageScroll}
+                            nextPasswordPageFunction={nextPasswordPageFunction}
+                            closePasswordChangeFunc={closePasswordChangeFunc}
+                        />
+                    </div>
+                </div>                
             </div>
         </div>
     );

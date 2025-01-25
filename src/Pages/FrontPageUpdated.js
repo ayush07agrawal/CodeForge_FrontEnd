@@ -11,6 +11,8 @@ function FrontPageUpdated() {
 	const [loginVisible, setLoginVisible] = useState(false);
 	const [signUpPageVisible, setSignUpPageVisible] = useState(false);
 	const [signVisible, setSignVisible] = useState(0);
+	const [passwordChange, setPasswordChange] = useState(false);
+    const [passwordPageScroll, setPasswordPageScroll] = useState(0);
 	const dispatch = useDispatch();
 
 	const showLoginPage = () => {
@@ -18,6 +20,7 @@ function FrontPageUpdated() {
 		setLoginVisible((prev) => true);
 	};
 	const closeLoginPage = () => {
+		closePasswordChangeFunc();
 		setLoginVisible((prev) => false);
 		dispatch(setFormState(0));
 	};
@@ -40,6 +43,23 @@ function FrontPageUpdated() {
 			setSignVisible((prev) => 0);
 		}, 500);
 	};
+
+	function showPasswordChangeFunc(){
+        setPasswordChange((prev)=>true);
+    }
+    function closePasswordChangeFunc(){
+        closePasswordPageFunction();
+        setPasswordChange((prev)=>false);
+    }
+
+    const nextPasswordPageFunction = () => {
+        setPasswordPageScroll((prev) => prev + 1);
+    };
+    const closePasswordPageFunction = () => {
+        setTimeout(() => {
+            setPasswordPageScroll((prev) => 0);
+        }, 500);
+    };
 
 	return (
 		<div
@@ -102,8 +122,13 @@ function FrontPageUpdated() {
 			<LoginPopUp
 				loginVisible={loginVisible}
 				showLoginPage={showLoginPage}
-				closeLoginPage={closeLoginPage}
 				showSignUpPage={showSignUpPage}
+
+				passwordChange={passwordChange}
+				passwordPageScroll={passwordPageScroll}
+				showPasswordChangeFunc={showPasswordChangeFunc}
+				closePasswordChangeFunc={closePasswordChangeFunc}
+				nextPasswordPageFunction={nextPasswordPageFunction}
 			/>
 			<SignUpPopUp
 				signUpPageVisible={signUpPageVisible}

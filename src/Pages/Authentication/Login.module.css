@@ -11,8 +11,7 @@
     box-sizing:border-box;
 }
 
-
-.invisibleButton,.invisibleButton1{
+.invisibleButton{
     cursor: pointer;
     color:white;
     transition: color 0.2s ease-in-out;
@@ -20,38 +19,37 @@
 .invisibleButton:hover{
     color:#FF5757;
 }
-.invisibleButton1:hover{
-    color:#7ED957;
-}
-
-
-/* PopUp CSS CODE starts */
-
 
 .popUp{
     position:fixed;
     top:30px;
     right:-400px;
-
+    
     height : 500px;
     width : 400px;
     border-bottom-left-radius: 10px;
+    border-top-left-radius: 0px;
     border: 2px solid #FF5757;
     background-color: rgba(0, 0, 18, 0.84);
+    box-shadow : 0 0 0 0 rgb(0, 0, 18);
 
-    
     z-index:5;
-    transition:right 0.5s ease-in-out;
+    transition:right 0.5s ease-in-out,
+               border 1s ease-in-out,
+               box-shadow 0.5s ease-in-out,
+               border-bottom-left-radius 1s ease-in-out,
+               border-top-left-radius 1s ease-in-out;
 }
 .popUp.showPopUp{
-    right:0;
+    right:0px; 
+    /* change it to 0 */
     z-index:6;
+    box-shadow:0px 0px 100px 90px rgb(0, 0, 18);
 }
-.secondPopup{   
-    /* for SignUp PopUp */
+.popUp.showPopUp.showPopUpPasswordChange{
+    border: 2px solid #FFD739;
+    border-bottom-left-radius: 0px;
     border-top-left-radius: 10px;
-    border: 2px solid #7ED957;
-    z-index:3;
 }
 
 @media (max-width: 768px){
@@ -61,49 +59,38 @@
     }
 }
 
-.popUpMain{
+.popUpWrapper{
     height:100%;
-    display:flex;
-    flex-direction:column;
-    justify-content: space-around;
-    padding:30px;
-}
-.secondPopUpWrapper{
-    height:100%;
+    width:100%; 
+    overflow:hidden;
     border-bottom-left-radius: 10px;
+    border-top-left-radius: 0px;
+    transition-duration:1s;
+}
+.showPasswordpopUpWrapper{
+    border-bottom-left-radius: 0px;
     border-top-left-radius: 10px;
-    overflow-y:hidden;    
-}
-.popUpMainSecond{
-    height:300%;
-    position:relative;
-    top:0px;
-    transition: top 0.5s ease-in-out;
-}
-.popUpMainSecondPage1{
-    top:-100%;
-}
-.popUpMainSecondPage2{
-    top:-200%;
 }
 
-.secondPopUpPage1{
-    height:33.33%;
-    width:100%;
-    background-color: transparent;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding:30px;
-    gap:5%;
-}
-.secondPopUpSignUpForm{
-    width:100%;
+.mainWrapper{
     height:100%;
+    width:200%;
+    display:flex;
+
+    position:relative;
+    right:0%;
+    transition: right 0.5s ease-in-out;
 }
-.signUpPage{
-    justify-content:space-around;
+.showPasswordMainWrapper{
+    right:100%;
+}
+.loginPage{
+    height:100%;
+    width:100%;
+}
+.passwordChangePage{
+    height:100%;
+    width:100%;
 }
 
 .popUpSideHeading{
@@ -128,17 +115,31 @@
     text-orientation: mixed;
     font-size: x-large;
     font-family:Verdana;
-    font-weight: bold;    
+    font-weight: bold;  
+    
+    transition-duration: 1s;
 }
-.secondPopUpSideHeading{
-    top:140px;
-    border: 2px solid #7ED957;
-    background-color: #7ed95783;
+.popUpSideHeadingPasswordChange{
+    border: 2px solid #FFD739;
+    background-color: #ffd73972;
+    top:100%;
+    transform: translateY(-99.2%);
+    height:230px;
 }
 .sideHeadingText{
     transform: rotate(-90deg);    
     text-wrap:nowrap;
 } 
+
+
+/* Login CSS CODE starts */
+.popUpMain{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content: space-around;
+    padding:30px;
+}
 
 
 .popupHeading{
@@ -151,15 +152,11 @@
     text-align: center;
 }
 
-
 .popUpInputBlock{
     display:flex;
     flex-direction:column;
     height:120px;
     justify-content: space-between;
-}
-.popUpInputBLockSignUp{
-    width:100%;
 }
 .popUpInputDiv{
     width:100%;
@@ -172,12 +169,6 @@
     border-radius: 100px;
     padding:2%;
     padding-inline: 5%;
-}
-.secondPopUpInputDiv{
-    height:42px;
-}
-.signUpPopUpInputDiv{
-    height:30%;
 }
 .popupInput{
     width:90%;
@@ -194,42 +185,16 @@
 .popUpInputDiv:has(.popupInput:focus) {
     border-color: #FF5757;
 }
-.secondPopUpInputDiv:has(.popupInput:focus){
-    border-color: #7ED957;
-}
-.signUpPopUpInputDiv:has(.popupInput:focus){
-    border-color: #7ED957;
-}
 svg{
     color:white;
 }
 .popUpInputDiv:focus-within svg {
     color: #FF5757;
 }
-.secondPopUpInputDiv:focus-within svg {
-    color: #7ED957;
-}
-.signUpPopUpInputDiv:focus-within svg {
-    color: #7ED957;
-}
 
-
-.otpBox {
-    height: 50px;
-    margin: 0 5px;
-    font-size: 1.5rem;
-    text-align: center;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    outline: none;
-    background-color: rgba(61, 62, 78, 0.846);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    color:white;
-}
-.otpBox:focus {
-    border-color: #4caf50;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+.loginPopupContent{
+    display:flex;
+    justify-content: space-between;
 }
 
 .popUpButtonPlus{
@@ -258,24 +223,9 @@ svg{
     
     transition-duration: 0.2s;
 }
-.secondPopUpButton{
-    box-shadow:0 0 2px 1px #7ed95783;
-}
 .popUpButton:hover{
     background-color: #ff575779;
     color:white;
     border-color:#FF5757;
 }
-.secondPopUpButton:hover{
-    background-color: #7ed95783;
-    color:white;
-    border-color:#7ED957;
-}
-
-
-.signupPopupContent{
-    display:flex;
-    justify-content: space-between;
-}
-
-/* PopUp CSS CODE ends */
+/* Login CSS CODE ends */
