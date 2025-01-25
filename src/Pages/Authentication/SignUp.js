@@ -212,17 +212,17 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 										<FontAwesomeIcon icon={faKey} />
 									</div>
 								</div>
-							</div>
-							<div className={`${classes.popUpInputBlock} ${classes.popUpInputBLockSignUp}`}>
-								<label htmlFor="secretQuestion">Secret Question* :</label>
-								<div className={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
-									<input className={classes.popupInput} id="secretQuestion" ref={secretQueForm}></input>
-									<FontAwesomeIcon icon={faUser} />
-								</div>
-								<label htmlFor="secretAnswer">Secret Answer* :</label>
-								<div className={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
-									<input className={classes.popupInput} id="secretAnswer" ref={secretAnsForm}></input>
-									<FontAwesomeIcon icon={faLock} />
+								<div className={`${classes.popUpInputBlock} ${classes.popUpInputBLockSignUp}`}>
+									<label htmlFor="secretQuestion">Secret Question* :</label>
+									<div className={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
+										<input className={classes.popupInput} id="secretQuestion" ref={secretQueForm}></input>
+										<FontAwesomeIcon icon={faUser} />
+									</div>
+									<label htmlFor="secretAnswer">Secret Answer* :</label>
+									<div className={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
+										<input className={classes.popupInput} id="secretAnswer" ref={secretAnsForm}></input>
+										<FontAwesomeIcon icon={faLock} />
+									</div>
 								</div>
 							</div>
 							<div className={classes.popUpButtonPlus}>
