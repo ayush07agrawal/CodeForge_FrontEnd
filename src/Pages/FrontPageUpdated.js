@@ -1,14 +1,17 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import classes from "./FrontPageUpdated.module.css";
 import logo from "../Assests/Frame1.jpg";
 import frontImage from "../Assests/FrontPhoto.png";
 import SignUpPopUp from "./Authentication/SignUp";
 import LoginPopUp from "./Authentication/Login";
+import { setFormState } from "../redux/reducers/misc";
 
 function FrontPageUpdated() {
 	const [loginVisible, setLoginVisible] = useState(false);
 	const [signUpPageVisible, setSignUpPageVisible] = useState(false);
 	const [signVisible, setSignVisible] = useState(0);
+	const dispatch = useDispatch();
 
 	const showLoginPage = () => {
 		closeSignUpPage();
@@ -16,6 +19,7 @@ function FrontPageUpdated() {
 	};
 	const closeLoginPage = () => {
 		setLoginVisible((prev) => false);
+		dispatch(setFormState(0));
 	};
 
 	const showSignUpPage = () => {
@@ -25,6 +29,7 @@ function FrontPageUpdated() {
 	const closeSignUpPage = () => {
 		setSignUpPageVisible((prev) => false);
 		closePageFunction();
+		dispatch(setFormState(0));
 	};
 
 	const nextPageFunction = () => {

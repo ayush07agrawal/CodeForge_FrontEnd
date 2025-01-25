@@ -1,14 +1,14 @@
 import classes from "./SignUp.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock, faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate, json } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { userExists } from "../../redux/reducers/auth";
 import { server } from "../../Assests/config";
 import { useRef, useState } from "react";
 import OtpInput from "react-otp-input";
-import { setEmail, setRole } from "../../redux/reducers/misc";
+import { setEmail, setRole, setFormState } from "../../redux/reducers/misc";
 
 // mail verify -> nextPageFunction
 
@@ -21,26 +21,27 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 	const secretQueForm = useRef();
 	const secretAnsForm = useRef();
 
-	const [currForm, setCurrForm] = useState(0); // 0 - mailVerify, 1-OTPVerify, 2-SignUp
+	// const [currForm, setCurrForm] = useState(0); // 0 - mailVerify, 1-OTPVerify, 2-SignUp
 	const navigate = useNavigate();
 	const email_redux = useSelector((state) => state.misc.email);
+	const formState = useSelector((state) => state.misc.formState);
 	const dispatch = useDispatch();
 
 	async function handleSubmit(event) {
 		event.preventDefault();
 		let data = undefined;
-		if(currForm === 0){
+		if(formState === 0){
 			data = {
 				email : mailForm.current.value
 			}
 		}
-		else if(currForm === 1){
+		else if(formState === 1){
 			data = {
 				email : email_redux,
 				otp : otpForm
 			}
 		}
-		else if(currForm === 2){
+		else if(formState === 2){
 			data = {
                 email : email_redux,
 				name : nameForm.current.value,
@@ -56,8 +57,8 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 		}
 		// console.log(data);
 		try {
-			console.log("try catch begin");
-			const response = await fetch(`${server}/api/v1/user/${currForm === 0 ? 'verifyEmail' : (currForm === 1 ? 'verifyOTP' : 'new')}`, {
+			console.log(data);
+			const response = await fetch(`${server}/api/v1/user/${formState === 0 ? 'verifyEmail' : (formState === 1 ? 'verifyOTP' : 'new')}`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -67,7 +68,8 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 			});
 
 			const resData = await response.json();
-			console.log("Here1");
+			console.log("formState: ", formState);
+
 
 			if (!response.ok) {
                 throw new Error(resData.message || "Error while loading the data...");
@@ -75,26 +77,26 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 				
 			console.log(resData);
 			if (resData.success) {
-				if(currForm === 0) {
+				if(formState === 0) {
 					// if (resetPassword) dispatch(setSecretQuestion(resData.secretQuestion));
 					dispatch(setEmail(data.email));
 					dispatch(setRole(resData.role));
 					toast.success(resData.message);
-					setCurrForm((prev) => (prev+1)%3);
+					dispatch(setFormState(1));
 					nextPageFunction();
 					return;
 				}
-				if (currForm === 1) {
+				if (formState === 1) {
 					toast.success(resData.message);
 					// if (resetPassword) return navigate("/auth/setPassword");
-					setCurrForm((prev) => (prev+1)%3);
+					dispatch(setFormState(2));
 					nextPageFunction();
 					return;
 				}
-				if(currForm === 2) {
+				if(formState === 2) {
 					dispatch(userExists(resData.user));
 					toast.success("Account Created!");
-					setCurrForm((prev) => (prev+1)%3);
+					dispatch(setFormState(0));
 					return navigate("/app");
 				}
 			} else {

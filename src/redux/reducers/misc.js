@@ -8,7 +8,8 @@ const initialState = {
     secretQuestion: undefined,
     email: undefined,
     role: undefined,
-    url: ""
+    url: "",
+    formState: 0,
 }
 
 const miscSlice = createSlice({
@@ -38,7 +39,10 @@ const miscSlice = createSlice({
         },
         setURL: (state, action) => {
             state.url = action.payload;
-        }
+        },
+        setFormState: (state, action) => {
+            state.formState = action.payload;
+        },
     }
 });
 
@@ -51,5 +55,6 @@ export const {
     setRole,
     setIsPopUp,
     setIsDropDown,
-    setURL
+    setURL,
+    setFormState
 } = miscSlice.actions;
