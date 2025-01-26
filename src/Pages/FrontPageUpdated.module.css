@@ -113,6 +113,8 @@
 hr{
     background-color: white;
     width:50%;
+    margin-left:50%;
+    transform: translateX(-50%);
 }
 
 .btn{
@@ -167,4 +169,102 @@ hr{
     .btn{
         font-size:medium;
     }
+}
+
+
+.features{
+    width:100%;
+    height:90%;
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    gap:10%;
+    mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+}
+
+.features h1{
+    width:100%;
+    text-align:center;
+    font-family: Verdana;
+}
+
+.sliding{
+    padding-left:15px;
+    display:flex;
+    gap:30px;
+    width: fit-content;
+    animation:marquee 20s linear infinite var(--direction, forwards);
+    
+}
+
+
+@keyframes marquee{
+    to{
+        transform: translateX(-50%);
+    }
+}
+.sliding li{
+    padding:15px;
+    height : 430px;
+    width : 330px;
+    
+    background-color: #292a2c86;
+    
+    display : flex;
+    flex-direction:column;
+    justify-content:space-around;
+    align-items:center;  
+    border-radius:20px;
+    box-shadow:0 0 1px 1px white;  
+}
+
+.sliding li .cardPhoto{
+    height:50%;
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sliding li .cardPhoto div{
+    height : 70%;
+    width : 40%;
+    background-color:red;
+    border-radius: 100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sliding li:nth-of-type(3n) .cardPhoto div{
+    background-color:#ff57578b;
+}
+
+.sliding li:nth-of-type(3n+1) .cardPhoto div{
+    background-color:#ffd73982;
+}
+
+.sliding li:nth-of-type(3n+2) .cardPhoto div{
+    background-color:#7ed9578c;
+}
+
+.sliding li .cardPhoto img{
+    height : 90%;
+    width : 90%;
+}
+.cardText{
+    height:50%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    gap:20px;
+    align-items: center;
+}
+.cardHeading{
+    font-size:30px;
+    text-align: center;
+}
+.cardPara{
+    text-align: center;
 }

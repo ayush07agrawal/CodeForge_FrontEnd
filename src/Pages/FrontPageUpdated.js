@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import classes from "./FrontPageUpdated.module.css";
+
 import logo from "../Assests/Frame1.jpg";
 import frontImage from "../Assests/FrontPhoto.png";
+import practice from "../Assests/practice.png"
 import SignUpPopUp from "./Authentication/SignUp";
 import LoginPopUp from "./Authentication/Login";
 import { setFormState } from "../redux/reducers/misc";
@@ -103,21 +105,56 @@ function FrontPageUpdated() {
 			</div>
 			<hr></hr>
 
+			
+
 			{/* //features */}
-			<ul>
-				<li>practice questions curated by faculty</li>
-				<li>schedule live labs</li>
-				<li>Seamless and accurate result evaluations</li>
-				<li>Generate lab reports in one click</li>
-			</ul>
+			<div className={classes.features}>
+				<h1>FEATURES</h1>
+				<SlidingCards>
+					<DisplayCard
+						cardImage={practice}
+						heading="Generate lab reports in one click"
+						isChildren="NO"
+					/>
+					<DisplayCard
+						cardImage={practice}
+						heading="practice questions curated by faculty"
+						isChildren="NO"
+					/>
+					<DisplayCard
+						cardImage={practice}
+						heading="schedule live labs"
+						isChildren="NO"
+					/>
+					<DisplayCard
+						cardImage={practice}
+						heading="Seamless and accurate result evaluations"
+						isChildren="NO"
+					/>
+				</SlidingCards>
+			</div>
+
+			<hr></hr>
 
 			{/* //benefits */}
-			<ul>
-				<li>Digital Efficiency : Say goodbye to manual effort and paperwork.</li>
-				<li>Customizable Reports : Tailored insights to match institutional needs.</li>
-				<li>Enhanced Learning : Interactive labs for better comprehension and retention.</li>
-				<li></li>
-			</ul>
+			<div className={classes.features}>
+				<h1>BENEFITS</h1>
+				<SlidingCards style={{'--direction':"reverse"}}>
+					<DisplayCard
+						cardImage={practice}
+						heading="Digital Efficiency"
+					>Say goodbye to manual effort and paperwork</DisplayCard>
+					<DisplayCard
+						cardImage={practice}
+						heading="Customizable Reports"
+					>Tailored insights to match institutional needs</DisplayCard>
+					<DisplayCard
+						cardImage={practice}
+						heading="Enhanced Learning"
+					>Interactive labs for better comprehension and retention</DisplayCard>
+				</SlidingCards>
+			</div>
+
 
 			<LoginPopUp
 				loginVisible={loginVisible}
@@ -138,6 +175,33 @@ function FrontPageUpdated() {
 				showLoginPage={showLoginPage}
 			/>
 		</div>
+	);
+}
+
+function DisplayCard({cardImage,heading,children,isChildren="YES"}){
+	return(
+		<li>			
+			<div class={classes.cardPhoto}>
+				<div>
+					<img src={cardImage} alt=""></img>
+				</div>
+			</div>
+			<div class={classes.cardText}>
+				<div class={classes.cardHeading}>{heading}</div>
+				{isChildren==="YES" && <div class={classes.cardPara}>{children}</div>}
+			</div>
+		</li>
+	);
+}
+
+function SlidingCards({children, ...props}){
+	return(
+		<ul className={classes.sliding} {...props}>
+			{children}
+			{children}
+			{children}
+			{children}
+		</ul>
 	);
 }
 

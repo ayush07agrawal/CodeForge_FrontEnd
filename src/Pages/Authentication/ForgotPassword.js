@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import classes from "./ForgotPassword.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faLock, faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 import OtpInput from "react-otp-input";
 
 export default function ForgotPasswordComponent({ passwordPageScroll, nextPasswordPageFunction, closePasswordChangeFunc }){
@@ -96,7 +96,7 @@ export default function ForgotPasswordComponent({ passwordPageScroll, nextPasswo
                             </p>
 						</div>
 					</div>
-                    
+
 					<div className={classes.PopUpPage} onClick={(e) => e.stopPropagation()}>						
 						<div className={classes.popupHeading}>
 							<h4>Change Password</h4>
@@ -131,7 +131,6 @@ export default function ForgotPasswordComponent({ passwordPageScroll, nextPasswo
 						</div>
 					</div>
 				</div>
-			</div>
-        
+			</div>        
     );
 }
