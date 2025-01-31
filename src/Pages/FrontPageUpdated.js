@@ -5,6 +5,7 @@ import classes from "./FrontPageUpdated.module.css";
 import logo from "../Assests/Frame1.jpg";
 import frontImage from "../Assests/FrontPhoto.png";
 import practice from "../Assests/practice.png"
+import labImage from "../Assests/Icons/lab.png"
 import SignUpPopUp from "./Authentication/SignUp";
 import LoginPopUp from "./Authentication/Login";
 import { setFormState } from "../redux/reducers/misc";
@@ -122,7 +123,7 @@ function FrontPageUpdated() {
 						isChildren="NO"
 					/>
 					<DisplayCard
-						cardImage={practice}
+						cardImage={labImage}
 						heading="schedule live labs"
 						isChildren="NO"
 					/>
