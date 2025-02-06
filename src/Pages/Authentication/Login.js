@@ -27,14 +27,15 @@ export default function LoginPopUp({
     const dispatch = useDispatch();
     const email = useRef();
     const password = useRef();
-    const [rememberMe, setRememberMe] = useState("");
+    const [rememberMe, setRememberMe] = useState(false);
 
 
     async function handleSubmit(event) {
         event.preventDefault();
         const data = {
             email: email.current.value,
-            password: password.current.value
+            password: password.current.value,
+            toRemember: rememberMe
         };
 
         console.log(data);
@@ -51,6 +52,7 @@ export default function LoginPopUp({
 
             // Parse response JSON
             const resData = await response.json();
+            console.log(resData);
 
             // If the response is not OK, set the error message and throw an error
             if (!response.ok) {
@@ -116,7 +118,7 @@ export default function LoginPopUp({
                             </div>
                             <div className={classes.loginPopupContent}>
                                 <div style={{display:'flex', gap:'2px'}}>
-                                    <input type="checkbox"></input>
+                                    <input type="checkbox" checked={rememberMe} onChange={() => setRememberMe((prev) => !prev)}></input>
                                     <p>Remember Me</p>
                                 </div>
                                 <p 
