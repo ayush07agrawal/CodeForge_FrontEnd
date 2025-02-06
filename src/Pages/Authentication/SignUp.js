@@ -74,11 +74,9 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 			if (!response.ok) {
                 throw new Error(resData.message || "Error while loading the data...");
             }
-				
-			console.log(resData);
+			
 			if (resData.success) {
 				if(formState === 0) {
-					// if (resetPassword) dispatch(setSecretQuestion(resData.secretQuestion));
 					dispatch(setEmail(data.email));
 					dispatch(setRole(resData.role));
 					toast.success(resData.message);
@@ -88,7 +86,6 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 				}
 				if (formState === 1) {
 					toast.success(resData.message);
-					// if (resetPassword) return navigate("/auth/setPassword");
 					dispatch(setFormState(2));
 					nextPageFunction();
 					return;

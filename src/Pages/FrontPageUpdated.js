@@ -182,14 +182,14 @@ function FrontPageUpdated() {
 function DisplayCard({cardImage,heading,children,isChildren="YES"}){
 	return(
 		<li>			
-			<div class={classes.cardPhoto}>
+			<div className={classes.cardPhoto}>
 				<div>
 					<img src={cardImage} alt=""></img>
 				</div>
 			</div>
-			<div class={classes.cardText}>
-				<div class={classes.cardHeading}>{heading}</div>
-				{isChildren==="YES" && <div class={classes.cardPara}>{children}</div>}
+			<div className={classes.cardText}>
+				<div className={classes.cardHeading}>{heading}</div>
+				{isChildren==="YES" && <div className={classes.cardPara}>{children}</div>}
 			</div>
 		</li>
 	);

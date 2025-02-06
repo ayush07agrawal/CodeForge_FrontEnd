@@ -9,6 +9,7 @@ import { server } from "../../Assests/config";
 import { useRef, useState } from "react";
 
 import ForgotPasswordComponent from "./ForgotPassword";
+import { setIsResettingPassword } from "../../redux/reducers/misc";
 
 
 export default function LoginPopUp({
@@ -72,6 +73,12 @@ export default function LoginPopUp({
         }
     }
 
+    function redirectToPasswordChange(){
+        dispatch(setIsResettingPassword(true));
+        // console.log("here");
+        showPasswordChangeFunc();
+    }
+
     return(
         <div className={`${classes.popUp} ${loginVisible ? classes.showPopUp : ""} ${passwordChange && classes.showPopUpPasswordChange}`}>
             <button 
@@ -114,7 +121,7 @@ export default function LoginPopUp({
                                 </div>
                                 <p 
                                     className={classes.invisibleButton}
-                                    onClick = {showPasswordChangeFunc}
+                                    onClick = {redirectToPasswordChange}
                                 >
                                     Forgot Password?
                                 </p>
