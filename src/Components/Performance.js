@@ -145,9 +145,8 @@ const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, la
                                     : 
                                         // ScoreUpdate({student, labQuestions})
                                         <ScoreUpdate 
-                                            student = {student}
-                                            labQuestions = {labQuestions}
                                             setScores = {setScores}
+                                            defaultScore = {student.score}
                                             i = {i}
                                         />
                                     }
@@ -166,34 +165,7 @@ const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, la
 }
 
 
-const ScoreUpdate = ({ student, labQuestions, setScores, i }) => {
-    const easyRatio = 2;
-    const mediumRatio = 5;
-    const hardRatio = 7;
-    let defaultScore = 0;
-    let count = 0;
-
-    labQuestions?.map((question,index) => {       
-        const questionKey = `question${index + 1}`;
-        let temp = (student[questionKey]===undefined?0:student[questionKey])/question.numTestCase;        
-
-        if(question.tag === 'easy'){
-            temp*=easyRatio;
-            count+=easyRatio;
-        }
-        else if(question.tag === 'medium'){
-            temp*=mediumRatio;
-            count+=mediumRatio;
-        }
-        else if(question.tag === 'hard'){
-            temp*=hardRatio;
-            count+=hardRatio;
-        }
-        defaultScore += temp;        
-    })
-
-    defaultScore = Math.round(defaultScore/count*100);
-
+const ScoreUpdate = ({ setScores, defaultScore, i }) => {
     const [score, setScore]  = useState(defaultScore);
     const [update, setUpdate] = useState(false);
 

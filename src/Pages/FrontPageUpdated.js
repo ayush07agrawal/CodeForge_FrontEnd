@@ -325,9 +325,7 @@ function ContactUs(){
 					</p>
 				</form>
 			</div>  
-			<button className={classes.actionButton} onClick={toggleContactUs}>
-				{isContactUsOpen ? "Close" : "Open"}	
-			</button>		
+					
 		</div>
 	);
 }
