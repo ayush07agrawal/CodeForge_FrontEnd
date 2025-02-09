@@ -10,6 +10,9 @@ import SignUpPopUp from "./Authentication/SignUp";
 import LoginPopUp from "./Authentication/Login";
 import { setFormState } from "../redux/reducers/misc";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faEnvelope, faPhone, faEnvelopeOpen } from "@fortawesome/free-solid-svg-icons";
+
 function FrontPageUpdated() {
 	const [loginVisible, setLoginVisible] = useState(false);
 	const [signUpPageVisible, setSignUpPageVisible] = useState(false);
@@ -104,7 +107,6 @@ function FrontPageUpdated() {
 					</div>
 				</div>
 			</div>
-			<hr></hr>
 
 			
 
@@ -135,8 +137,6 @@ function FrontPageUpdated() {
 				</SlidingCards>
 			</div>
 
-			<hr></hr>
-
 			{/* //benefits */}
 			<div className={classes.features}>
 				<h1>BENEFITS</h1>
@@ -155,7 +155,12 @@ function FrontPageUpdated() {
 					>Interactive labs for better comprehension and retention</DisplayCard>
 				</SlidingCards>
 			</div>
-
+			
+			
+			<div className={classes.contactUs}>
+				<h1>ContactUs</h1>
+				<ContactUs></ContactUs>
+			</div>
 
 			<LoginPopUp
 				loginVisible={loginVisible}
@@ -203,6 +208,127 @@ function SlidingCards({children, ...props}){
 			{children}
 			{children}
 		</ul>
+	);
+}
+
+function ContactUs(){
+	const [isContactUsOpen, setIsContactUsOpen] = useState(0);
+	const [contactUsData, setContactUsData] = useState({
+		name : "",
+		email : "",
+		message : "",
+	})
+
+	const toggleContactUs = ()=>{
+		setIsContactUsOpen((prev)=>!prev)
+	}
+
+	const handleContactUsFormChange = (e) =>{
+		setContactUsData({...contactUsData, [e.target.name] : e.target.value})
+	}
+
+	const handleContactUsFormSubmit = ()=>{}
+
+	return(
+		<div className={classes.contactMain}>
+			<div className={classes.contactSectionOne}>
+				<div className={classes.contactUsHeading}>
+					GET IN TOUCH
+				</div>	
+				<div className={classes.contactUsPara}>
+					<p>
+						We'd love to hear from you! Whether you have a question, need assistance, or just want to share your feedback, feel free to reach out to us.
+					</p>
+				</div>
+				<div className={classes.contactUsFeature}>
+					<div className={classes.contactUsIcon}>
+						<FontAwesomeIcon icon={faPhone} />
+					</div>
+					<div className={classes.contactUsFeatureInfo}>
+						<div>CALL US,</div>
+						<div>+91 6203985947</div>
+					</div>
+				</div>
+				<div className={classes.contactUsFeature}>
+					<div className={classes.contactUsIcon}>
+						<FontAwesomeIcon icon={faEnvelopeOpen} />
+					</div>
+					<div className={classes.contactUsFeatureInfo}>
+						<div>MAIL US,</div>
+						<div className={classes.contactUsFeatureEmail}>codeforge0745@gmail.com</div>
+					</div>
+				</div>
+				<p className={classes.contactUsConnect}>
+					Want to message us?
+					<span> </span>  
+					<span 
+						className={classes.contactUsinvisibleButton}
+						onClick={toggleContactUs}
+					>
+							MESSAGE US
+					</span>
+				</p>
+			</div>
+			<div className={`${classes.contactSectionTwo} 
+							 ${isContactUsOpen ? classes.animateForward : classes.animateBackward}`}
+			>	
+				<div className={classes.contactUsHeading}>
+					MESSAGE US
+				</div>	
+				<form onSubmit={handleContactUsFormSubmit} className={classes.contactUsForm}>
+					<div className={classes.contactUsInputDiv}>
+						<input
+							type="text"
+							name="name"
+							placeholder="Enter your name..."
+							value={contactUsData.name}
+							onChange={handleContactUsFormChange}
+							className={classes.contactUsInput}
+							required
+						/>
+						<FontAwesomeIcon icon={faUser} />
+					</div>
+					<div className={classes.contactUsInputDiv}>
+						<input
+							type="email"
+							name="email"
+							placeholder="Enter a valid email address..."
+							value={contactUsData.email}
+							onChange={handleContactUsFormChange}
+							className={classes.contactUsInput}
+							required
+						/>
+						<FontAwesomeIcon icon={faEnvelope} />
+					</div>
+					<div className={`${classes.contactUsInputDiv} ${classes.contactUsTextAreaDiv}`}>
+						<textarea
+							name="message"
+							placeholder="Enter your message..."
+							value={contactUsData.message}
+							onChange={handleContactUsFormChange}
+							className={`${classes.contactUsInput} ${classes.contactUsTextArea}`}
+							required
+						/>
+					</div>
+					<button type="submit" className={classes.contactUsButton}> 
+						SUBMIT 
+					</button>
+					<p className={classes.contactUsConnect}>
+						Want to connect with us?
+						<span> </span>  
+						<span 
+							className={classes.contactUsinvisibleButton}
+							onClick={toggleContactUs}
+						>
+								GET IN TOUCH
+						</span>
+					</p>
+				</form>
+			</div>  
+			<button className={classes.actionButton} onClick={toggleContactUs}>
+				{isContactUsOpen ? "Close" : "Open"}	
+			</button>		
+		</div>
 	);
 }
 
