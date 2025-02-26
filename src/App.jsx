@@ -1,16 +1,17 @@
 import React, { Suspense, lazy, useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { server } from './Assests/config.js';
-import axios from 'axios';
+// import { server } from './Assests/config.js';
+// import axios from 'axios';
 import { Toaster } from 'react-hot-toast';
 import { userExists, userNotExists } from './redux/reducers/auth.js';
 import { LayoutLoader } from './Components/Loaders.jsx'
 import ProtectRoute from './Components/Auth/ProtectRoute.jsx'
+import { useGetUserQuery } from './redux/api/api.js';
 
 const TeacherHome = lazy(()=> import("./Pages/Teacher/TeacherHome.js"))
 const CreateLab = lazy(() => import("./Components/CreateLab.js"));
-const FrontPage = lazy(() => import("./Pages/FrontPage.js"));
+// const FrontPage = lazy(() => import("./Pages/FrontPage.js"));
 const FrontPageUpdated = lazy(() => import("./Pages/FrontPageUpdated.js"));
 const RootPage = lazy(() => import("./Pages/RootPage.js"));
 const ErrorPage = lazy(() => import("./Pages/ErrorPage.js"));
@@ -18,19 +19,22 @@ const HomePage = lazy(() => import("./Pages/HomePage.js"));
 const Lab = lazy(() => import("./Pages/Lab.js"));
 const Profile = lazy(() => import("./Pages/Profile.js"));
 const SolveQuestion = lazy(() => import("./Pages/SolveQuestion.js"));
-const Authentication = lazy(() => import("./Pages/Authentication.js"));
+// const Authentication = lazy(() => import("./Pages/Authentication.js"));
 const QuestionForm = lazy(() => import("./Pages/Teacher/QuestionForm.js"));
 
 function App() {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const { data, error } = useGetUserQuery();
   
   useEffect(() => {
-    axios
-      .get(`${server}/api/v1/user/me`, { withCredentials: true })
-      .then(({ data }) => dispatch(userExists(data.user)) )
-      .catch((err) => dispatch(userNotExists()) )
-  }, [dispatch])
+    // axios
+    //   .get(`${server}/api/v1/user/me`, { withCredentials: true })
+    //   .then(({ data }) => dispatch(userExists(data.user)) )
+    //   .catch((err) => dispatch(userNotExists()) )
+    if(data) dispatch(userExists(data.user));
+    else if(error) dispatch(userNotExists());
+  }, [data, error, dispatch])
 
   const router = createBrowserRouter([
     {
@@ -40,7 +44,7 @@ function App() {
       children: [
         // { index: true, element: <FrontPage />, },
         { index: true, element: <FrontPageUpdated />, },
-        { path: "auth/:mode",  element: <Authentication /> },
+        // { path: "auth/:mode",  element: <Authentication /> },
       ],
     },
     {
@@ -66,7 +70,7 @@ function App() {
   return (
     <>
       <Suspense fallback = {<LayoutLoader />}>
-        <RouterProvider router={router}/>
+        <RouterProvider router = {router}/>
       </Suspense>
       <Toaster position = 'bottom-center' />
     </>

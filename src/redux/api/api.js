@@ -7,6 +7,14 @@ const api = createApi({
     tagTypes: ["Question", "User", "Lab", "Batch"], 
 
     endpoints: (builder) => ({
+        getUser:builder.query({
+            query: () => ({
+                url: `user/me`,
+                credentials: "include",
+            }),
+            invalidatesTags: ["User"],
+        }),
+
         getQuestions:builder.query({
             query: () => ({
                 url: `question/getQuestions`,
@@ -57,13 +65,12 @@ const api = createApi({
 
         getProfile: builder.query({
             query: ({userName, role}) => ({
-                url: `user/other?userName=${userName}&role=${role}`, // Query-string-based
+                url: `user/other?userName=${userName}&role=${role}`,
                 credentials: "include",
             }),
             invalidatesTags: ["User"],
         }),
         
-
         updateScore: builder.mutation({
             query: ({ labId, scores }) => ({
                 url: "lab/updateScore",
@@ -88,6 +95,7 @@ const api = createApi({
 
 export default api;
 export const { 
+    useGetUserQuery,
     useGetQuestionsQuery,
     useGetQuestionsFromTeacherQuery,
     useGetParticularQuestionQuery,

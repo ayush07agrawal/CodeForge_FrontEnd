@@ -1,0 +1,38 @@
+.errorContainer {
+    text-align: center;
+    margin-top: 10%;
+    font-family: Arial, sans-serif;
+}
+
+.errorCode {
+    font-size: 80px;
+    font-weight: bold;
+    color: red;
+}
+
+.errorMessage {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.errorDescription {
+    font-size: 16px;
+    color: #666;
+    margin: 10px 0;
+}
+
+.errorButton {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.errorButton:hover {
+    background-color: darkred;
+}

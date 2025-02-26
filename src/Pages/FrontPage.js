@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./FrontPage.module.css";
 import image from "../Assests/Frame1.jpg";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function FrontPage() {
   return (
