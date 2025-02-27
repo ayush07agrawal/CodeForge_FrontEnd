@@ -1,108 +1,182 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { server } from "../../Assests/config.js";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { server } from '../../Assests/config.js';
 
 const api = createApi({
-    reducerPath: "api", 
-    baseQuery: fetchBaseQuery({ baseUrl: `${server}/api/v1/` }),
-    tagTypes: ["Question", "User", "Lab", "Batch"], 
+    reducerPath: 'api', 
+    baseQuery: fetchBaseQuery({ 
+        baseUrl: `${server}/api/v1/`,
+        credentials: 'include',
+    }),
+    tagTypes: ['Question', 'User', 'Lab', 'Batch', 'Submission'], 
 
     endpoints: (builder) => ({
-        getUser:builder.query({
-            query: () => ({
-                url: `user/me`,
-                credentials: "include",
-            }),
-            invalidatesTags: ["User"],
-        }),
-
         getQuestions:builder.query({
             query: () => ({
                 url: `question/getQuestions`,
-                credentials: "include",
             }),
-            invalidatesTags: ["Question"],
+            providesTags: ['Question'],
         }),
 
         getQuestionsFromTeacher:builder.query({
             query: (id) => ({
                 url: `question/getQuestions/${id}`,
-                credentials: "include",
             }),
-            invalidatesTags: ["Question"],
+            providesTags: ['Question'],
         }),
 
         getParticularQuestion: builder.query({
             query: (id) => ({
                 url: `question/${id}`,
-                credentials: "include",
             }),
-            invalidatesTags: ["Question"],
+            providesTags: ['Question'],
         }),
 
         getLabs: builder.query({
             query: (batch) => ({
                 url: `lab/${batch}`,
-                credentials: "include",
             }),
-            invalidatesTags: ["Lab"],
+            providesTags: ['User', 'Lab'],
         }),
 
-        getBatches:builder.query({
+        getBatches: builder.query({
             query: () => ({
                 url: `batch`,
-                credentials: "include",
             }),
-            invalidatesTags: ["Batch"],
+            providesTags: ['User', 'Batch'],
         }),
 
         getBatch: builder.query({
             query: (batch) => ({
                 url: `batch/${batch}`,
-                credentials: "include",
             }),
-            invalidatesTags: ["Batch"],
+            providesTags: ['User', 'Batch'],
+        }),
+
+        getMyBatch: builder.query({
+            query: ({ userId}) => ({
+                url: `user/my/${userId}`
+            }),
+            providesTags: ['User', 'Batch'],
         }),
 
         getProfile: builder.query({
             query: ({userName, role}) => ({
                 url: `user/other?userName=${userName}&role=${role}`,
-                credentials: "include",
             }),
-            invalidatesTags: ["User"],
+            providesTags: ['User'],
         }),
         
         updateScore: builder.mutation({
             query: ({ labId, scores }) => ({
-                url: "lab/updateScore",
-                method: "PUT",
-                credentials: "include",
+                url: 'lab/updateScore',
+                method: 'PUT',
                 body: { labId, scores },
             }),
-            invalidatesTags: ["Lab"],
+            invalidatesTags: ['User', 'Lab'],
         }),
 
         updateBatches: builder.mutation({
             query: ({ userId, batches }) => ({
-                url: "user/updateBatch",
-                method: "PUT",
-                credentials: "include",
+                url: 'user/updateBatch',
+                method: 'PUT',
                 body: { userId, batches },
             }),
-            invalidatesTags: ["User"]
+            invalidatesTags: ['User', 'Batch']
+        }),
+
+        updateLab: builder.mutation({             // used in QuestionForm.js to update an existing lab
+            query: (reqData) => ({
+                url: 'lab/updateLab',
+                method: 'PUT',
+                body: reqData,
+            }),
+            invalidatesTags: ['Lab', 'Batch'],
+        }),
+
+        submitInQuestionForm: builder.mutation({     // used in QuestionForm.js to create or update a question
+            query: ({ urlParam, newData }) => ({
+                url: `question/${urlParam}`,
+                method: 'POST',
+                body: newData,
+            }),
+            invalidatesTags: ['Lab', 'Question'],
+        }),
+
+        createLab: builder.mutation({              // used in CreateLab.js
+            query: (data) => ({
+                url: 'lab/createLab',
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: ['User', 'Lab'],
+        }),
+
+        startLab: builder.mutation({               // used in DropDownSubmission.jsx
+            query: (labId) => ({
+                url: `lab/startLab/${labId}`,
+                method: 'POST',
+            }),
+            invalidatesTags: ['Lab'],
+        }),
+
+        extendLab: builder.mutation({              // used in DropDownSubmission.jsx
+            query: ({ labId, current_time }) => ({
+                url: `lab/extendLab/${labId}`,
+                method: 'POST',
+                body: { extendTime: current_time },
+            }),
+            invalidatesTags: ['Lab'],
+        }),
+
+        getSubmission: builder.query({              // used in Question.jsx
+            query: ({ questionId, userId }) => {
+                const questionName = `${questionId}${userId}`;
+                return {
+                    url: `submission/getThisSubmission/${questionName}`,
+                    method: 'GET',
+                };
+            },
+            providesTags: ['Question', 'User', 'Submission'],
+        }),
+
+        runQuestion: builder.mutation({
+            query: ({ questionId, request }) => ({
+                url: `question/runCode/${questionId}`,
+                method: 'POST',
+                body: request,
+            }),
+            invalidatesTags: ['User', 'Question']
+        }),
+
+        submitQuestion: builder.mutation({
+            query: ({ destination, questionId, request }) => ({
+                url: `${destination}/submitCode/${questionId}`,
+                method: 'POST',
+                body: request,
+            }),
+            invalidatesTags: ['User', 'Question', 'Submission'],
         })
     })
 })
 
 export default api;
 export const { 
-    useGetUserQuery,
     useGetQuestionsQuery,
     useGetQuestionsFromTeacherQuery,
     useGetParticularQuestionQuery,
     useGetLabsQuery,  
     useGetBatchesQuery,
     useGetBatchQuery,
+    useGetMyBatchQuery,
     useUpdateScoreMutation,
     useUpdateBatchesMutation,
     useGetProfileQuery,
+    useUpdateLabMutation,
+    useSubmitInQuestionFormMutation,
+    useCreateLabMutation,
+    useStartLabMutation,
+    useExtendLabMutation,
+    useGetSubmissionQuery,
+    useRunQuestionMutation,
+    useSubmitQuestionMutation
 } = api;

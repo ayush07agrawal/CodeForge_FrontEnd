@@ -23,7 +23,7 @@ const useAsyncMutation = (mutationHook) => {
         const toastId = toast.loading(toastMessage || "Updating data....");
 
         try {
-            const res = await mutate(...args);
+            const res = await mutate(...args); 
             if(res.data) {
                 toast.success(res.data.message || "Updated data successfully", {
                     id: toastId,

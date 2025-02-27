@@ -4,13 +4,12 @@ import classes from "./CodeEditor.module.css";
 import SelectInput from './Inputs/SelectInput';
 import { Form, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { server } from '../Assests/config';
+import { useRunQuestionMutation, useSubmitQuestionMutation } from '../redux/api/api';
 
 const sizeValues = [8, 9, 10, 12, 14, 16, 18, 20, 22, 24, 26];
 const languages = ["cpp", "c"];
 const langVersions = ["GCC 11.1.0", "GCC 13.2.1"];
 const themes = ["vs-dark", "vs-light"];
-
 
 export default function CodeEditor({ testCase, labId }) {
     const params = useParams();
@@ -27,7 +26,8 @@ export default function CodeEditor({ testCase, labId }) {
     const [customInput, setCustomInput] = useState(false);
     const [output, setOutput] = useState(false);
     const [response, setResponse] = useState(undefined);
-
+    const [runQuestion] = useRunQuestionMutation();
+    const [submitQuestion] = useSubmitQuestionMutation();
 
     function handleCode(value) {
         setEditor((prev) => {
@@ -49,71 +49,56 @@ export default function CodeEditor({ testCase, labId }) {
         setStdin(event.target.value);
     }
 
+    function createRequest({ isSubmission = false }) {
+        const request = {
+            userId: user._id,
+            language: editor.language,
+            versionIndex: editor.languageVersion === "GCC 11.1.0" ? 5 : 6,
+            script: editor.code.replace(/\\r\\/g, "\\"),
+        };
+        
+        if(isSubmission) request.labId = labId || "";
+        else request.stdin = stdin.replace(/\n/g, " ");
+    
+        return request;
+    }
+
     async function handleSubmit(event) {
         event.preventDefault();
         const destination = (labId.length > 0) ? "lab" : "question";
-        console.log(destination);
         setResponse(undefined);
         setOutput(true);
         try {
-            const request = {
-                labId: labId || "",
-                userId: user._id,
-                language: editor.language,
-                versionIndex: (editor.languageVersion === "GCC 11.1.0" ? 5 : 6),
-                script: editor.code.replace(/\\r\\/g, "\\"),
-            };
-            console.log(request);
-            const response = await fetch(`${server}/api/v1/${destination}/submitCode/${params.questionId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(request),
-            });
-            if (!response.ok) {
-                console.log(response);
+            const submitRequest = createRequest({ isSubmission: true });
+            
+            const submitResponse = await submitQuestion({ destination, questionId : params.questionId, request: submitRequest });
+            if (!submitResponse.data.success) {
                 throw new Error("Error submitting code.");
             }
-            const data = await response.json();
-            console.log(data);
-            setResponse(data);
-        } catch (error) {
+            setResponse(submitResponse.data);
+        } 
+        catch (error) {
             console.error("Error submitting code:", error);
             setResponse({ message: "Error submitting code." });
         }
     }
 
-
     async function handleRun(event){
         event.preventDefault();
         setOutput(true);
         try {
-            const request = {
-                userId: user._id,
-                language: editor.language,
-                versionIndex: (editor.languageVersion === "GCC 11.1.0" ? 5 : 6),
-                script: editor.code.replace(/\\r\\/g, "\\"),
-                stdin: stdin.replace(/\n/g, ' '),
-            };
-            console.log(request);
-            // TODO:
-            const response = await fetch(`http://localhost:4173/api/v1/question/runCode/${params.questionId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(request),
-            });
-            if (!response.ok) {
-                throw new Error("Error submitting code.");
+            const runRequest = createRequest({ isSubmission: false });
+
+            const response = await runQuestion({ questionId : params.questionId, request: runRequest });
+            if (!response.data.success) {
+                throw new Error("Error running code.");
             }
-            const resData = await response.json();
-            console.log(resData.data);
+            const resData = await response.data;
             setResponse(resData.data);
-        } catch (error) {
-            console.error("Error submitting code:", error);
-            setResponse({ message: "Error submitting code." });
+        } 
+        catch (error) {
+            console.error("Error running code:", error);
+            setResponse({ message: "Error running code." });
         }
     }
 

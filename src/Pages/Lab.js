@@ -1,27 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import classes from "./Lab.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { v4 as uuid } from "uuid";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useErrors } from "../hooks/hooks";
 import { useGetBatchQuery, useGetLabsQuery } from "../redux/api/api";
 import DropdownSubmission from "../Components/DropdownSubmission";
 import Performance from "../Components/Performance";
-import { setURL } from "../redux/reducers/misc";
 
 export default function Lab() {
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const location = useLocation();
 	const [searchParams] = useSearchParams();
-	console.log(location);
 
 	const user = useSelector((state) => state.auth.user);
 	const batch = user.role === "teacher" ? searchParams.get("batch") : user.batch;
-
-	// useEffect(() => {
-	// 	dispatch(setURL(`${location.pathname}${location.search}`));
-	// }, [dispatch, location])
 
 	const [showPerformance, setShowPerformance] = useState(false);
 	const [showBatchPerformance, setShowBatchPerformance] = useState(false);

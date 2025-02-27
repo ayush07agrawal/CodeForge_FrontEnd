@@ -6,10 +6,13 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import classes from "./DropdownSubmission.module.css";
 import Timer from "../Components/Timer";
+import { useExtendLabMutation, useStartLabMutation } from '../redux/api/api';
 
 export default function DropdownSubmission({ heading, date, lab, children, setLab, handleShowPerformance }) {
     const time = useRef();
     const navigate = useNavigate();
+    const [startLab] = useStartLabMutation();
+    const [extendLab] = useExtendLabMutation();
     const user = useSelector((state) => state.auth.user);
     let labId, isStart, isEnd, duration;
 
@@ -24,22 +27,25 @@ export default function DropdownSubmission({ heading, date, lab, children, setLa
 
     async function handleStart() {
         try {
-            const response = await fetch(`${server}/api/v1/lab/startLab/${labId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-            });
-            if (!response.ok) {
+            // const response = await fetch(`${server}/api/v1/lab/startLab/${labId}`, {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //     },
+            //     credentials: "include",
+            // });
+            const response = await startLab(labId);
+            if (!response.data.success) {
                 throw json(
                     { message: "Error starting the Lab" },
                     { status: 500 }
                 );
-            } else {
+            } 
+            else {
                 navigate("..");
             }
-        } catch (error) {
+        } 
+        catch (error) {
             toast.error(error.message);
             console.error("Error submitting code:", error);
         }
@@ -49,25 +55,29 @@ export default function DropdownSubmission({ heading, date, lab, children, setLa
         // console.log("Heelloo");
         // console.log(time.current.value*60);
         try {
-            const response = await fetch(`${server}/api/v1/lab/extendLab/${labId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    extendTime:time.current.value*60
-                }),
-                credentials: "include",
-            });
-            if (!response.ok) {
+            const current_time = time.current.value * 60;
+            const response = await extendLab({ labId, current_time }).unwrap();
+            // const response = await fetch(`${server}/api/v1/lab/extendLab/${labId}`, {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //     },
+            //     body: JSON.stringify({
+            //         extendTime:time.current.value*60
+            //     }),
+            //     credentials: "include",
+            // });
+            if (!response.data.success) {
                 throw json(
                     { message: "Error starting the Lab" },
                     { status: 500 }
                 );
-            } else {
+            } 
+            else {
                 navigate("..");
             }
-        } catch (error) {
+        } 
+        catch (error) {
             toast.error(error.message);
             // console.error("Error submitting code:", error);
         }

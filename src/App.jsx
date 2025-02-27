@@ -1,13 +1,12 @@
 import React, { Suspense, lazy, useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-// import { server } from './Assests/config.js';
-// import axios from 'axios';
+import { server } from './Assests/config.js';
+import axios from 'axios';
 import { Toaster } from 'react-hot-toast';
 import { userExists, userNotExists } from './redux/reducers/auth.js';
 import { LayoutLoader } from './Components/Loaders.jsx'
 import ProtectRoute from './Components/Auth/ProtectRoute.jsx'
-import { useGetUserQuery } from './redux/api/api.js';
 
 const TeacherHome = lazy(()=> import("./Pages/Teacher/TeacherHome.js"))
 const CreateLab = lazy(() => import("./Components/CreateLab.js"));
@@ -25,16 +24,13 @@ const QuestionForm = lazy(() => import("./Pages/Teacher/QuestionForm.js"));
 function App() {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const { data, error } = useGetUserQuery();
   
   useEffect(() => {
-    // axios
-    //   .get(`${server}/api/v1/user/me`, { withCredentials: true })
-    //   .then(({ data }) => dispatch(userExists(data.user)) )
-    //   .catch((err) => dispatch(userNotExists()) )
-    if(data) dispatch(userExists(data.user));
-    else if(error) dispatch(userNotExists());
-  }, [data, error, dispatch])
+    axios
+      .get(`${server}/api/v1/user/me`, { withCredentials: true })
+      .then(({ data }) => dispatch(userExists(data.user)) )
+      .catch((err) => dispatch(userNotExists()) )
+  }, [dispatch])
 
   const router = createBrowserRouter([
     {

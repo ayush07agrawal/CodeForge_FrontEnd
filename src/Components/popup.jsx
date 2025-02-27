@@ -13,20 +13,19 @@ const BatchAddPopup=({ show }) => {
     const [batches, setBatches] = useState(user.batch);
     const batchInfo = useGetBatchesQuery();
     const allBatches = batchInfo?.data?.allBatches;
-    const [changeBatches, isLoadingChangeBatch] = useAsyncMutation(useUpdateBatchesMutation)
-    console.log(batches);
-    console.log(allBatches)
+    const [changeBatches, isLoadingChangeBatch] = useAsyncMutation(useUpdateBatchesMutation);
 
     const toggleBatch = (batchName) => {
         if(batches.includes(batchName)) {
             setBatches(batches.filter(b => b !== batchName));
-        } else {
+        } 
+        else {
             setBatches([ ...batches, batchName ]);
         }
     }
 
     const handleClose = () => {
-        if(batches !== user.batch) changeBatches("Updating Baatches...", { userId: user._id, batches });
+        if(batches !== user.batch) changeBatches("Updating Batches...", { userId: user._id, batches });
         else toast.error("Batches are same as before");
 
         dispatch(setIsPopUp(false));
@@ -34,7 +33,7 @@ const BatchAddPopup=({ show }) => {
 
     return(
         <div className = {show ? classes.displayBlock : classes.displayNone}>
-            {!isLoadingChangeBatch && <div className={classes.popupMain} onClick = {(e) => e.stopPropagation()}>
+            {!isLoadingChangeBatch && !batchInfo?.isLoading && <div className={classes.popupMain} onClick = {(e) => e.stopPropagation()}>
                 <div className={classes.heading}><h1>UPDATE YOUR BATCHES</h1></div>
                 <div className={classes.batchTags}>
                     {allBatches?.map((batch,index) => (

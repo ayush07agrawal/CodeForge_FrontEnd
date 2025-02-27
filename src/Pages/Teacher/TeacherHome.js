@@ -13,20 +13,24 @@ export default function TeacherHome() {
   const [filterTags, setFilterTags] = useState([]);
   const { user } = useSelector((state) => state.auth);
   const allQuestions = useGetQuestionsFromTeacherQuery(user._id);
-  console.log(allQuestions);
+  // console.log(allQuestions);
   const errors = [{ isError: allQuestions.isError, error: allQuestions.error }];
   useErrors(errors);
 
   return (
-    <div className={classes.container}>
-      <div className={classes.wrapper1}>
-        <h1>Questions</h1>
-        {allQuestions.data?.questions.map((q, idx) => (
-          <QuestionList question={q} num={idx + 1} key={uuid()} />
-        ))}
-      </div>
-      <button onClick={() => navigate("/app/questionform/new")} className={classes.btn}>ADD NEW QUESTION</button>
-      <SidePanel filterTags={filterTags} setFilterTags={setFilterTags} length={allQuestions?.data?.questions?.length} />
-    </div>
+    <>
+      {!allQuestions.isLoading && 
+        <div className={classes.container}>
+          <div className={classes.wrapper1}>
+            <h1>Questions</h1>
+            {allQuestions.data?.questions.map((q, idx) => (
+              <QuestionList question={q} num={idx + 1} key={uuid()} />
+            ))}
+          </div>
+          <button onClick={() => navigate("/app/questionform/new")} className={classes.btn}>ADD NEW QUESTION</button>
+          <SidePanel filterTags={filterTags} setFilterTags={setFilterTags} length={allQuestions?.data?.questions?.length} />
+        </div>
+      }
+    </>
   );
 }

@@ -6,8 +6,7 @@ import { useGetQuestionsQuery } from "../redux/api/api";
 import { useErrors } from "../hooks/hooks";
 import SidePanel from "../Components/SidePanel";
 
-
-export default function HomePage(){
+export default function HomePage() {
 	const [filterTags, setFilterTags] = useState([]);
 	const allQuestions = useGetQuestionsQuery();
 	const errors = [

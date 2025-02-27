@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import TextInput from "../../Components/Inputs/TextInput";
 import classes from "./QuestionForm.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import axios from 'axios';
-import { server } from '../../Assests/config';
+import { useSelector } from "react-redux";
 import toast from 'react-hot-toast';
-import { setURL } from "../../redux/reducers/misc";
+import { useUpdateLabMutation, useSubmitInQuestionFormMutation } from "../../redux/api/api";
+import { useAsyncMutation } from "../../hooks/hooks";
 
 export default function QuestionForm() {
     const params = useParams();
     const location = useLocation();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.auth.user);
     const queDetails = location.state?.question;
     const labId = location.state?.labId;
     const questionId = location.state?.questionId;
+
+    const [updateLab, isLoading] = useAsyncMutation(useUpdateLabMutation);
+    const [submitQuestion] = useSubmitInQuestionFormMutation();
 
     const editing = params.type === "edit";
     const newQ = params.type === "new";
@@ -79,18 +80,11 @@ export default function QuestionForm() {
 
     async function setLabHandler(event) {
         event.preventDefault();
-        console.log(questionArray);
         const reqData = { labId, questionArray };
-        try {
-            const response = await axios.post(`${server}/api/v1/lab/updateLab`, reqData);
-            if(response.status === 200) {
-                toast.success("Lab updated successfully.");
-                navigate('/app/lab');
-            }
-            else toast.error("Questions can't be added");
-        }
-        catch (error) {
-            console.log(error);
+        console.log(reqData);
+        updateLab("Updating lab...", reqData);
+        if(!isLoading) {
+            navigate('/app/lab');
         }
     }
 
@@ -98,24 +92,31 @@ export default function QuestionForm() {
         event.preventDefault();
         const fd = new FormData(event.target);
         const data = Object.fromEntries(fd.entries());
+
         let newData; 
         if(newQ) newData = { ...data, testCase: [], answer: [], hints: hints, teacherId: user._id, labId };
         if(editing && !labId) newData = { ...data, testCase: [], answer: [], hints: hints, questionId: questionId };
         newData.tags = newData.tags.split(',')
-        newData.tags = newData.tags.filter(( value, index ) =>(value !== "easy" && value!=="medium" && value!=="hard"))
+        newData.tags = newData.tags.filter(( value, index ) => ( value !== "easy" && value !== "medium" && value !== "hard" ));
+
         const updatedTags = [newData.difficulty, ...newData.tags];
         newData.tags = updatedTags;
-        testCases.map((tc, ind) => {
+        testCases.forEach((tc) => {
             newData.testCase.push(tc.testCase)
             newData.answer.push(tc.answer)
         });
         const urlParam = (newQ) ? "createQuestion" : "updateQuestion";
+
         try {
-            const response = await axios.post(`${server}/api/v1/question/${urlParam}`, newData);
+            console.log(newData);
+            const response = await submitQuestion({ urlParam, newData }).unwrap();
             console.log(response);
-            if (response.status === 200) {
+            console.log(response.success);
+
+            if (response.success) {
                 if(newQ) toast.success("Question added successfully");
                 else toast.success("Question edited successfully");
+                
                 if(!labId) {
                     if(newQ) navigate('/app');
                     else navigate(`/app/question/${questionId}`);
@@ -124,9 +125,9 @@ export default function QuestionForm() {
                     setQuestionArray((prev) => [
                         ...prev,
                         { 
-                            id: response.data.data._id, 
-                            tag: response.data.data.tags[0],
-                            numTestCase: response.data.data.testCase.length
+                            id: response.data._id, 
+                            tag: response.data.tags[0],
+                            numTestCase: response.data.testCase.length
                         }
                       ]);
                 }
@@ -135,10 +136,6 @@ export default function QuestionForm() {
         } 
         catch (error) { toast.error("Adding failed"); }
     }
-
-    // useEffect(() => {
-	// 	dispatch(setURL(location.pathname));
-	// }, [dispatch, location])
 
     return (
         <div className={classes.wrapper}>

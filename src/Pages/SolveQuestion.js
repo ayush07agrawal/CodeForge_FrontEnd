@@ -1,28 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Question from "../Components/Question";
 import CodeEditor from "../Components/CodeEditor";
 import classes from "./SolveQuestion.module.css";
 import { useLocation, useParams } from "react-router-dom";
 import { useGetParticularQuestionQuery } from "../redux/api/api";
 import { useErrors } from "../hooks/hooks";
-import { useDispatch } from "react-redux";
-import { setURL } from "../redux/reducers/misc";
 
 export default function SolveQuestion() {
   const params = useParams();
   const location = useLocation();
-  const dispatch = useDispatch();
-  console.log(location);
 
   const id = params.questionId;
   const labId = (location.state) ? location.state.labId : "";
-  console.log(labId);
   const {data, isLoading, isError, error} = useGetParticularQuestionQuery(id);
   useErrors([{isError, error}]);
-
-  // useEffect(() => {
-  //   dispatch(setURL(location.pathname));
-  // }, [dispatch, location])
 
   return (
     <div className={classes.wrapper}>

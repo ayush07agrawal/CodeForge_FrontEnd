@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import classes from './CreateLab.module.css';
 import { json, useLocation, useNavigate } from 'react-router-dom';
-import { server } from "../Assests/config";
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import { setURL } from '../redux/reducers/misc';
+import { useCreateLabMutation } from '../redux/api/api';
 
 const CreateLab = () => {
-  const dispatch = useDispatch();
   const location = useLocation();
   const batch = location.state?.batch;
   const navigate = useNavigate();
+  const [createLab] = useCreateLabMutation();
   const [formData, setFormData] = useState({
     topic: '',
     date: '',
@@ -33,37 +31,27 @@ const CreateLab = () => {
     delete data.hours;
     delete data.minutes;
     delete data.seconds;
-    console.log(data);
+
     try {
-      const response = await fetch( `${server}/api/v1/lab/createLab`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-        credentials: "include",
-      });
-      if (!response.ok) {
+      const response = await createLab(data);
+
+      if (!response.data.success) {
         throw json(
           { message: "Error while loading the data..." },
           { status: 500 }
         );
-      } else {
-        const resData = await response.json();
-        console.log(resData); 
-        const labId = resData.lab._id;
+      } 
+      else {
+        const labId = response.data.lab._id;
         navigate("/app/questionform/new", { state: { labId: labId } });
       }
-    } catch (error) {
+    } 
+    catch (error) {
       toast.error(error.message);
-      console.error("Error submitting code:", error);
+      console.error("Error submitting lab:", error);
       navigate("..");
     }
   };
-
-  // useEffect(() => {
-  //   dispatch(setURL(location.pathname));
-  // })
 
   return (
     <div className={classes.wrapper}>

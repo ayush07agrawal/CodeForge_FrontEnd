@@ -5,12 +5,14 @@ import img1 from "../Assests/Frame1.jpg";
 import pphoto from "../Assests/profilephoto.png";
 import { useDispatch, useSelector } from 'react-redux';
 import { userNotExists } from '../redux/reducers/auth';
-import axios from 'axios';
-import { server } from '../Assests/config';
 import toast from 'react-hot-toast';
 
 import DropDownBatch from './DropdownBatch';
 import { setIsDropDown, setIsPopUp } from '../redux/reducers/misc';
+import axios from 'axios';
+import { server } from '../Assests/config';
+import { useGetMyBatchQuery } from '../redux/api/api';
+import { useErrors } from '../hooks/hooks';
 
 export default function NavBar() {
   const { user } = useSelector((state) => state.auth);
@@ -27,6 +29,7 @@ export default function NavBar() {
     }
   }
 
+
   const isDropDownShow = useSelector((state) => state.misc.isDropDown);
   const toggleDropdown = () => {
     dispatch(setIsDropDown(!isDropDownShow));
@@ -38,6 +41,11 @@ export default function NavBar() {
     toggleDropdown();
     showPopup();
   }
+
+  const batchInfo = useGetMyBatchQuery({ userId: user._id });
+  const errors = [{ isError: batchInfo.isError, error: batchInfo.error }];
+  useErrors(errors);
+  const batches = user?.role === "teacher" ? batchInfo?.data?.batches || [] : []; 
 
   return (
     <div>
@@ -70,17 +78,17 @@ export default function NavBar() {
           </ul> 
       </div>
 
-      {user?.role === "teacher" && <div className = {classes.dropDownList}>
-        {user?.batch.length !== 0 && user?.batch.map(( batch, index ) => (
+      { user?.role === "teacher" && !batchInfo.isLoading && <div className = {classes.dropDownList}>
+        {batches?.length !== 0 && batches.map(( batch, index ) => (
           isDropDownShow && <DropDownBatch btnkey={index} key = {index}>{batch}</DropDownBatch>
         ))}
         {isDropDownShow && 
           <DropDownBatch 
             btnUpdate = {1} 
-            btnkey = { (user?.batch?.length === 0) ? 0 : -1 } 
+            btnkey = { (!batches || batches.length === 0) ? 0 : -1 }
             onClick = { toggleAndShowPopup }
           >UPDATE</DropDownBatch>}
-      </div>  }    
+      </div> }    
     </div>
   )
 }

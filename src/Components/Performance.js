@@ -24,7 +24,7 @@ const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, la
         setStudentIndex(-1);
         setQuestionIndex(-1);
     }
-    console.log(studentIndex,questionIndex);
+
     return(
         <div 
             className = {show ? classes.displayBlock : classes.displayNone} 
@@ -33,9 +33,9 @@ const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, la
             }}
         >
             <div className = {classes.popupMain} onClick = {(e) => e.stopPropagation()}>
-                {batch ? <h1>Batch Performance Report </h1> : <h1>Lab Performance Report</h1>}
+                {batch ? <h1>Batch Performance Report</h1> : <h1>Lab Performance Report</h1>}
                 <div className = {classes.tableMain}>
-                    <table className = {`${classes.table} ${classes.tableIntro} ${batch ? classes.tableBatchIntro:''}`}>
+                    <table className = {`${classes.table} ${classes.tableIntro} ${batch ? classes.tableBatchIntro : ''}`}>
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -45,7 +45,7 @@ const Performance = ({ show, handleShowPerformance, labId, report, totalLabs, la
                         </thead>
 
                         <tbody>
-                            {report?.map(( student, index )=>                             
+                            {report?.map(( student, index ) =>                             
                                 <tr key={index}>
                                     <td>{index+1}</td>
                                     <td>{student.rollNumber}</td>
