@@ -14,6 +14,7 @@ export default function QuestionForm() {
     const user = useSelector((state) => state.auth.user);
     const queDetails = location.state?.question;
     const labId = location.state?.labId;
+    const batch = location.state?.batch;
     const questionId = location.state?.questionId;
 
     const [updateLab, isLoading] = useAsyncMutation(useUpdateLabMutation);
@@ -84,7 +85,7 @@ export default function QuestionForm() {
         console.log(reqData);
         updateLab("Updating lab...", reqData);
         if(!isLoading) {
-            navigate('/app/lab');
+            navigate(`/app/lab?batch=${batch}`);
         }
     }
 

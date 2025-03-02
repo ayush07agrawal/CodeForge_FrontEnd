@@ -72,7 +72,7 @@ const api = createApi({
                 method: 'PUT',
                 body: { labId, scores },
             }),
-            invalidatesTags: ['User', 'Lab'],
+            invalidatesTags: ['User', 'Lab', 'Batch'],
         }),
 
         updateBatches: builder.mutation({

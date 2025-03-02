@@ -43,7 +43,7 @@ const CreateLab = () => {
       } 
       else {
         const labId = response.data.lab._id;
-        navigate("/app/questionform/new", { state: { labId: labId } });
+        navigate("/app/questionform/new", { state: { labId: labId, batch: batch } });
       }
     } 
     catch (error) {
