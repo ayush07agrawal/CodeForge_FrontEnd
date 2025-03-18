@@ -8,16 +8,17 @@ import linkednicon from "../Assests/linkedin.svg";
 import codecheficon from "../Assests/codechef.png";
 import codeforcesicon from "../Assests/codeforces.svg";
 import leetcodeicon from "../Assests/leetcode.png";
+import Progressbar from './ProgressBar';
 
-const ProfileHeader = ({ profile }) => {
-    console.log(profile.photo);
+const ProfileHeader = ({ profile, questions, solved_data }) => {
     return (
         <div className={classes.wrapper}>
             <div className={classes.cover}>
-                <img src={profile.coverimg === "" ? cover : profile.coverimg} alt=""></img>
+                <img src={cover} alt="" />
+                {/* <img src={profile.coverimg === "" ? cover : profile.coverimg} alt="" /> */}
                 <div className={classes.profilephoto}>
-                    <img src={pphoto} alt=""></img>
-                    {/* <img src={profile.photo === "" ? pphoto : profile.photo} alt=""></img> */}
+                    <img src={pphoto} alt="" />
+                    {/* <img src={profile.photo === "" ? pphoto : profile.photo} alt="" /> */}
                 </div>
             </div>
             <div className={classes.downcover}>
@@ -44,6 +45,14 @@ const ProfileHeader = ({ profile }) => {
                     <a href={profile.leetcode} target="_blank" rel="noopener noreferrer">
                         <img src={leetcodeicon} alt="leetcode" className={classes.iconlinks} style={profile.leetcode === "" ? { display: 'none' } : {}} />
                     </a>
+                </div>
+            </div>
+            <div className={classes.stats}>
+                <div className={classes.wrapper2}>
+                    <Progressbar solved = {solved_data?.length} total = {questions?.length} title = {"Progress"} />
+                </div>
+                <div className={classes.wrapper2}>
+                    <Progressbar solved = {solved_data?.length} total = {questions?.length} title = {"Labs Attended"} />
                 </div>
             </div>
         </div>

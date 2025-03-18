@@ -19,11 +19,13 @@ export default function Rootpage() {
   return (
     <div stlye={{ backgroundColor : "black" }} onClick = {handleClick}>
       <NavBar />      
-      <Outlet />   
-      {popUpShow && 
-        <BatchAddPopup show = {popUpShow}>
-        </BatchAddPopup> 
-      }  
+      <div style={{"paddingTop":"10vh"}}>
+        <Outlet />   
+        {popUpShow && 
+          <BatchAddPopup show = {popUpShow}>
+          </BatchAddPopup> 
+        }  
+      </div>
     </div>
   );
 }

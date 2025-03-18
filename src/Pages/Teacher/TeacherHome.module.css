@@ -51,6 +51,6 @@
 	box-shadow:0 0 5px 5px #00508da7 ;
 }
 
-::-webkit-scrollbar {
+.container::-webkit-scrollbar {
   display: none;
 }

@@ -17,9 +17,12 @@ export default function HomePage() {
 	return (
 		<div className={classes.container}>
 			<div className={classes.wrapper}>
-				{filterTags.length === 0 && allQuestions.data?.questions.map((q, idx) => (
-					<QuestionList question={q} num={idx + 1} key={uuid()} />
-				))}
+				{
+					filterTags.length === 0 && 
+					allQuestions.data?.questions.map((q, idx) => (
+						<QuestionList question={q} num={idx + 1} key={uuid()} />
+					))
+				}
 				{
 					filterTags.length !== 0 && 
 					allQuestions.data?.questions

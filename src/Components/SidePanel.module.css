@@ -65,6 +65,10 @@
 	height: 15vh;
 }
 
+.filterList::-webkit-scrollbar{
+	display: none;
+}
+
 .userInput{
 	padding: 4px;
 	width: 15vw;

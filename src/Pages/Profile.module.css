@@ -1,6 +1,33 @@
-
 .wrapper{
-    padding: 0;
     font-family: 'Calibri','Arial', sans-serif;
-    width:inherit;
+    width:100vw;
+    height: 90vh;
+    background-image: linear-gradient(to bottom, rgb(1, 1, 65), black);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+}
+
+.infoPanel{
+    width: 40vw;
+    height: 88vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.infoPanel::-webkit-scrollbar{
+    width: 5px;
+}
+
+.details{
+    width: 55vw;
+    height: 88vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.details::-webkit-scrollbar{
+    width: 5px;
 }

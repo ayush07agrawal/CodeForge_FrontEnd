@@ -32,6 +32,7 @@ export default function NavBar() {
 
   const isDropDownShow = useSelector((state) => state.misc.isDropDown);
   const toggleDropdown = () => {
+    console.log("Yeah\n");
     dispatch(setIsDropDown(!isDropDownShow));
   };
 

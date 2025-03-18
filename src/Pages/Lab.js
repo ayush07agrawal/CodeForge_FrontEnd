@@ -5,7 +5,7 @@ import { v4 as uuid } from "uuid";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useErrors } from "../hooks/hooks";
 import { useGetBatchQuery, useGetLabsQuery } from "../redux/api/api";
-import DropdownSubmission from "../Components/DropdownSubmission";
+import DropdownLabs from "../Components/DropdownLabs";
 import Performance from "../Components/Performance";
 
 export default function Lab() {
@@ -54,7 +54,7 @@ export default function Lab() {
 				{isLoading
 					? "Loading..."
 					: labs?.map((item, idx) => (
-							<DropdownSubmission
+							<DropdownLabs
 								heading={
 									item.topic +
 									" " +
@@ -93,7 +93,7 @@ export default function Lab() {
 										</li>
 									))}
 								</ul>
-							</DropdownSubmission>
+							</DropdownLabs>
 					  ))}
 			</div>
 			<div>

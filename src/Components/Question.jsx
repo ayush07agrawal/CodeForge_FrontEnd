@@ -45,40 +45,45 @@ export default function Question({ details, labId }) {
     }
   }, [isSuccess, isError, data, error])
 
+  console.log(user.role);
+
   return (
-    <div>
+    <>
+      <QuestionNav content={content} handleChange={handleChange} />
       {!isError && !isLoading && 
-      <>
-        <QuestionNav content={content} handleChange={handleChange} />
-        {(content === "Question") &&
+      <div>
+        {
+          (content === "Question") &&
           <div className={classes.wrapper}>
             <span className={classes.title}>
-              <h1><u>{details?.title}</u></h1>
-
-              {(user.role === "teacher") && 
+              <h1>{details?.title}</h1>
+              {
+                (user.role === "teacher") && 
                 <button onClick={() =>navigate(`/app/questionform/edit`, { state: {question:details, questionId:questionId, labId:labId} })} className={classes.editBtn}>
                 Edit Question
-              </button>}
+                </button>
+              }
             </span>
             <ul className={classes.tags}>
               {details?.tags?.map((topic) => <li key={topic}>{topic}</li>)}
             </ul>
+            <hr className={classes.horizontalLine}/>
             <p className={classes.desc}>
               {details?.description}
               <br /><br />
-              <i><strong>[Note] - The first input must always be the number of testcases...</strong></i>
+              <i><strong>[Note] - The first line input must be the number of testcases.</strong></i>
               <br /><br />
             </p>
-            <h3>Sample Testcases:</h3>
+            <h3 className={classes.sampleTC}>Sample Testcases:</h3>
             <div className={classes.testcases}>
-              <div className={classes.test}>
+              <div className={`${classes.test} ${classes.input}`}>
                 <p><u>INPUT</u></p>
                 <ul className={classes.values}>
                   <li key="0">{details?.testCase?.length}</li>
                   {details?.testCase?.map((test, index) => <li key={index + 1}><p>{test}</p></li>)}
                 </ul>
               </div>
-              <div className={classes.test}>
+              <div className={`${classes.test} ${classes.output}`}>
                 <p><u>OUTPUT</u></p>
                 <ul className={classes.values}>
                   {details?.answer?.map((ans, index) => <li key={index + 1}><p>{ans}</p></li>)}
@@ -87,20 +92,28 @@ export default function Question({ details, labId }) {
             </div>
           </div>
         }
-        {(content === "Hints") &&
+        {
+          (content === "Hints") &&
           <div className={classes.wrapper}>
-          {details.hints.length !== 0 ? 
-            details.hints.map((item, idx) => <DropdownHint heading={"Hint " + (idx + 1)} key = {uuid()}>{item}</DropdownHint>)
-          : <h1>No hints available</h1>}
+            {
+              details.hints.length !== 0 ? 
+              details.hints.map((item, idx) => <DropdownHint heading={"Hint " + (idx + 1)} key = {uuid()}>{item}</DropdownHint>)
+              : 
+              <div className={classes.emptyList}>
+                <p>Sorry! No hints available.</p>
+              </div>
+            }
           </div>
         }
-        {(content === "Submissions") &&
+        {
+          (content === "Submissions") &&
           <div className={classes.wrapper}>
             {
               (submissions.length !== 0)
-                ?
-                submissions.map((item, idx) => <DropdownSubmission heading={"Submission " + (submissions.length - idx)} key={uuid()} date={formatDate(item?.timestamp)}>
-                  <p><strong>Time taken: </strong> {item.time + " s"}</p>
+              ?
+              submissions.map((item, idx) => 
+                <DropdownSubmission heading={"Submission " + (submissions.length - idx)} key={uuid()} date={formatDate(item?.timestamp)}>
+                  <p><strong>Time taken: </strong> {(item.time ? item.time : 0) + " seconds"}</p>
                   <br /><p><strong>Memory used: </strong> {item.space + " kb"}</p>
                   <br />
                   <pre className={classes.codeArea}>
@@ -108,16 +121,17 @@ export default function Question({ details, labId }) {
                       {item.script}
                     </code>
                   </pre>
-                </DropdownSubmission>)
-                :
-                <h3 className={classes.desc}>
-                  <strong><i>No Submissions Found</i></strong>
-                </h3>
+                </DropdownSubmission>
+              )
+              :
+              <div className={classes.emptyList}>
+                <p>OOPs! No Submissions found</p>
+              </div>
             }
           </div>
         }
-      </>
+      </div> 
       }
-    </div>
+    </>
   )
 }

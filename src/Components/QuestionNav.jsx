@@ -13,16 +13,16 @@ function QuestionNav({content, handleChange}) {
 
   return (
     <div className={classes.wrapper}>
-      <h3 onClick={handleReturn} className={classes.headings}>&lt;Back</h3>
-      <h3 onClick={() => handleChange("Question")} className={classes.headings}>
-        {content === "Question" ? <u>Description</u>: "Description"}
-      </h3>
-      <h3 onClick={() => handleChange("Hints")} className={classes.headings}>
-        {content === "Hints" ? <u>Hints</u>: "Hints"}
-      </h3>
-      <h3 onClick={() => handleChange("Submissions")} className={classes.headings}>
-        {content === "Submissions" ? <u>Submissions</u>: "Submissions"}
-      </h3>
+      <p onClick={handleReturn} className={classes.headings}>&lt;Back</p>
+      <p onClick={() => handleChange("Question")} className={classes.headings}>
+        {content === "Question" ? <b>Description</b> : "Description"}
+      </p>
+      <p onClick={() => handleChange("Hints")} className={classes.headings}>
+        {content === "Hints" ? <b>Hints</b> : "Hints"}
+      </p>
+      <p onClick={() => handleChange("Submissions")} className={classes.headings}>
+        {content === "Submissions" ? <b>Submissions</b> : "Submissions"}
+      </p>
     </div>
   )
 }

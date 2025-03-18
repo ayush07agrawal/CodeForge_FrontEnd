@@ -1,12 +1,13 @@
 .wrapper{
     height: 6vh;
     width: 100%;
+    background-color: rgb(31, 31, 31);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    background-color: lightgreen;
-    box-shadow: 2px 2px 2px black inset, -2px -2px 2px black inset;
+    font-size: larger;
+    color: white;
 }
 
 .headings:hover{

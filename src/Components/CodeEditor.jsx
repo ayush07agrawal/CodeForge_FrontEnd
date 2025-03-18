@@ -7,11 +7,12 @@ import { useSelector } from 'react-redux';
 import { useRunQuestionMutation, useSubmitQuestionMutation } from '../redux/api/api';
 
 const sizeValues = [8, 9, 10, 12, 14, 16, 18, 20, 22, 24, 26];
-const languages = ["cpp", "c"];
+const languages = ["CPP", "C"];
 const langVersions = ["GCC 11.1.0", "GCC 13.2.1"];
-const themes = ["vs-dark", "vs-light"];
+const themes = ["VS-Dark", "VS-Light"];
 
-export default function CodeEditor({ testCase, labId }) {
+export default function CodeEditor({ testCase, labId, width }) {
+    const [options, setOptions] = useState(false);
     const params = useParams();
     const { user } = useSelector((state) => state.auth);
     const [editor, setEditor] = useState({
@@ -104,21 +105,28 @@ export default function CodeEditor({ testCase, labId }) {
 
     return (
         <Form onSubmit={handleSubmit} className={classes.wrapper}>
-            <div className={classes.controls}>
-                <div>
+            <div className={classes.menu}>
+                <p onClick={() => setOptions((prev) => !prev)} className={classes.options}>
+                    {options ? "\u2716" : "\u2630"}
+                </p>
+                <div className={classes.submission}>
+                    <button onClick={() => setCustomInput((prev) => !prev)} type="button">{customInput ? "Editor" : "Custom Input"}</button>
+                    <button type="button" onClick={handleRun}> Run </button>
+                    <button >Submit</button>
+                </div>
+            </div>
+            <div className={`${options ? classes.controls : classes.hidden}`}>
                     <SelectInput name="language" values={languages} handleChange={handleChange} />
                     <SelectInput name="languageVersion" values={langVersions} handleChange={handleChange} />
-                </div>
-                <div>
                     <SelectInput name="theme" values={themes} handleChange={handleChange} />
                     <SelectInput name="size" values={sizeValues} handleChange={handleChange} />
                     <SelectInput name="wrapOn" values={["Wrap", "No-Wrap"]} handleChange={handleChange} />
-                </div>
-            </div>
+            </div> 
             <main>
-                {customInput &&
+                {
+                    customInput &&
                     <div className={classes.textArea}>
-                        <h2 className={classes.textAreaH2}>CUSTOM INPUT</h2>
+                        <h1 className={classes.textAreaH2}>CUSTOM INPUT</h1>
                         <textarea
                             value={stdin}
                             onChange={handleStdin}
@@ -126,38 +134,57 @@ export default function CodeEditor({ testCase, labId }) {
                         />
                     </div>
                 }
-                {output &&
+                {
+                    output &&
                     <div className={classes.textArea}>
-                        {response ? (
-                            <>
-                                {
-                                    !response.output &&
-                                    <h2 className={classes.textAreaH2}>
-                                        {response.success ? "Submission Successful" : "Failed"}<br /> {response.message}
-                                    </h2>
-                                }
-                                {
-                                    response.output &&
-                                    <h2 className={classes.textAreaH2}>
-                                        OUTPUT
-                                    </h2>
-                                }
-                                {response.output &&
-                                    <p>
-                                        {response.output}
-                                        <br />
-                                        Time Taken : {response.cpuTime}
-                                        <br />
-                                        Memory Used : {response.memory}
-                                    </p>
-                                }
-                            </>
-                        ) : "Submitting..."}
-                        <div style={{ display: "flex", flexDirection: "column", flexGrow: 0.5 }} />
-                        <button onClick={() =>{
+                        {
+                            response ? (
+                                <>
+                                    {
+                                        !response.output &&
+                                        <h1 className={classes.textAreaH2}>
+                                            {response.success ? "Submission Successful" : "Failed"}<br /> {response.message}
+                                        </h1>
+                                    }
+                                    {
+                                        response.output &&
+                                        <div className={classes.run}>
+                                            <div className={classes.runOutput}>
+                                                <h1 className={classes.textAreaH2}>
+                                                    Output
+                                                </h1>
+                                                <pre className={classes.codeArea}>
+                                                    {response.output}
+                                                    <br />
+                                                    <br />
+                                                    Time Taken: {response.cpuTime || "0"} sec
+                                                    <br />
+                                                    Memory Used: {response.memory} kb
+                                                </pre>
+                                            </div>
+                                            <div className={classes.runInput}>
+                                                <h1 className={classes.textAreaH2}>
+                                                    For Input
+                                                </h1>
+                                                <pre className={classes.codeArea}>
+                                                    {stdin}
+                                                </pre>
+                                            </div>
+                                        </div>
+                                    }
+                                </>
+                            )
+                            :
+                            <h1 className={classes.textAreaH2}>
+                                Please Wait! <br />Submitting...
+                            </h1>
+                        }
+                        <button className={classes.backBtn} onClick={() =>{
                             setOutput(false);
                             setResponse(undefined);
-                        }}>Back</button>
+                        }}>
+                            Back
+                        </button>
                     </div>
                 }
                 <Editor
@@ -165,7 +192,7 @@ export default function CodeEditor({ testCase, labId }) {
                     value={editor.code}
                     onChange={(value) => handleCode(value)}
                     height="84vh"
-                    width="60vw"
+                    width={`${width+"vw"}`}
                     theme={editor.theme}
                     options={{
                         TextEditorCursorStyle: "Underline",
@@ -184,12 +211,7 @@ export default function CodeEditor({ testCase, labId }) {
                         },
                     }}
                 />
-            </main>
-            <div className={classes.submission}>
-                <button onClick={() => setCustomInput((prev) => !prev)} type="button">{customInput ? "Editor" : "Custom Input"}</button>
-                <button type="button" onClick={handleRun}> Run </button>
-                <button >Submit</button>
-            </div>
+            </main> 
         </Form>
     );
 }
