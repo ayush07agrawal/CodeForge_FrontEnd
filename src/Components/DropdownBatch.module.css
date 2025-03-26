@@ -1,7 +1,7 @@
 .wrapper{
     position : relative;
     color:rgb(4, 4, 4);
-    background:rgba(168, 168, 168, 0.923);
+    background:rgb(168, 168, 168);
     margin:3px;
     padding:10px;
     width:150px;  
@@ -16,7 +16,7 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .updateButton{
-    background: #ff2d2dd1;
+    background: rgb(255, 45, 45);
     color:rgb(255, 255, 255);
     border-end-end-radius: 10px;
     border-end-start-radius: 10px;

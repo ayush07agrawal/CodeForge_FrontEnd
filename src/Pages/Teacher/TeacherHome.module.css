@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
 
 .container {
-	background-color: black;
+	background : linear-gradient(to bottom, rgb(1, 1, 48), black);
 	height: 90vh;
 	display: flex;
 	flex-direction: row;
@@ -10,7 +10,6 @@
 }
 
 .wrapper1 {
-  background-color: black;
   padding: 1vh;
   width: 75vw;
   height: 90vh;

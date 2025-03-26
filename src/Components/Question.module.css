@@ -21,10 +21,11 @@
 
 .title h1{
   max-width: 75%;
+  color: white;
+  font-size: 2.5vw;
 }
 
 .wrapper ul {
-  margin-top: 0.5rem;
   list-style: none;
   display: flex;
   flex-direction: row;
@@ -133,11 +134,10 @@
 
 .editBtn{
   padding: 8px;
-  background-color: lightsalmon;
-  position:absolute;
-  top: 1rem;
-  right: 1rem;
-  border-radius: 2px;
+  background-color: rgb(14, 237, 14);
+  font-size: medium;
+  font-weight: 600;
+  border-radius: 0.5rem;
   border: 0px;
   font-size: larger;
 }

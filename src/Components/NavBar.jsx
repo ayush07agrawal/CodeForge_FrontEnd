@@ -24,7 +24,7 @@ export default function NavBar() {
       dispatch(userNotExists());
       toast.success(data.message);
     }
-    catch(error) {
+    catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong")
     }
   }
@@ -32,7 +32,6 @@ export default function NavBar() {
 
   const isDropDownShow = useSelector((state) => state.misc.isDropDown);
   const toggleDropdown = () => {
-    console.log("Yeah\n");
     dispatch(setIsDropDown(!isDropDownShow));
   };
 
@@ -46,50 +45,67 @@ export default function NavBar() {
   const batchInfo = useGetMyBatchQuery({ userId: user._id });
   const errors = [{ isError: batchInfo.isError, error: batchInfo.error }];
   useErrors(errors);
-  const batches = user?.role === "teacher" ? batchInfo?.data?.batches || [] : []; 
+  const batches = user?.role === "teacher" ? batchInfo?.data?.batches || [] : [];
 
   return (
     <div>
       <div className={classes.wrapper}>
-          <NavLink to = "/" className={classes.brand}><img src={img1} alt="Logo" /></NavLink>
-          <ul className={classes.links}>
-            {user?.role === "student" && <li>
-              <NavLink to = "/" className={({isActive}) => (isActive ? classes.active : undefined)}>
+        <NavLink to="/" className={classes.brand}><img src={img1} alt="Logo" /></NavLink>
+        <ul className={classes.links}>
+          {
+            user?.role === "student" &&
+            <li>
+              <NavLink to="/" className={({ isActive }) => (isActive ? classes.active : undefined)}>
                 PRACTICE
               </NavLink>
             </li>}
-            {user?.role === "student" && <li>
-              <NavLink to = "lab" className={({isActive}) => (isActive ? classes.active : undefined)}>
-                LAB
-              </NavLink>
-            </li>}
-            {user?.role === "teacher" && 
-              <li onClick = {toggleDropdown} style = {{color : "white", cursor: "pointer"}}> BATCH </li>
-            }
-            <li className={classes.pimage}>
-              <NavLink to = {`user/${user?._id}`} className={({isActive}) => (isActive ? classes.active : undefined)}>
-                <img src = {pphoto} alt = "Profile" />
-              </NavLink>
-            </li>
-            <li>
-              <button className = {classes.btn} onClick={handleLogOut}>
-                LogOut
-              </button>
-            </li>
-          </ul> 
+          {user?.role === "student" && <li>
+            <NavLink to="lab" className={({ isActive }) => (isActive ? classes.active : undefined)}>
+              LAB
+            </NavLink>
+          </li>}
+          {
+            user?.role === "teacher" &&
+            <li onClick={toggleDropdown} style={{ color: "white", cursor: "pointer" }}> BATCH </li>
+          }
+          <li className={classes.pimage}>
+            <NavLink to={`user/${user?._id}`} className={({ isActive }) => (isActive ? classes.active : undefined)}>
+              <img src={pphoto} alt="Profile" />
+            </NavLink>
+          </li>
+          <li>
+            <button className={classes.btn} onClick={handleLogOut}>
+              LogOut
+            </button>
+          </li>
+        </ul>
       </div>
 
-      { user?.role === "teacher" && !batchInfo.isLoading && <div className = {classes.dropDownList}>
-        {batches?.length !== 0 && batches.map(( batch, index ) => (
-          isDropDownShow && <DropDownBatch btnkey={index} key = {index}>{batch}</DropDownBatch>
-        ))}
-        {isDropDownShow && 
-          <DropDownBatch 
-            btnUpdate = {1} 
-            btnkey = { (!batches || batches.length === 0) ? 0 : -1 }
-            onClick = { toggleAndShowPopup }
-          >UPDATE</DropDownBatch>}
-      </div> }    
+      {
+        user?.role === "teacher" && 
+        !batchInfo.isLoading && 
+        <div className={classes.dropDownList}>
+          {
+            batches?.length !== 0 && 
+            batches.map((batch, index) => (
+              isDropDownShow && 
+              <DropDownBatch btnkey={index} key={index}>
+                {batch}
+              </DropDownBatch>
+            ))
+          }
+          {
+            isDropDownShow &&
+            <DropDownBatch
+              btnUpdate={1}
+              btnkey={(!batches || batches.length === 0) ? 0 : -1}
+              onClick={toggleAndShowPopup}
+            >
+              UPDATE
+            </DropDownBatch>
+          }
+        </div>
+      }
     </div>
   )
 }

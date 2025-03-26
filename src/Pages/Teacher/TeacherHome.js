@@ -22,7 +22,6 @@ export default function TeacherHome() {
       {!allQuestions.isLoading && 
         <div className={classes.container}>
           <div className={classes.wrapper1}>
-            <h1>Questions</h1>
             {allQuestions.data?.questions.map((q, idx) => (
               <QuestionList question={q} num={idx + 1} key={uuid()} />
             ))}
