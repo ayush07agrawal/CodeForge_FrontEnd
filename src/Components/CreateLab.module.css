@@ -1,11 +1,11 @@
 .wrapper {
     width: 100%;
-    max-width: 600px;
-    margin: 7vw auto;
-    padding: 20px;
-    background-color: rgb(154, 154, 154);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 90vh;
+    padding: 2vw;
+    background : linear-gradient(to bottom, rgb(1, 1, 48), black);
+    color: white;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .form {
@@ -18,7 +18,6 @@
 h1 {
     margin-bottom: 20px;
     text-align: center;
-    color: #333;
 }
 
 .inputField {

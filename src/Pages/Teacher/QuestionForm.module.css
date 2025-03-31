@@ -1,13 +1,61 @@
-/* YourStyles.module.css */
+.small {
+  width: 14vw;
+}
 
-.wrapper {
+.medium {
+  width: 48vw;
+}
+
+.large{
+  width: 95vw;
+}
+
+.label {
+  font-size: large;
+  font-weight: 700;
+  margin-bottom: 0.5vh;
+  padding-left: 0.5vw;
+}
+
+.input{
+  padding: 6px;
+  font-size: large;
+  font-weight: 600;
+  border: 1px solid white;
+  border-radius: 0.5rem;
+}
+
+.select { 
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.wrapper{
+  padding-top: 2vh;
   width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: rgb(154, 154, 154);
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: white;
+  padding-bottom: 2vh;
+  background : linear-gradient(to bottom, rgb(1, 1, 48), black);
+}
+
+.goBack{
+  width: 100%;
+  height: 5vh;
+}
+
+.goBack p{
+  font-size: 2vw;
+  margin-left: 2vw;
+  font-weight: 900;
+}
+
+.goBack p:hover{
+  cursor: pointer;
 }
 
 .form {
@@ -16,42 +64,46 @@
 }
 
 h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: xx-large;
   text-align: center;
-  color: black;
 }
 
-.input {
+.inputFields {
   display: flex;
   flex-direction: column;
+  margin: 1vw;
+  gap: 1vw;
 }
 
-.small {
-  margin-bottom: 20px;
-}
-
-.label {
-  font-size: 16px;
-  margin-bottom: 8px;
-  color: black;
-}
-
-.select {
+.first{
   width: 100%;
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: flex-start;
 }
 
-.inwrapper {
-  margin-bottom: 20px;
+.title, .tags, .difficulty, .timeComplexity, .spaceComplexity, .description{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: baseline;
+  margin-bottom: 2vh;
+}
+
+.rowSmall{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1vw;
+  flex-wrap: wrap;
 }
 
 .desc {
-  width: 97%;
-  height: 75px;
+  width: 100%;
+  height: 190px;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -59,12 +111,16 @@ h1 {
   resize: vertical;
 }
 
+
+.inwrapper {
+  margin-bottom: 20px;
+}
+
 .testcase {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
   padding: 15px;
-  background-color: #fff;
   border: 1px solid #eee;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -93,7 +149,6 @@ h1 {
   display: flex;
   margin-bottom: 20px;
   padding: 15px;
-  background-color: #fff;
   border: 1px solid #eee;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -123,8 +178,8 @@ h1 {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 5px;
-  margin-bottom: 20px;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
   align-self: center;
 }
 
@@ -140,7 +195,7 @@ h1 {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 2vh;
   align-self: center;
 }
 
@@ -149,7 +204,7 @@ h1 {
 }
 
 .text-input {
-  margin-bottom: 20px;
+  margin-bottom: 2vh;
   padding: 8px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -158,8 +213,7 @@ h1 {
 
 .text-input label {
   font-size: 14px;
-  margin-bottom: 8px;
-  color: #555;
+  margin-bottom: 1vh;
 }
 
 .text-input input {

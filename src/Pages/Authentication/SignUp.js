@@ -12,7 +12,13 @@ import { setEmail, setRole, setFormState } from "../../redux/reducers/misc";
 
 // mail verify -> nextPageFunction
 
-export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVisible, nextPageFunction, showLoginPage }){
+export default function SignUpPopUp({
+	signUpPageVisible,
+	showSignUpPage,
+	signVisible,
+	nextPageFunction,
+	showLoginPage,
+}) {
 	const mailForm = useRef();
 	const [otpForm, setOtpForm] = useState("");
 	const nameForm = useRef();
@@ -30,53 +36,52 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 	async function handleSubmit(event) {
 		event.preventDefault();
 		let data = undefined;
-		if(formState === 0){
+		if (formState === 0) {
 			data = {
-				email : mailForm.current.value
-			}
-		}
-		else if(formState === 1){
+				email: mailForm.current.value,
+			};
+		} else if (formState === 1) {
 			data = {
-				email : email_redux,
-				otp : otpForm
-			}
-		}
-		else if(formState === 2){
+				email: email_redux,
+				otp: otpForm,
+			};
+		} else if (formState === 2) {
 			data = {
-                email : email_redux,
-				name : nameForm.current.value,
-                password : passwordForm.current.value,
-                confirmPassword : crfmPasswordForm.current.value,
-                secretQuestion : secretQueForm.current.value,
-                secretAnswer : secretAnsForm.current.value
-			}
-		}
-		else{
+				email: email_redux,
+				name: nameForm.current.value,
+				password: passwordForm.current.value,
+				confirmPassword: crfmPasswordForm.current.value,
+				secretQuestion: secretQueForm.current.value,
+				secretAnswer: secretAnsForm.current.value,
+			};
+		} else {
 			toast.error("No valid form type to submit!");
 			navigate("/");
 		}
 		// console.log(data);
 		try {
 			console.log(data);
-			const response = await fetch(`${server}/api/v1/user/${formState === 0 ? 'verifyEmail' : (formState === 1 ? 'verifyOTP' : 'new')}`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(data),
-				credentials: "include",
-			});
+			const response = await fetch(
+				`${server}/api/v1/user/${formState === 0 ? "verifyEmail" : formState === 1 ? "verifyOTP" : "new"}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(data),
+					credentials: "include",
+				}
+			);
 
 			const resData = await response.json();
 			console.log("formState: ", formState);
 
-
 			if (!response.ok) {
-                throw new Error(resData.message || "Error while loading the data...");
-            }
-			
+				throw new Error(resData.message || "Error while loading the data...");
+			}
+
 			if (resData.success) {
-				if(formState === 0) {
+				if (formState === 0) {
 					dispatch(setEmail(data.email));
 					dispatch(setRole(resData.role));
 					toast.success(resData.message);
@@ -90,7 +95,7 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 					nextPageFunction();
 					return;
 				}
-				if(formState === 2) {
+				if (formState === 2) {
 					dispatch(userExists(resData.user));
 					toast.success("Account Created!");
 					dispatch(setFormState(0));
@@ -100,11 +105,10 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 				// If `resData.success` is false, set an error message
 				toast.error(resData.message);
 			}
-		}		
-		catch (error) {
+		} catch (error) {
 			console.error("Error during login:", error);
-            toast.error(error.message || "An unexpected error occurred");
-            navigate("/");
+			toast.error(error.message || "An unexpected error occurred");
+			navigate("/");
 		}
 	}
 
@@ -130,7 +134,15 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 							<h3>Mail Verification</h3>
 						</div>
 						<div className={`${classes.popUpInputDiv} ${classes.secondPopUpInputDiv}`}>
-						<input className={classes.popupInput} ref={mailForm}></input>
+							<input
+								className={classes.popupInput}
+								ref={mailForm}
+								onKeyDown={(event) => {
+									if (event.key === "Tab") {
+										event.preventDefault();
+									}
+								}}
+							></input>
 							<FontAwesomeIcon icon={faEnvelope} />
 						</div>
 						<div className={classes.popUpButtonPlus}>
@@ -160,7 +172,16 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 							numInputs={6}
 							renderSeparator={<span>-</span>}
 							renderInput={(props) => (
-								<input {...props} className={classes.otpBox} style={{ width: "35px" }} />
+								<input
+									{...props}
+									className={classes.otpBox}
+									style={{ width: "35px" }}
+									onKeyDown={(event) => {
+										if (event.key === "Tab") {
+											event.preventDefault();
+										}
+									}}
+								/>
 							)}
 						/>
 						<div className={classes.popUpButtonPlus}>
@@ -188,36 +209,89 @@ export default function SignUpPopUp({ signUpPageVisible, showSignUpPage, signVis
 								<div className={`${classes.popUpInputBlock} ${classes.popUpInputBLockSignUp}`}>
 									<label htmlFor="name">Name* :</label>
 									<div className={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
-										<input className={classes.popupInput} id="name" ref={nameForm}></input>
+										<input
+											className={classes.popupInput}
+											id="name"
+											ref={nameForm}
+											onKeyDown={(event) => {
+												if (event.key === "Tab") {
+													event.preventDefault();
+												}
+											}}
+										/>
 										<FontAwesomeIcon icon={faUser} />
 									</div>
 									<label htmlFor="email">Email ID* :</label>
 									<div className={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
-										<input className={classes.popupInput} id="email"></input>
+										<input
+											className={classes.popupInput}
+											id="email"
+											onKeyDown={(event) => {
+												if (event.key === "Tab") {
+													event.preventDefault();
+												}
+											}}
+										/>
 										<FontAwesomeIcon icon={faEnvelope} />
 									</div>
 								</div>
 								<div className={`${classes.popUpInputBlock} ${classes.popUpInputBLockSignUp}`}>
 									<label htmlFor="password">Password* :</label>
 									<div className={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
-										<input className={classes.popupInput} id="password" ref={passwordForm}></input>
+										<input
+											className={classes.popupInput}
+											id="password"
+											ref={passwordForm}
+											onKeyDown={(event) => {
+												if (event.key === "Tab") {
+													event.preventDefault();
+												}
+											}}
+										/>
 										<FontAwesomeIcon icon={faKey} />
 									</div>
 									<label htmlFor="confirmPassword">Confirm Password* :</label>
 									<div className={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
-										<input className={classes.popupInput} id="confirmPassword" ref={crfmPasswordForm}></input>
+										<input
+											className={classes.popupInput}
+											id="confirmPassword"
+											ref={crfmPasswordForm}
+											onKeyDown={(event) => {
+												if (event.key === "Tab") {
+													event.preventDefault();
+												}
+											}}
+										/>
 										<FontAwesomeIcon icon={faKey} />
 									</div>
 								</div>
 								<div className={`${classes.popUpInputBlock} ${classes.popUpInputBLockSignUp}`}>
 									<label htmlFor="secretQuestion">Secret Question* :</label>
 									<div className={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
-										<input className={classes.popupInput} id="secretQuestion" ref={secretQueForm}></input>
+										<input
+											className={classes.popupInput}
+											id="secretQuestion"
+											ref={secretQueForm}
+											onKeyDown={(event) => {
+												if (event.key === "Tab") {
+													event.preventDefault();
+												}
+											}}
+										/>
 										<FontAwesomeIcon icon={faUser} />
 									</div>
 									<label htmlFor="secretAnswer">Secret Answer* :</label>
 									<div className={`${classes.popUpInputDiv} ${classes.signUpPopUpInputDiv}`}>
-										<input className={classes.popupInput} id="secretAnswer" ref={secretAnsForm}></input>
+										<input
+											className={classes.popupInput}
+											id="secretAnswer"
+											ref={secretAnsForm}
+											onKeyDown={(event) => {
+												if (event.key === "Tab") {
+													event.preventDefault();
+												}
+											}}
+										/>
 										<FontAwesomeIcon icon={faLock} />
 									</div>
 								</div>

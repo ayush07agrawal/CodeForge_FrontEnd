@@ -35,8 +35,13 @@ export default function Lab() {
 					<i>{batch}</i>
 				</h2>
 				{user.role === "teacher" && (
-					<div>
-						<button onClick={() => setShowBatchPerformance(true)}>Batch Performance</button>
+					<div className={classes.ctrlBtns}>
+						<button 
+							className={classes.createLab}
+							onClick={() => setShowBatchPerformance(true)}
+						>
+							Batch Performance
+						</button>
 						<button
 							className={classes.createLab}
 							onClick={() =>
@@ -58,34 +63,29 @@ export default function Lab() {
 								heading={
 									item.topic +
 									" " +
-									(item.isEnd ? (
-										"(Completed)"
-									) : item.isStart ? (
-										""
-									) : (
-										"( " +
-										Math.floor(item.duration / 3600) +
-										":" +
-										(Math.floor(item.duration / 60) % 60) +
-										":" +
-										(item.duration % 60) +
-										")"
-									))
+									(item.isEnd
+										? "(Completed)"
+										: item.isStart
+										? ""
+										: "( " +
+										  Math.floor(item.duration / 3600) +
+										  ":" +
+										  (Math.floor(item.duration / 60) % 60) +
+										  ":" +
+										  (item.duration % 60) +
+										  ")")
 								}
-								lab = {item}
-								key = {uuid()}
-								setLab = {setLab}
-								handleShowPerformance = {setShowPerformance}
+								lab={item}
+								key={uuid()}
+								setLab={setLab}
+								handleShowPerformance={setShowPerformance}
 							>
 								<ul className={classes.queList}>
 									{item.questions.map((problem, idx) => (
-										<li
-											key={idx}
-											className={classes.listItem}
-										>
+										<li key={idx} className={classes.listItem}>
 											<Link
-												to = {`/app/question/${problem.id}`}
-												state = {{ labId: item._id }}
+												to={`/app/question/${problem.id}`}
+												state={{ labId: item._id }}
 												className={classes.quesLinks}
 											>
 												Question {idx + 1}
@@ -97,24 +97,24 @@ export default function Lab() {
 					  ))}
 			</div>
 			<div>
-				{showPerformance && 
-					<Performance 
-						show = {showPerformance} 
-						handleShowPerformance = {setShowPerformance} 
-						labId = {lab._id}
-						report = {lab.report} 
-						labQuestions = {lab.questions}
+				{showPerformance && (
+					<Performance
+						show={showPerformance}
+						handleShowPerformance={setShowPerformance}
+						labId={lab._id}
+						report={lab.report}
+						labQuestions={lab.questions}
 					/>
-				}
-				{showBatchPerformance && 
-					<Performance 
-						show = {showBatchPerformance} 
-						handleShowPerformance = {setShowBatchPerformance} 
-						report = {batchReport}
-						totalLabs = {bdata?.batch.labs.length}
-						batch = {true}
+				)}
+				{showBatchPerformance && (
+					<Performance
+						show={showBatchPerformance}
+						handleShowPerformance={setShowBatchPerformance}
+						report={batchReport}
+						totalLabs={bdata?.batch.labs.length}
+						batch={true}
 					/>
-				}
+				)}
 			</div>
 		</div>
 	);

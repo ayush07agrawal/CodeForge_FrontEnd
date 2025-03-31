@@ -9,7 +9,7 @@ import { LayoutLoader } from './Components/Loaders.jsx'
 import ProtectRoute from './Components/Auth/ProtectRoute.jsx'
 
 const TeacherHome = lazy(()=> import("./Pages/Teacher/TeacherHome.js"))
-const CreateLab = lazy(() => import("./Components/CreateLab.js"));
+const CreateLab = lazy(() => import("./Components/CreateLab.jsx"));
 // const FrontPage = lazy(() => import("./Pages/FrontPage.js"));
 const FrontPageUpdated = lazy(() => import("./Pages/FrontPageUpdated.js"));
 const RootPage = lazy(() => import("./Pages/RootPage.js"));

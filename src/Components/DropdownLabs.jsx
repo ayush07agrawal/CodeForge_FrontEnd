@@ -112,7 +112,9 @@ export default function DropdownSubmission({ heading, date, lab, children, setLa
                         user.role === "teacher" &&
                         (
                             <div>
-                                <button onClick={(e)=>{
+                                <button 
+                                    className={classes.timingBtn}
+                                    onClick={(e)=>{
                                     e.stopPropagation();
                                     handlePerformanceClick();
                                 }}>
